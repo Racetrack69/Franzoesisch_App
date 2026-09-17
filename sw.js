@@ -1,6 +1,6 @@
 // Service Worker: hält die App offline verfügbar.
 // Bei jeder Änderung an den Dateien die VERSION hochzählen, sonst bleibt die alte Fassung im Cache.
-const VERSION = 'fr-v5';
+const VERSION = 'fr-v6';
 const FILES = ['./', './index.html', './content.js', './manifest.json', './icon-192.png', './icon-512.png', './icon-180.png'];
 
 self.addEventListener('install', e => {

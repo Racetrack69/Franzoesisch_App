@@ -1,12 +1,13 @@
 // Inhalte der Französisch-App.
 // Jeder Eintrag hat ein "level" (1, 2 oder 3). Die App filtert danach.
+// "tip" ist die Regel oder Merkhilfe, "trap" der typische Fehler von Deutschsprachigen (nur bei falscher Antwort gezeigt).
 // Vokabeln: "de" und "fr" mit Artikel. "alt" sind weitere akzeptierte französische, "altDe" weitere deutsche Antworten.
 // "ctxFr"/"ctxDe": optionaler Beispielsatz, wird bei mehrdeutigen Wörtern in der Sprache der Aufgabe angezeigt.
 // Fehler finden: "words" sind die antippbaren Teile, "wrong" ist der Index des falschen Teils.
 // Zeiten: "___" im Satz ist die Lücke, "answer" der Index der richtigen Option.
 
 window.CONTENT = {
-  meta: { lang: "fr-FR", title: "Français" },
+  meta: { lang: "fr-FR", title: "Flâner" },
 
   vocab: [
     // Stufe 1: Einkaufen und Alltag
@@ -17,27 +18,27 @@ window.CONTENT = {
     { id: "v05", pos: "nomen", level: 1, theme: "Einkaufen", de: "die Rechnung", fr: "l'addition", altDe: ["die Addition"], ctxFr: "L'addition, s'il vous plaît.", ctxDe: "Die Rechnung, bitte.", tip: "Im Restaurant: L'addition, s'il vous plaît." },
     { id: "v06", pos: "nomen", level: 1, theme: "Einkaufen", de: "der Apfel", fr: "la pomme", tip: "Pomme de terre ist die Kartoffel, der Erdapfel." },
     { id: "v07", pos: "nomen", level: 1, theme: "Einkaufen", de: "das Wasser", fr: "l'eau", tip: "Drei Buchstaben, nur ein Laut: o." },
-    { id: "v08", pos: "adjektiv", level: 1, theme: "Einkaufen", de: "teuer", fr: "cher", alt: ["chère"], altDe: ["lieb"], ctxFr: "C'est trop cher.", ctxDe: "Das ist zu teuer.", tip: "Cher heißt auch lieb, wie in cher ami." },
+    { id: "v08", pos: "adjektiv", level: 1, theme: "Einkaufen", de: "teuer", fr: "cher", alt: ["chère"], altDe: ["lieb"], ctxFr: "C'est trop cher.", ctxDe: "Das ist zu teuer.", tip: "Cher heißt auch lieb, wie in cher ami.", trap: "Stolperstein: cher nach dem Nomen heißt teuer (un hôtel cher), vor dem Nomen lieb (mon cher ami)." },
     { id: "v09", pos: "adjektiv", level: 1, theme: "Einkaufen", de: "billig", fr: "bon marché", alt: ["pas cher"], tip: "Wörtlich: guter Markt. Wird nicht verändert." },
-    { id: "v10", pos: "nomen", level: 1, theme: "Einkaufen", de: "das Geld", fr: "l'argent", altDe: ["das Silber"], ctxFr: "Je n'ai pas d'argent sur moi.", ctxDe: "Ich habe kein Geld dabei.", tip: "Argent heißt auch Silber." },
+    { id: "v10", pos: "nomen", level: 1, theme: "Einkaufen", de: "das Geld", fr: "l'argent", altDe: ["das Silber"], ctxFr: "Je n'ai pas d'argent sur moi.", ctxDe: "Ich habe kein Geld dabei.", tip: "Argent heißt auch Silber.", trap: "Stolperstein: l'argent ist maskulin, obwohl der Artikel es verschluckt: l'argent est cher." },
     { id: "v11", pos: "nomen", level: 1, theme: "Einkaufen", de: "die Tasche", fr: "le sac", altDe: ["der Beutel", "die Tüte"], ctxFr: "Vous voulez un sac ?", ctxDe: "Möchten Sie eine Tasche?", tip: "Le sac à main ist die Handtasche." },
     { id: "v12", pos: "nomen", level: 1, theme: "Einkaufen", de: "der Preis", fr: "le prix", tip: "Das x am Ende ist stumm." },
-    { id: "v13", pos: "verb", level: 1, theme: "Einkaufen", de: "kaufen", fr: "acheter", tip: "j'achète, mit accent grave in der Einzahl." },
+    { id: "v13", pos: "verb", level: 1, theme: "Einkaufen", de: "kaufen", fr: "acheter", tip: "j'achète, mit accent grave in der Einzahl.", trap: "Stolperstein: acheter quelque chose à quelqu'un kann kaufen von und kaufen für heißen, der Zusammenhang entscheidet." },
     { id: "v14", pos: "verb", level: 1, theme: "Einkaufen", de: "bezahlen", fr: "payer", tip: "je paie, nous payons." },
     { id: "v15", pos: "nomen", level: 1, theme: "Einkaufen", de: "die Kasse", fr: "la caisse", tip: "Auch: die Kiste." },
     { id: "v16", pos: "adjektiv", level: 1, theme: "Einkaufen", de: "geschlossen", fr: "fermé", alt: ["fermée"], tip: "Fermer heißt schließen. Steht so an jeder Ladentür." },
 
     // Stufe 2: Arbeit und Gefühle
     { id: "v17", pos: "nomen", level: 2, theme: "Arbeit", de: "die Besprechung", fr: "la réunion", tip: "Wörtlich: das Wiedervereinen." },
-    { id: "v18", pos: "nomen", level: 2, theme: "Arbeit", de: "der Termin", fr: "le rendez-vous", tip: "Gilt für Arzt, Friseur und Verabredung gleichermaßen." },
-    { id: "v19", pos: "nomen", level: 2, theme: "Arbeit", de: "die Frist", fr: "le délai", ctxFr: "Le délai est de deux semaines.", ctxDe: "Die Frist beträgt zwei Wochen.", tip: "Vorsicht: heißt nicht Verzögerung, sondern der Zeitraum, der einem bleibt." },
-    { id: "v20", pos: "verb", level: 2, theme: "Arbeit", de: "verschieben", fr: "reporter", altDe: ["vertagen"], ctxFr: "On doit reporter la réunion.", ctxDe: "Wir müssen die Besprechung verschieben.", tip: "Un reporter ist der Reporter, reporter (Verb) heißt verschieben." },
+    { id: "v18", pos: "nomen", level: 2, theme: "Arbeit", de: "der Termin", fr: "le rendez-vous", tip: "Gilt für Arzt, Friseur und Verabredung gleichermaßen.", trap: "Stolperstein: rendez-vous ist neutral, auch beim Zahnarzt. Kein romantischer Unterton wie im Deutschen." },
+    { id: "v19", pos: "nomen", level: 2, theme: "Arbeit", de: "die Frist", fr: "le délai", ctxFr: "Le délai est de deux semaines.", ctxDe: "Die Frist beträgt zwei Wochen.", tip: "Vorsicht: heißt nicht Verzögerung, sondern der Zeitraum, der einem bleibt.", trap: "Stolperstein: délai heißt nicht Verzögerung. Die Verspätung ist le retard." },
+    { id: "v20", pos: "verb", level: 2, theme: "Arbeit", de: "verschieben", fr: "reporter", altDe: ["vertagen"], ctxFr: "On doit reporter la réunion.", ctxDe: "Wir müssen die Besprechung verschieben.", tip: "Un reporter ist der Reporter, reporter (Verb) heißt verschieben.", trap: "Stolperstein: nicht mit remettre verwechseln, das heißt eher aufschieben oder übergeben." },
     { id: "v21", pos: "nomen", level: 2, theme: "Arbeit", de: "der Kollege", fr: "le collègue", tip: "Gleiches Wort für die Kollegin: la collègue." },
     { id: "v22", pos: "nomen", level: 2, theme: "Arbeit", de: "die Erfahrung", fr: "l'expérience", altDe: ["das Experiment"], ctxFr: "Elle a beaucoup d'expérience.", ctxDe: "Sie hat viel Erfahrung.", tip: "Auch: das Experiment." },
     { id: "v23", pos: "adjektiv", level: 2, theme: "Gefühle", de: "müde", fr: "fatigué", alt: ["fatiguée"], tip: "Je suis fatigué. Das Akzent-e am Ende wird gesprochen." },
     { id: "v24", pos: "adjektiv", level: 2, theme: "Gefühle", de: "besorgt", fr: "inquiet", alt: ["inquiète"], tip: "Das Gegenteil von tranquille." },
     { id: "v25", pos: "adjektiv", level: 2, theme: "Gefühle", de: "stolz", fr: "fier", alt: ["fière"], tip: "Je suis fier de toi: Ich bin stolz auf dich." },
-    { id: "v26", pos: "adjektiv", level: 2, theme: "Gefühle", de: "zufrieden", fr: "content", alt: ["contente", "satisfait", "satisfaite"], altDe: ["froh", "glücklich"], ctxFr: "Je suis content du résultat.", ctxDe: "Ich bin zufrieden mit dem Ergebnis.", tip: "Content heißt hier zufrieden, nicht Inhalt." },
+    { id: "v26", pos: "adjektiv", level: 2, theme: "Gefühle", de: "zufrieden", fr: "content", alt: ["contente", "satisfait", "satisfaite"], altDe: ["froh", "glücklich"], ctxFr: "Je suis content du résultat.", ctxDe: "Ich bin zufrieden mit dem Ergebnis.", tip: "Content heißt hier zufrieden, nicht Inhalt.", trap: "Stolperstein: content heißt zufrieden. Der Inhalt ist le contenu." },
 
     // Stufe 3: Wendungen
     { id: "v27", pos: "wendung", level: 3, theme: "Wendungen", de: "Es ist mir egal", fr: "Ça m'est égal", tip: "Wörtlich: Das ist mir gleich." },
@@ -46,12 +47,12 @@ window.CONTENT = {
     { id: "v30", pos: "wendung", level: 3, theme: "Wendungen", de: "sich an etwas gewöhnen", fr: "s'habituer à quelque chose", tip: "Merke die Präposition à." },
     { id: "v31", pos: "wendung", level: 3, theme: "Wendungen", de: "zurechtkommen", fr: "se débrouiller", tip: "Je me débrouille: Ich komme klar." },
     { id: "v32", pos: "wendung", level: 3, theme: "Wendungen", de: "Es lohnt sich", fr: "Ça vaut le coup", alt: ["Ça vaut la peine"], tip: "Vom Verb valoir (wert sein)." },
-    { id: "v33", pos: "wendung", level: 3, theme: "Wendungen", de: "jemandem fehlen", fr: "manquer à quelqu'un", tip: "Tu me manques heißt: Du fehlst mir. Die Richtung ist umgedreht." },
+    { id: "v33", pos: "wendung", level: 3, theme: "Wendungen", de: "jemandem fehlen", fr: "manquer à quelqu'un", tip: "Tu me manques heißt: Du fehlst mir. Die Richtung ist umgedreht.", trap: "Stolperstein: Tu me manques heißt Du fehlst mir, nicht Ich fehle dir. Subjekt ist die Person, die fehlt." },
     { id: "v34", pos: "wendung", level: 3, theme: "Wendungen", de: "auf etwas verzichten", fr: "renoncer à quelque chose", tip: "Präposition à, wie bei s'habituer." },
     // Ergänzung: weitere Verben und Adjektive (für Hilfe und Zuordnen nach Wortart)
-    { id: "v35", pos: "verb", level: 1, theme: "Einkaufen", de: "suchen", fr: "chercher", tip: "Je cherche la gare: Ich suche den Bahnhof. Ohne Präposition." },
+    { id: "v35", pos: "verb", level: 1, theme: "Einkaufen", de: "suchen", fr: "chercher", tip: "Je cherche la gare: Ich suche den Bahnhof. Ohne Präposition.", trap: "Stolperstein: kein pour und kein après. Chercher la gare, chercher ses clés." },
     { id: "v36", pos: "verb", level: 1, theme: "Einkaufen", de: "finden", fr: "trouver", tip: "Je trouve, wie in trouvaille (Fundstück)." },
-    { id: "v37", pos: "verb", level: 1, theme: "Einkaufen", de: "warten", fr: "attendre", tip: "Attendre ohne Präposition: attendre le bus." },
+    { id: "v37", pos: "verb", level: 1, theme: "Einkaufen", de: "warten", fr: "attendre", tip: "Attendre ohne Präposition: attendre le bus.", trap: "Stolperstein: kein pour und kein sur. Attendre quelqu'un, attendre le bus." },
     { id: "v38", pos: "verb", level: 1, theme: "Einkaufen", de: "öffnen", fr: "ouvrir", tip: "Unregelmäßig: j'ouvre, nous ouvrons, Partizip ouvert." },
     { id: "v39", pos: "verb", level: 1, theme: "Einkaufen", de: "schließen", fr: "fermer", tip: "Regelmäßig auf -er: je ferme." },
     { id: "v40", pos: "adjektiv", level: 1, theme: "Einkaufen", de: "frisch", fr: "frais", alt: ["fraîche"], tip: "Feminin: fraîche, mit Zirkumflex." },
@@ -73,17 +74,17 @@ window.CONTENT = {
   articles: [
     { id: "a01", level: 1, prompt: "___ pain", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le pain ist maskulin." },
     { id: "a02", level: 1, prompt: "___ boulangerie", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -erie sind feminin: la boulangerie, la boucherie." },
-    { id: "a03", level: 1, prompt: "___ eau", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal wird le oder la zu l'. Eau ist feminin: une eau fraîche." },
+    { id: "a03", level: 1, prompt: "___ eau", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal wird le oder la zu l'. Eau ist feminin: une eau fraîche.", trap: "Stolperstein: Vor Vokal sieht man das Geschlecht nicht. Merke es dir am Adjektiv: une eau froide." },
     { id: "a04", level: 1, prompt: "___ enfants", options: ["le", "la", "l'", "les"], answer: 3, explain: "Plural, also les. Das s hört man vor Vokal: les‿enfants." },
-    { id: "a05", level: 1, prompt: "___ fromage", options: ["le", "la", "l'", "les"], answer: 0, explain: "Wörter auf -age sind maskulin, Ausnahmen: la page, la plage, la cage, l'image." },
+    { id: "a05", level: 1, prompt: "___ fromage", options: ["le", "la", "l'", "les"], answer: 0, explain: "Wörter auf -age sind maskulin, Ausnahmen: la page, la plage, la cage, l'image.", trap: "Stolperstein: Das Geschlecht folgt der Endung, nicht dem deutschen Wort. Le fromage, le garage, le village, aber la plage (der Strand)." },
     { id: "a06", level: 1, prompt: "___ pomme", options: ["le", "la", "l'", "les"], answer: 1, explain: "Die meisten Wörter auf -e sind feminin, la pomme." },
     { id: "a07", level: 1, prompt: "___ argent", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vokal am Anfang: l'argent. Maskulin: de l'argent, il est cher." },
     { id: "a08", level: 1, prompt: "___ marché", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le marché ist maskulin, wie le café, le thé." },
 
     { id: "a09", level: 2, prompt: "___ réunion", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -tion und -sion sind feminin: la réunion, la décision." },
-    { id: "a10", level: 2, prompt: "___ problème", options: ["le", "la", "l'", "les"], answer: 0, explain: "Trotz -e maskulin: le problème, le système, le thème (griechischer Ursprung)." },
+    { id: "a10", level: 2, prompt: "___ problème", options: ["le", "la", "l'", "les"], answer: 0, explain: "Trotz -e maskulin: le problème, le système, le thème (griechischer Ursprung).", trap: "Stolperstein: Viele Wörter griechischen Ursprungs auf -ème und -amme sind maskulin: le problème, le programme." },
     { id: "a11", level: 2, prompt: "___ musée", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le musée und le lycée sind maskulin, obwohl sie auf -ée enden." },
-    { id: "a12", level: 2, prompt: "___ hôtel", options: ["le", "la", "l'", "les"], answer: 2, explain: "Stummes h zählt wie ein Vokal: l'hôtel, l'homme. Aber: le haricot (h aspiré)." },
+    { id: "a12", level: 2, prompt: "___ hôtel", options: ["le", "la", "l'", "les"], answer: 2, explain: "Stummes h zählt wie ein Vokal: l'hôtel, l'homme. Aber: le haricot (h aspiré).", trap: "Stolperstein: Nicht jedes h ist stumm. Le haricot, le héros, la haine (h aspiré) behalten den vollen Artikel." },
     { id: "a13", level: 2, prompt: "___ vacances", options: ["le", "la", "l'", "les"], answer: 3, explain: "Vacances steht immer im Plural: les vacances." },
     { id: "a14", level: 2, prompt: "___ main", options: ["le", "la", "l'", "les"], answer: 1, explain: "La main ist feminin, obwohl es nicht auf -e endet." },
     { id: "a15", level: 2, prompt: "___ voiture", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -ure sind feminin: la voiture, la nature." },
@@ -94,7 +95,7 @@ window.CONTENT = {
     { id: "a19", level: 3, prompt: "Tu veux ___ eau ?", options: ["du", "de la", "de l'", "des"], answer: 2, explain: "Vor Vokal: de l'eau, de l'argent." },
     { id: "a20", level: 3, prompt: "On achète ___ œufs.", options: ["du", "de la", "de l'", "des"], answer: 3, explain: "Plural: des œufs (de + les)." },
     { id: "a21", level: 3, prompt: "Il boit ___ café.", options: ["du", "de la", "de l'", "des"], answer: 0, explain: "Du café: eine unbestimmte Menge Kaffee. Un café wäre eine Tasse." },
-    { id: "a22", level: 3, prompt: "Il n'y a pas ___ lait.", options: ["du", "de la", "de", "des"], answer: 2, explain: "Nach Verneinung wird der Teilungsartikel zu de: pas de lait, pas d'eau." },
+    { id: "a22", level: 3, prompt: "Il n'y a pas ___ lait.", options: ["du", "de la", "de", "des"], answer: 2, explain: "Nach Verneinung wird der Teilungsartikel zu de: pas de lait, pas d'eau.", trap: "Stolperstein: Nach pas, plus, jamais wird du, de la, des zu de. Nur nach être bleibt der Artikel: ce n'est pas du lait." },
     { id: "a23", level: 3, prompt: "Je ne prends pas ___ sucre.", options: ["du", "de", "de la", "des"], answer: 1, explain: "Verneinung: pas de sucre. Du sucre nur im bejahten Satz." },
     { id: "a24", level: 3, prompt: "Vous avez ___ enfants ?", options: ["du", "de la", "de l'", "des"], answer: 3, explain: "Plural, unbestimmt: des enfants." }
   ],
@@ -199,14 +200,14 @@ window.CONTENT = {
     { id: "z03", level: 1, topic: "Futur proche", sentence: "Demain, tu ___ voir un film ?", options: ["vas", "va", "vais"], answer: 0, explain: "Tu vas, il va, je vais. Die Form richtet sich nach dem Subjekt." },
     { id: "z04", level: 1, topic: "Präsens", sentence: "Vous ___ un café ?", options: ["voulez", "veux", "veulent"], answer: 0, explain: "Vouloir: je veux, tu veux, il veut, nous voulons, vous voulez, ils veulent." },
 
-    { id: "z05", level: 2, topic: "Passé composé", sentence: "Ce matin, je ___ de la maison à huit heures.", options: ["suis sorti", "ai sorti", "sors"], answer: 0, explain: "Sortir bildet das Passé composé mit être, wie alle Bewegungsverben der Gruppe aller, venir, partir, arriver." },
+    { id: "z05", level: 2, topic: "Passé composé", sentence: "Ce matin, je ___ de la maison à huit heures.", options: ["suis sorti", "ai sorti", "sors"], answer: 0, explain: "Sortir bildet das Passé composé mit être, wie alle Bewegungsverben der Gruppe aller, venir, partir, arriver.", trap: "Stolperstein: Die Bewegungsverben mit être sind eine feste Gruppe (aller, venir, partir, arriver, entrer, sortir, monter, descendre, naître, mourir, rester, tomber, retourner, passer). Alle anderen mit avoir." },
     { id: "z06", level: 2, topic: "Passé composé", sentence: "Hier, nous ___ un bon film.", options: ["avons vu", "sommes vus", "voyons"], answer: 0, explain: "Voir bildet das Passé composé mit avoir: nous avons vu." },
     { id: "z07", level: 2, topic: "Passé composé", sentence: "Elle ___ à Lyon en 2020.", options: ["est arrivée", "a arrivé", "arrive"], answer: 0, explain: "Arriver mit être, und das Partizip richtet sich nach elle: arrivée." },
     { id: "z08", level: 2, topic: "Passé composé", sentence: "Tu ___ tes clés ?", options: ["as trouvé", "es trouvé", "trouves"], answer: 0, explain: "Trouver mit avoir: tu as trouvé. Die Frage bezieht sich auf ein abgeschlossenes Ereignis." },
 
-    { id: "z09", level: 3, topic: "Imparfait", sentence: "Quand j'___ enfant, je jouais au foot tous les jours.", options: ["étais", "ai été", "serais"], answer: 0, explain: "Zustände und Gewohnheiten in der Vergangenheit: Imparfait." },
-    { id: "z10", level: 3, topic: "Konditional", sentence: "Je ___ un thé, s'il vous plaît.", options: ["voudrais", "veux", "voulais"], answer: 0, explain: "Je voudrais ist die höfliche Form (Konditional). Je veux klingt fordernd." },
+    { id: "z09", level: 3, topic: "Imparfait", sentence: "Quand j'___ enfant, je jouais au foot tous les jours.", options: ["étais", "ai été", "serais"], answer: 0, explain: "Zustände und Gewohnheiten in der Vergangenheit: Imparfait.", trap: "Stolperstein: Deutsch nutzt oft das Perfekt (ich war), Französisch für Zustände und Gewohnheiten das Imparfait." },
+    { id: "z10", level: 3, topic: "Konditional", sentence: "Je ___ un thé, s'il vous plaît.", options: ["voudrais", "veux", "voulais"], answer: 0, explain: "Je voudrais ist die höfliche Form (Konditional). Je veux klingt fordernd.", trap: "Stolperstein: Je veux ist grammatisch richtig, klingt aber wie ein Befehl. Im Café immer je voudrais oder je prends." },
     { id: "z11", level: 3, topic: "Imparfait und Passé composé", sentence: "Il ___ tranquillement quand le téléphone a sonné.", options: ["lisait", "a lu", "lira"], answer: 0, explain: "Hintergrundhandlung im Imparfait (il lisait), das Ereignis, das dazwischenkommt, im Passé composé (a sonné)." },
-    { id: "z12", level: 3, topic: "Imparfait und Passé composé", sentence: "Soudain, la porte ___.", options: ["s'est ouverte", "s'ouvrait", "s'ouvre"], answer: 0, explain: "Soudain kündigt ein plötzliches Ereignis an: Passé composé." }
+    { id: "z12", level: 3, topic: "Imparfait und Passé composé", sentence: "Soudain, la porte ___.", options: ["s'est ouverte", "s'ouvrait", "s'ouvre"], answer: 0, explain: "Soudain kündigt ein plötzliches Ereignis an: Passé composé.", trap: "Stolperstein: Signalwörter für das Passé composé: soudain, tout à coup, à ce moment-là. Für das Imparfait: souvent, tous les jours, pendant que." }
   ]
 };

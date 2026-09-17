@@ -6,13 +6,13 @@
 <meta name="theme-color" content="#EDE3D1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Français">
+<meta name="apple-mobile-web-app-title" content="Flâner">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Archivo:wght@400;500;600&display=swap">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
-<title>Français</title>
+<title>Flâner</title>
 <style>
   :root {
     --bg: #EDE3D1;          /* Sable */
@@ -81,7 +81,7 @@
   #app {
     max-width: 520px;
     margin: 0 auto;
-    padding: calc(env(safe-area-inset-top) + 18px) 22px calc(env(safe-area-inset-bottom) + 24px);
+    padding: calc(env(safe-area-inset-top) + 18px) 22px 0;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
@@ -142,7 +142,7 @@
   .modules .n small { display: block; color: var(--muted); font-size: 13px; font-weight: 400; margin-top: 2px; }
   .modules .pct { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
   .modules .chev { color: var(--faint); display: flex; }
-  .foot { margin-top: auto; padding-top: 28px; color: var(--muted); font-size: 13px; display: flex; gap: 16px; justify-content: space-between; }
+  .foot { margin-top: auto; padding-top: 28px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 10px 18px; }
   .foot button { text-decoration: underline; color: var(--muted); text-underline-offset: 3px; }
 
   /* Übungskarte */
@@ -156,6 +156,7 @@
   .theme { color: var(--muted); font-size: 13px; }
   .text { font-family: var(--serif); font-size: 21px; line-height: 1.5; margin: 0; }
   .text.hidden { color: transparent; text-shadow: 0 0 14px var(--faint); user-select: none; }
+  .text.collapsed { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; color: var(--muted); font-size: 16px; }
   .title { font-family: var(--serif); font-size: 15px; color: var(--muted); margin-bottom: 8px; }
 
   label.field { display: block; font-size: 13px; color: var(--muted); margin: 22px 0 7px; }
@@ -172,6 +173,7 @@
   .feedback.hint { background: var(--accent-soft); color: var(--accent); }
   .feedback b { font-family: var(--serif); font-weight: 500; font-size: 22px; color: var(--ink); }
   .feedback .tip { font-family: var(--serif); font-size: 16px; color: var(--ink); margin-top: 8px; line-height: 1.5; opacity: .9; }
+  .feedback .trap { font-size: 14px; color: var(--muted); margin-top: 8px; line-height: 1.5; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.08); }
 
   .opts { display: grid; gap: 10px; margin-top: 16px; }
   .opts button { text-align: left; padding: 14px 16px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--field); font-size: 17px; }
@@ -186,7 +188,8 @@
   .words button.err { border-color: var(--err); background: var(--err-soft); color: var(--accent); text-decoration: line-through; }
   .words button:disabled { cursor: default; }
 
-  .actions { display: grid; gap: 10px; margin-top: auto; padding-top: 6px; }
+  .actions { display: grid; gap: 10px; margin-top: auto; position: sticky; bottom: 0; background: var(--bg); padding: 10px 0 calc(env(safe-area-inset-bottom) + 10px); z-index: 2; }
+  .actions:empty { display: none; }
   .actions.row { grid-template-columns: 1fr 1fr; }
   .btn { padding: 0 18px; min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 9px; border-radius: 4px; font-size: 16px; text-align: center; border: 1px solid var(--line-strong); background: transparent; }
   .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
@@ -197,6 +200,10 @@
   .inrow { display: flex; gap: 10px; margin-top: 14px; }
   .inrow .btn { flex: 1; }
   .listen { display: flex; gap: 10px; margin-top: 18px; }
+  .rec { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .rec .note { margin-top: 0; }
+  .meter { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+  .meter i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .06s linear; }
   .listen .btn { flex: 1; }
 
   /* Ergebnis */
@@ -287,13 +294,16 @@
   }
   const S = load();
   S.vocab = S.vocab || {}; S.done = S.done || {}; S.level = S.level || 1; S.direction = S.direction || 'de-fr'; S.points = S.points || 0;
+  if (S.autoRead === undefined) S.autoRead = true;
+  if (S.sound === undefined) S.sound = true;
 
   // ---------- Symbole ----------
   const ICON = {
     back: '<svg width="11" height="18" viewBox="0 0 11 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9.5 1 L1.5 9 L9.5 17"/></svg>',
     chev: '<svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1 L7 7 L1 13"/></svg>',
     sound: '<svg width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 6.5 L5.5 6.5 L9.5 3 L9.5 15 L5.5 11.5 L2 11.5 Z"/><path d="M12.6 6.2 A4 4 0 0 1 12.6 11.8"/></svg>',
-    hex: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M17 3.5 L28.7 10.25 L28.7 23.75 L17 30.5 L5.3 23.75 L5.3 10.25 Z"/><circle cx="18.5" cy="14" r="2.2" fill="currentColor" stroke="none"/></svg>'
+    hex: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M17 3.5 L28.7 10.25 L28.7 23.75 L17 30.5 L5.3 23.75 L5.3 10.25 Z"/><circle cx="18.5" cy="14" r="2.2" fill="currentColor" stroke="none"/></svg>',
+    mic: '<svg width="16" height="18" viewBox="0 0 16 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="1" width="6" height="10" rx="3"/><path d="M2 8.5a6 6 0 0 0 12 0M8 14.5V17M5.5 17h5"/></svg>'
   };
 
   // ---------- Helfer ----------
@@ -333,6 +343,29 @@
     u.lang = C.meta.lang; u.rate = rate || 0.95;
     if (voice) u.voice = voice;
     speechSynthesis.speak(u);
+  }
+
+  // ---------- Töne ----------
+  let actx = null;
+  function tone(freq, dur, at, type, vol) {
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type || 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, at);
+    g.gain.exponentialRampToValueAtTime(vol || 0.12, at + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+    o.connect(g); g.connect(actx.destination);
+    o.start(at); o.stop(at + dur + 0.05);
+  }
+  function sfx(kind) {
+    if (!S.sound) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === 'suspended') actx.resume();
+      const t = actx.currentTime + 0.01;
+      if (kind === 'ok') { tone(523, 0.16, t); tone(784, 0.22, t + 0.11); }
+      else if (kind === 'err') { tone(196, 0.22, t, 'triangle', 0.1); }
+      else if (kind === 'unlock') { [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.28, t + i * 0.13)); }
+    } catch (e) {}
   }
 
   // ---------- Fortschritt ----------
@@ -452,7 +485,11 @@
     dir.onclick = () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderHome(); };
     const transfer = el('button', '', 'Spielstand übertragen');
     transfer.onclick = renderTransfer;
-    foot.appendChild(dir); foot.appendChild(transfer);
+    const rd = el('button', '', 'Vorlesen ' + (S.autoRead ? 'an' : 'aus'));
+    rd.onclick = () => { S.autoRead = !S.autoRead; save(); renderHome(); };
+    const sd = el('button', '', 'Töne ' + (S.sound ? 'an' : 'aus'));
+    sd.onclick = () => { S.sound = !S.sound; save(); if (S.sound) sfx('ok'); renderHome(); };
+    foot.appendChild(dir); foot.appendChild(rd); foot.appendChild(sd); foot.appendChild(transfer);
     app.appendChild(foot);
   }
 
@@ -487,12 +524,15 @@
     const actions = el('div', 'actions');
     app.appendChild(actions);
 
-    const finish = (correct, pts) => {
+    // say: französischer Text, der nach der Auflösung automatisch vorgelesen wird
+    const finish = (correct, pts, say) => {
       pts = pts || 0;
       const from = S.points;
       results.push({ type: ref.type, id: ref.id, correct: !!correct, pts });
       S.points += pts;
       save();
+      if (ref.type !== 'match' && ref.type !== 'texts') sfx(correct ? 'ok' : 'err');
+      if (say && S.autoRead) setTimeout(() => speak(say), 550);
       if (pts > 0) awardPoints(counter, from, S.points, pts);
       actions.className = 'actions';
       actions.innerHTML = '';
@@ -525,6 +565,15 @@
     }, dur / steps);
   }
 
+  // Erklärkasten: bei richtig kurz, bei falsch mit Stolperstein
+  function explainBox(ok, head, item) {
+    let html = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + head;
+    const rule = item.explain || item.tip;
+    if (rule) html += '<div class="tip">' + esc(rule) + '</div>';
+    if (!ok && item.trap) html += '<div class="trap">' + esc(item.trap) + '</div>';
+    return html + '</div>';
+  }
+
   const RENDER = {};
 
   // Vokabel: eintippen, Hilfe mit 4 Optionen
@@ -538,9 +587,22 @@
 
     const card = el('div', 'card');
     card.appendChild(el('div', 'theme', esc(v.theme)));
-    card.appendChild(el('p', 'lang' + (toFr ? '' : ' small'), esc(prompt)));
-    if (ctx) card.appendChild(el('div', 'ctx', esc(ctx)));
-    if (!toFr) { const b = el('button', 'btn quiet', ICON.sound + ' Anhören'); b.style.marginTop = '14px'; b.onclick = () => speak(v.fr); card.appendChild(b); }
+    const big = el('p', 'lang' + (toFr ? '' : ' small'), esc(prompt));
+    card.appendChild(big);
+    const ctxEl = ctx ? el('div', 'ctx', esc(ctx)) : null;
+    if (ctxEl) card.appendChild(ctxEl);
+    const listenBtn = el('button', 'btn quiet', ICON.sound + ' Anhören');
+    listenBtn.style.marginTop = '14px';
+    listenBtn.onclick = () => speak(v.fr);
+    if (!toFr) card.appendChild(listenBtn);
+    // Nach der Antwort steht oben immer: Französisch groß, Deutsch klein, ein Anhören-Knopf
+    function showSolution() {
+      big.className = 'lang small'; big.textContent = v.fr;
+      const small = el('div', 'de', esc(v.de));
+      big.after(small);
+      if (ctxEl) ctxEl.remove();
+      if (!listenBtn.parentNode) small.after(listenBtn);
+    }
     const lab = el('label', 'field', toFr ? 'Übersetzung auf Französisch, mit Artikel' : 'Übersetzung auf Deutsch, mit Artikel');
     lab.setAttribute('for', 'answer');
     const input = el('input');
@@ -560,25 +622,22 @@
     row.appendChild(help); row.appendChild(check);
     card.insertBefore(row, fb);
 
-    function reveal(ok, delta, msg) {
+    function reveal(ok, delta) {
       settled = true;
       input.disabled = true;
       input.className = ok ? 'ok' : 'err';
-      fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + msg + '<b>' + esc(target) + '</b>' +
-        (v.tip ? '<div class="tip">' + esc(v.tip) + '</div>' : '') + '</div>';
-      const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
-      listen.onclick = () => speak(v.fr);
-      fb.appendChild(listen);
+      showSolution();
+      fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Leider nicht.', v);
       bumpVocab(v.id, delta);
       row.remove();
-      finish(ok, ok ? P()[0] : 0);
+      finish(ok, ok ? P()[0] : 0, v.fr);
     }
 
     function doCheck() {
       if (settled) return;
       const a = norm(input.value);
       if (!a) { input.focus(); return; }
-      if (accepted.includes(a)) { reveal(true, +1, 'Richtig: '); return; }
+      if (accepted.includes(a)) { reveal(true, +1); return; }
       const targetHasArticle = hasArticle(target, lang);
       if (targetHasArticle && !articleHintGiven && !hasArticle(a, lang) && a === stripArticle(target, lang)) {
         articleHintGiven = true;
@@ -586,7 +645,7 @@
         input.focus();
         return;
       }
-      reveal(false, -1, 'Leider nicht. Richtig ist: ');
+      reveal(false, -1);
     }
     check.onclick = doCheck;
     input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doCheck(); } });
@@ -610,14 +669,11 @@
           const ok = norm(o) === norm(target);
           Array.from(opts.children).forEach(c => { c.disabled = true; if (norm(c.textContent) === norm(target)) c.classList.add('ok'); });
           if (!ok) b.classList.add('err');
-          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig, mit Hilfe. ' : 'Leider nicht. Richtig ist: ') + '<b>' + esc(target) + '</b>' +
-            (v.tip ? '<div class="tip">' + esc(v.tip) + '</div>' : '') + '</div>';
-          const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
-          listen.onclick = () => speak(v.fr);
-          fb.appendChild(listen);
+          showSolution();
+          fb.innerHTML = explainBox(ok, ok ? 'Richtig, mit Hilfe.' : 'Leider nicht.', v);
           bumpVocab(v.id, ok ? 0 : -1);
           row.remove();
-          finish(false, ok ? P()[1] : 0);
+          finish(false, ok ? P()[1] : 0, v.fr);
         };
         opts.appendChild(b);
       });
@@ -647,12 +703,12 @@
         if (!ok) b.classList.add('err');
         const full = a.prompt.replace('___', a.options[a.answer]);
         sent.innerHTML = esc(parts[0]) + '<u>' + esc(a.options[a.answer]) + '</u>' + esc(parts[1] || '');
-        fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Leider nicht.') + '<div class="tip">' + esc(a.explain) + '</div></div>';
+        fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Leider nicht.', a);
         const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(full);
         fb.appendChild(listen);
         markDone('articles', a.id, ok);
-        finish(ok, ok ? P()[0] : 0);
+        finish(ok, ok ? P()[0] : 0, full);
       };
       b.dataset.i = i;
       opts.appendChild(b);
@@ -692,6 +748,7 @@
       // zweiter Tipp auf der anderen Seite
       const a = sel; clearSel();
       if (a.v.id === v.id) {
+        sfx('ok');
         [a.btn, b].forEach(x => { x.classList.add('done'); x.disabled = true; });
         const frBtn = a.side === 'fr' ? a.btn : b;
         if (byEar) frBtn.innerHTML = esc(v.fr);
@@ -703,6 +760,7 @@
           finish(mistakes === 0, pts);
         }
       } else {
+        sfx('err');
         mistakes++; locked = true;
         [a.btn, b].forEach(x => x.classList.add('wrong'));
         setTimeout(() => { [a.btn, b].forEach(x => x.classList.remove('wrong')); locked = false; }, 550);
@@ -728,10 +786,13 @@
         const ok = i === e.wrong;
         words.children[e.wrong].classList.add('err');
         const fixed = e.words.map((x, j) => j === e.wrong ? '<u>' + esc(e.correct) + '</u>' : esc(x)).join(' ');
-        fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Genau. ' : 'Nicht dieses Wort. Der Fehler steckt hier: ') +
-          '<b>' + fixed + '</b><div class="tip">' + esc(e.explain) + '</div></div>';
+        const corrected = e.words.map((x, j) => j === e.wrong ? e.correct : x).join(' ');
+        fb.innerHTML = explainBox(ok, (ok ? 'Genau. ' : 'Nicht dieses Wort. Der Fehler steckt hier: ') + '<b>' + fixed + '</b>', e);
+        const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
+        listen.onclick = () => speak(corrected);
+        fb.appendChild(listen);
         markDone('errors', e.id, ok);
-        finish(ok, ok ? P()[0] : 0);
+        finish(ok, ok ? P()[0] : 0, corrected);
       };
       words.appendChild(b);
     });
@@ -752,7 +813,7 @@
     else { card.appendChild(fr); card.appendChild(de); }
 
     const listen = el('div', 'listen');
-    const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Lösung anhören' : ' Anhören'));
+    const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Original' : ' Original'));
     const slow = el('button', 'btn', 'Langsam');
     play.onclick = () => { speak(s.fr); if (mode === 3) fr.classList.remove('hidden'); };
     slow.onclick = () => { speak(s.fr, 0.7); if (mode === 3) fr.classList.remove('hidden'); };
@@ -763,15 +824,84 @@
       show.onclick = () => { fr.classList.remove('hidden'); show.remove(); };
       card.appendChild(show);
     }
+
+    // Aufnehmen und vergleichen (fällt ohne Mikrofon still auf die reine Selbsteinschätzung zurück)
+    const recBox = el('div', 'rec');
+    const canRec = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+    let recUrl = null, recAudio = null;
+    if (canRec) {
+      if (!S.micNoted) recBox.appendChild(el('div', 'note', 'Beim ersten Aufnehmen fragt der Browser nach dem Mikrofon. Die Aufnahme bleibt auf dem Gerät und wird nach der Aufgabe verworfen.'));
+      const recBtn = el('button', 'btn primary', ICON.mic + ' Aufnehmen');
+      const meter = el('div', 'meter', '<i></i>');
+      meter.style.display = 'none';
+      const after = el('div', 'listen'); after.style.display = 'none';
+      const mine = el('button', 'btn', ICON.sound + ' Deine Aufnahme');
+      const info = el('div', 'note');
+      after.appendChild(mine);
+      recBox.appendChild(recBtn); recBox.appendChild(meter); recBox.appendChild(after); recBox.appendChild(info);
+      let rec = null, stream = null, chunks = [], stopTimer = null, raf = null, spoken = 0, frames = 0;
+      async function start() {
+        try {
+          if ('speechSynthesis' in window) speechSynthesis.cancel();
+          stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch (e) { info.textContent = 'Kein Mikrofon verfügbar. Sprich nach und schätze dich unten selbst ein.'; recBtn.disabled = true; return; }
+        S.micNoted = true; save();
+        const firstNote = recBox.querySelector('.note'); if (firstNote && firstNote !== info) firstNote.remove();
+        chunks = []; spoken = 0; frames = 0;
+        try { rec = new MediaRecorder(stream); }
+        catch (e) { info.textContent = 'Aufnahme wird von diesem Browser nicht unterstützt. Sprich nach und schätze dich unten selbst ein.'; recBtn.disabled = true; stream.getTracks().forEach(t => t.stop()); return; }
+        rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+        rec.onstop = () => {
+          stream.getTracks().forEach(t => t.stop());
+          if (recUrl) URL.revokeObjectURL(recUrl);
+          recUrl = URL.createObjectURL(new Blob(chunks, { type: rec.mimeType || 'audio/mp4' }));
+          recAudio = new Audio(recUrl);
+          meter.style.display = 'none'; after.style.display = '';
+          recBtn.innerHTML = ICON.mic + ' Nochmal aufnehmen'; recBtn.className = 'btn';
+          const secs = (spoken / 20).toFixed(1).replace('.', ',');
+          info.textContent = spoken < 4 ? 'Es wurde kaum etwas aufgenommen. Näher ans Mikrofon?' : 'Aufgenommen, etwa ' + secs + ' Sekunden gesprochen. Vergleiche mit dem Original.';
+          if (mode === 3) fr.classList.remove('hidden');
+        };
+        // Pegelanzeige
+        try {
+          actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+          if (actx.state === 'suspended') actx.resume();
+          const src = actx.createMediaStreamSource(stream), an = actx.createAnalyser(); an.fftSize = 512; src.connect(an);
+          const buf = new Uint8Array(an.fftSize);
+          let last = 0;
+          const tick = (ts) => {
+            an.getByteTimeDomainData(buf);
+            let sum = 0; for (let i = 0; i < buf.length; i++) { const d = (buf[i] - 128) / 128; sum += d * d; }
+            const rms = Math.sqrt(sum / buf.length);
+            meter.firstChild.style.width = Math.min(100, rms * 400) + '%';
+            if (ts - last > 50) { last = ts; frames++; if (rms > 0.02) spoken++; }
+            raf = requestAnimationFrame(tick);
+          };
+          raf = requestAnimationFrame(tick);
+        } catch (e) {}
+        rec.start();
+        meter.style.display = ''; after.style.display = 'none';
+        recBtn.innerHTML = 'Stopp'; recBtn.className = 'btn dark';
+        stopTimer = setTimeout(stop, 3500);
+      }
+      function stop() {
+        clearTimeout(stopTimer); if (raf) cancelAnimationFrame(raf);
+        if (rec && rec.state !== 'inactive') rec.stop();
+      }
+      recBtn.onclick = () => { if (rec && rec.state === 'recording') stop(); else start(); };
+      mine.onclick = () => { if (recAudio) { if ('speechSynthesis' in window) speechSynthesis.cancel(); recAudio.currentTime = 0; recAudio.play().catch(() => {}); } };
+    }
+    card.appendChild(recBox);
     body.appendChild(card);
 
     if (mode !== 3) speak(s.fr);
 
     actions.className = 'actions row';
-    const again = el('button', 'btn', 'Nochmal üben');
-    const ok = el('button', 'btn ok', 'Klappt');
-    again.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, false); finish(false, 0); };
-    ok.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, true); finish(true, P()[0]); };
+    const again = el('button', 'btn quiet', 'Nochmal');
+    const ok = el('button', 'btn quiet', 'Sitzt');
+    const cleanup = () => { if (recUrl) URL.revokeObjectURL(recUrl); };
+    again.onclick = () => { cleanup(); fr.classList.remove('hidden'); markDone('speak', s.id, false); finish(false, 0); };
+    ok.onclick = () => { cleanup(); fr.classList.remove('hidden'); markDone('speak', s.id, true); finish(true, P()[0]); };
     actions.appendChild(again); actions.appendChild(ok);
   };
 
@@ -779,11 +909,17 @@
   RENDER.texts = function (t, body, actions, finish) {
     const card = el('div', 'card');
     card.appendChild(el('div', 'title', esc(t.title)));
-    card.appendChild(el('p', 'text', esc(t.text)));
+    const textEl = el('p', 'text', esc(t.text));
+    card.appendChild(textEl);
     const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '16px';
     listen.onclick = () => speak(t.text);
     card.appendChild(listen);
+    const toggle = el('button', 'btn quiet', 'Text anzeigen'); toggle.style.marginTop = '8px'; toggle.style.display = 'none';
+    toggle.onclick = () => { const c = textEl.classList.toggle('collapsed'); toggle.textContent = c ? 'Text anzeigen' : 'Text einklappen'; };
+    card.appendChild(toggle);
     body.appendChild(card);
+    // Nach der ersten Antwort klappt der Text zusammen, damit der Weiter-Knopf ohne Scrollen erreichbar ist
+    function collapseText() { textEl.classList.add('collapsed'); listen.style.display = 'none'; toggle.style.display = ''; toggle.textContent = 'Text anzeigen'; }
 
     const qcard = el('div', 'card');
     body.appendChild(qcard);
@@ -801,9 +937,11 @@
         b.onclick = () => {
           const ok = i === q.answer;
           if (ok) right++;
-          Array.from(opts.children).forEach(c => { c.disabled = true; if (c.dataset.i == q.answer) c.classList.add('ok'); });
+          Array.from(opts.children).forEach(c => { c.disabled = true; if (c.dataset.i == q.answer) c.classList.add('ok'); else if (c !== b) c.style.display = 'none'; });
           if (!ok) b.classList.add('err');
           fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Leider nicht.') + '</div>';
+          collapseText();
+          sfx(ok ? 'ok' : 'err');
           qi++;
           actions.innerHTML = '';
           if (qi < t.questions.length) {
@@ -815,6 +953,7 @@
             fb.innerHTML += '<div class="note">' + right + ' von ' + t.questions.length + ' richtig.</div>';
             markDone('texts', t.id, all);
             finish(all, right * P()[0]);
+            actions.querySelector('.btn') && actions.querySelector('.btn').focus();
           }
         };
         b.dataset.i = i;
@@ -842,12 +981,13 @@
         Array.from(opts.children).forEach(c => { c.disabled = true; if (c.dataset.i == z.answer) c.classList.add('ok'); });
         if (!ok) b.classList.add('err');
         sent.innerHTML = esc(parts[0]) + '<u>' + esc(z.options[z.answer]) + '</u>' + esc(parts[1] || '');
-        fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Leider nicht.') + '<div class="tip">' + esc(z.explain) + '</div></div>';
+        const full = z.sentence.replace('___', z.options[z.answer]);
+        fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Leider nicht.', z);
         const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
-        listen.onclick = () => speak(z.sentence.replace('___', z.options[z.answer]));
+        listen.onclick = () => speak(full);
         fb.appendChild(listen);
         markDone('tenses', z.id, ok);
-        finish(ok, ok ? P()[0] : 0);
+        finish(ok, ok ? P()[0] : 0, full);
       };
       b.dataset.i = i;
       opts.appendChild(b);
@@ -879,6 +1019,7 @@
     app.appendChild(r);
     const actions = el('div', 'actions');
     if (fresh.length) {
+      setTimeout(() => sfx('unlock'), 300);
       const u = el('div', 'unlock');
       u.innerHTML = '<div class="l" style="display:flex;align-items:center;gap:10px"><span style="color:var(--accent);display:flex">' + ICON.hex + '</span>Neu auf deiner Karte</div>' +
         '<div class="n">' + fresh.map(pl => esc(pl.name)).join(', ') + '</div>' +

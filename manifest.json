@@ -1,6 +1,6 @@
 {
-  "name": "Français",
-  "short_name": "Français",
+  "name": "Flâner",
+  "short_name": "Flâner",
   "description": "Französisch üben: Vokabeln, Fehler finden, Nachsprechen, Texte, Zeiten",
   "start_url": "./index.html",
   "scope": "./",
