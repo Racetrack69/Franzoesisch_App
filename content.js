@@ -1,6 +1,7 @@
 // Inhalte der Französisch-App.
 // Jeder Eintrag hat ein "level" (1, 2 oder 3). Die App filtert danach.
-// Vokabeln: "de" und "fr" mit Artikel. "alt" sind weitere akzeptierte Antworten.
+// Vokabeln: "de" und "fr" mit Artikel. "alt" sind weitere akzeptierte französische, "altDe" weitere deutsche Antworten.
+// "ctxFr"/"ctxDe": optionaler Beispielsatz, wird bei mehrdeutigen Wörtern in der Sprache der Aufgabe angezeigt.
 // Fehler finden: "words" sind die antippbaren Teile, "wrong" ist der Index des falschen Teils.
 // Zeiten: "___" im Satz ist die Lücke, "answer" der Index der richtigen Option.
 
@@ -13,13 +14,13 @@ window.CONTENT = {
     { id: "v02", level: 1, theme: "Einkaufen", de: "der Markt", fr: "le marché", tip: "Klingt wie das deutsche Wort, aber mit Akzent am Ende." },
     { id: "v03", level: 1, theme: "Einkaufen", de: "das Brot", fr: "le pain", tip: "Nicht mit pin (Kiefer) verwechseln: der Nasal am Ende." },
     { id: "v04", level: 1, theme: "Einkaufen", de: "der Käse", fr: "le fromage", tip: "Alle Wörter auf -age sind maskulin, außer la page, la plage, la cage." },
-    { id: "v05", level: 1, theme: "Einkaufen", de: "die Rechnung", fr: "l'addition", tip: "Im Restaurant: L'addition, s'il vous plaît." },
+    { id: "v05", level: 1, theme: "Einkaufen", de: "die Rechnung", fr: "l'addition", altDe: ["die Addition"], ctxFr: "L'addition, s'il vous plaît.", ctxDe: "Die Rechnung, bitte.", tip: "Im Restaurant: L'addition, s'il vous plaît." },
     { id: "v06", level: 1, theme: "Einkaufen", de: "der Apfel", fr: "la pomme", tip: "Pomme de terre ist die Kartoffel, der Erdapfel." },
     { id: "v07", level: 1, theme: "Einkaufen", de: "das Wasser", fr: "l'eau", tip: "Drei Buchstaben, nur ein Laut: o." },
-    { id: "v08", level: 1, theme: "Einkaufen", de: "teuer", fr: "cher", alt: ["chère"], tip: "Cher heißt auch lieb, wie in cher ami." },
+    { id: "v08", level: 1, theme: "Einkaufen", de: "teuer", fr: "cher", alt: ["chère"], altDe: ["lieb"], ctxFr: "C'est trop cher.", ctxDe: "Das ist zu teuer.", tip: "Cher heißt auch lieb, wie in cher ami." },
     { id: "v09", level: 1, theme: "Einkaufen", de: "billig", fr: "bon marché", alt: ["pas cher"], tip: "Wörtlich: guter Markt. Wird nicht verändert." },
-    { id: "v10", level: 1, theme: "Einkaufen", de: "das Geld", fr: "l'argent", tip: "Argent heißt auch Silber." },
-    { id: "v11", level: 1, theme: "Einkaufen", de: "die Tasche", fr: "le sac", tip: "Le sac à main ist die Handtasche." },
+    { id: "v10", level: 1, theme: "Einkaufen", de: "das Geld", fr: "l'argent", altDe: ["das Silber"], ctxFr: "Je n'ai pas d'argent sur moi.", ctxDe: "Ich habe kein Geld dabei.", tip: "Argent heißt auch Silber." },
+    { id: "v11", level: 1, theme: "Einkaufen", de: "die Tasche", fr: "le sac", altDe: ["der Beutel", "die Tüte"], ctxFr: "Vous voulez un sac ?", ctxDe: "Möchten Sie eine Tasche?", tip: "Le sac à main ist die Handtasche." },
     { id: "v12", level: 1, theme: "Einkaufen", de: "der Preis", fr: "le prix", tip: "Das x am Ende ist stumm." },
     { id: "v13", level: 1, theme: "Einkaufen", de: "kaufen", fr: "acheter", tip: "j'achète, mit accent grave in der Einzahl." },
     { id: "v14", level: 1, theme: "Einkaufen", de: "bezahlen", fr: "payer", tip: "je paie, nous payons." },
@@ -29,14 +30,14 @@ window.CONTENT = {
     // Stufe 2: Arbeit und Gefühle
     { id: "v17", level: 2, theme: "Arbeit", de: "die Besprechung", fr: "la réunion", tip: "Wörtlich: das Wiedervereinen." },
     { id: "v18", level: 2, theme: "Arbeit", de: "der Termin", fr: "le rendez-vous", tip: "Gilt für Arzt, Friseur und Verabredung gleichermaßen." },
-    { id: "v19", level: 2, theme: "Arbeit", de: "die Frist", fr: "le délai", tip: "Vorsicht: heißt nicht Verzögerung, sondern der Zeitraum, der einem bleibt." },
-    { id: "v20", level: 2, theme: "Arbeit", de: "verschieben", fr: "reporter", tip: "Un reporter ist der Reporter, reporter (Verb) heißt verschieben." },
+    { id: "v19", level: 2, theme: "Arbeit", de: "die Frist", fr: "le délai", ctxFr: "Le délai est de deux semaines.", ctxDe: "Die Frist beträgt zwei Wochen.", tip: "Vorsicht: heißt nicht Verzögerung, sondern der Zeitraum, der einem bleibt." },
+    { id: "v20", level: 2, theme: "Arbeit", de: "verschieben", fr: "reporter", altDe: ["vertagen"], ctxFr: "On doit reporter la réunion.", ctxDe: "Wir müssen die Besprechung verschieben.", tip: "Un reporter ist der Reporter, reporter (Verb) heißt verschieben." },
     { id: "v21", level: 2, theme: "Arbeit", de: "der Kollege", fr: "le collègue", tip: "Gleiches Wort für die Kollegin: la collègue." },
-    { id: "v22", level: 2, theme: "Arbeit", de: "die Erfahrung", fr: "l'expérience", tip: "Auch: das Experiment." },
+    { id: "v22", level: 2, theme: "Arbeit", de: "die Erfahrung", fr: "l'expérience", altDe: ["das Experiment"], ctxFr: "Elle a beaucoup d'expérience.", ctxDe: "Sie hat viel Erfahrung.", tip: "Auch: das Experiment." },
     { id: "v23", level: 2, theme: "Gefühle", de: "müde", fr: "fatigué", alt: ["fatiguée"], tip: "Je suis fatigué. Das Akzent-e am Ende wird gesprochen." },
     { id: "v24", level: 2, theme: "Gefühle", de: "besorgt", fr: "inquiet", alt: ["inquiète"], tip: "Das Gegenteil von tranquille." },
     { id: "v25", level: 2, theme: "Gefühle", de: "stolz", fr: "fier", alt: ["fière"], tip: "Je suis fier de toi: Ich bin stolz auf dich." },
-    { id: "v26", level: 2, theme: "Gefühle", de: "zufrieden", fr: "content", alt: ["contente", "satisfait", "satisfaite"], tip: "Content heißt hier zufrieden, nicht Inhalt." },
+    { id: "v26", level: 2, theme: "Gefühle", de: "zufrieden", fr: "content", alt: ["contente", "satisfait", "satisfaite"], altDe: ["froh", "glücklich"], ctxFr: "Je suis content du résultat.", ctxDe: "Ich bin zufrieden mit dem Ergebnis.", tip: "Content heißt hier zufrieden, nicht Inhalt." },
 
     // Stufe 3: Wendungen
     { id: "v27", level: 3, theme: "Wendungen", de: "Es ist mir egal", fr: "Ça m'est égal", tip: "Wörtlich: Das ist mir gleich." },
@@ -114,6 +115,41 @@ window.CONTENT = {
         { q: "Woran erinnert ihn der Geruch von warmem Brot?", options: ["An das Dorf", "An seine Schule", "An das Meer"], answer: 0 }
       ]
     }
+  ],
+
+  // Orte auf der Frankreichkarte. "at" ist die Punktzahl, ab der der Ort erscheint.
+  // "lon"/"lat" sind die Koordinaten für die Karte, "dy" verschiebt die Beschriftung bei Überlappung. Die Sätze sind Allgemeinwissen, Zahlen sind gerundet.
+  places: [
+    { id: "paris", at: 10, name: "Paris", lon: 2.35, lat: 48.86, title: "La tour Eiffel",
+      fr: ["La tour Eiffel a été construite pour l'Exposition universelle de 1889.", "Elle mesure environ 330 mètres."],
+      de: ["Der Eiffelturm wurde für die Weltausstellung 1889 gebaut.", "Er ist etwa 330 Meter hoch."] },
+    { id: "msm", at: 25, name: "Mont-Saint-Michel", lon: -1.51, lat: 48.64, title: "Le Mont-Saint-Michel",
+      fr: ["Le Mont-Saint-Michel est une île à marée haute.", "À marée basse, on peut faire le tour à pied, avec un guide."],
+      de: ["Der Mont-Saint-Michel ist bei Flut eine Insel.", "Bei Ebbe kann man ihn zu Fuß umrunden, mit Führung."] },
+    { id: "bordeaux", at: 50, name: "Bordeaux", lon: -0.58, lat: 44.84, title: "Les vins de Bordeaux",
+      fr: ["Bordeaux est célèbre pour ses vins rouges.", "Le centre-ville est inscrit au patrimoine mondial de l'UNESCO."],
+      de: ["Bordeaux ist berühmt für seine Rotweine.", "Die Innenstadt gehört zum UNESCO-Welterbe."] },
+    { id: "strasbourg", at: 100, name: "Strasbourg", lon: 7.75, lat: 48.57, title: "La cathédrale de Strasbourg",
+      fr: ["La cathédrale de Strasbourg est en grès rose.", "En décembre, la ville accueille un grand marché de Noël."],
+      de: ["Das Straßburger Münster ist aus rosa Sandstein.", "Im Dezember gibt es in der Stadt einen großen Weihnachtsmarkt."] },
+    { id: "etretat", at: 175, name: "Étretat", lon: 0.2, lat: 49.7, title: "Les falaises d'Étretat",
+      fr: ["Les falaises d'Étretat sont en craie blanche.", "Beaucoup de peintres, comme Monet, les ont peintes."],
+      de: ["Die Klippen von Étretat sind aus weißer Kreide.", "Viele Maler, etwa Monet, haben sie gemalt."] },
+    { id: "loire", at: 250, name: "Amboise", lon: 0.98, lat: 47.41, title: "Les châteaux de la Loire",
+      fr: ["Les châteaux de la Loire datent surtout de la Renaissance.", "Léonard de Vinci a passé ses dernières années à Amboise."],
+      de: ["Die Loire-Schlösser stammen vor allem aus der Renaissance.", "Leonardo da Vinci verbrachte seine letzten Jahre in Amboise."] },
+    { id: "provence", at: 400, name: "Valensole", lon: 5.98, lat: 43.84, title: "La lavande de Provence",
+      fr: ["En été, les champs de lavande sont violets.", "La récolte a lieu en général en juillet."],
+      de: ["Im Sommer sind die Lavendelfelder violett.", "Die Ernte findet meist im Juli statt."] },
+    { id: "marseille", at: 600, name: "Marseille", lon: 5.37, lat: 43.3, title: "Marseille et la pétanque",
+      fr: ["Marseille est la plus vieille ville de France.", "On y joue à la pétanque sur les places, à l'ombre."],
+      de: ["Marseille ist die älteste Stadt Frankreichs.", "Auf den Plätzen spielt man im Schatten Pétanque."] },
+    { id: "lyon", at: 800, name: "Lyon", lon: 4.84, lat: 45.76, title: "La cuisine de Lyon",
+      fr: ["Lyon est connue pour sa cuisine.", "Les petits restaurants traditionnels s'appellent des bouchons."],
+      de: ["Lyon ist bekannt für seine Küche.", "Die kleinen traditionellen Restaurants heißen Bouchons."] },
+    { id: "montblanc", at: 1000, name: "Chamonix", lon: 6.87, lat: 45.92, dy: -14, title: "Le mont Blanc",
+      fr: ["Le mont Blanc est le plus haut sommet des Alpes.", "Il fait environ 4 800 mètres."],
+      de: ["Der Mont Blanc ist der höchste Gipfel der Alpen.", "Er ist etwa 4800 Meter hoch."] }
   ],
 
   tenses: [

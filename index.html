@@ -151,6 +151,12 @@
   .de { color: var(--muted); font-size: 17px; margin-top: 10px; }
   .prompt { color: var(--muted); font-size: 15px; margin-bottom: 8px; }
   .theme { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+  .ctx { font-family: var(--serif); color: var(--muted); font-size: 18px; margin-top: 8px; }
+  .inrow { display: flex; gap: 10px; margin-top: 14px; }
+  .inrow .btn { flex: 1; }
+  .pts { color: var(--muted); font-size: 15px; }
+  textarea { width: 100%; font: inherit; font-size: 14px; padding: 12px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); min-height: 110px; word-break: break-all; }
+  .code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; word-break: break-all; background: var(--bg); border-radius: 12px; padding: 12px; margin-top: 10px; }
   .text { font-family: var(--serif); font-size: 20px; line-height: 1.5; margin: 0; }
   .text.hidden { color: transparent; text-shadow: 0 0 14px var(--muted); user-select: none; }
   .title { font-family: var(--serif); font-size: 15px; color: var(--muted); margin-bottom: 8px; }
@@ -226,6 +232,19 @@
   .result p { color: var(--muted); margin-top: 26px; }
 
   .note { color: var(--muted); font-size: 14px; margin-top: 10px; }
+  .mapbtn { display: block; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; margin: -8px 0 22px; }
+  .mapbtn .t { font-family: var(--serif); font-size: 19px; }
+  .mapbtn .d { color: var(--muted); font-size: 14px; margin-top: 2px; }
+  .map { width: 100%; height: auto; display: block; }
+  .map .land { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
+  .map .place { font-family: var(--serif); font-size: 15px; fill: var(--muted); opacity: .45; cursor: pointer; }
+  .map .place.on { fill: var(--accent); opacity: 1; font-weight: 600; }
+  .map .glow { fill: var(--accent); opacity: .18; }
+  .map .dot { fill: var(--muted); opacity: .35; }
+  .map .dot.on { fill: var(--accent); opacity: 1; }
+  .place-card .fr { font-family: var(--serif); font-size: 20px; line-height: 1.45; margin: 0 0 4px; }
+  .place-card .de { margin-bottom: 14px; }
+  .unlock { background: var(--accent-soft); color: var(--accent); border-radius: 12px; padding: 12px 14px; margin: 18px 0 0; font-size: 16px; }
   @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
 </style>
 </head>
@@ -238,6 +257,9 @@
   const C = window.CONTENT;
   const STORE_KEY = 'francais-app-v1';
   const DAILY_MIX = { vocab: 10, errors: 3, speak: 3, texts: 1, tenses: 4 };
+  // Punkte je Stufe: [richtig, mit Hilfe]
+  const POINTS = { 1: [2, 1], 2: [3, 1], 3: [4, 2] };
+  const P = () => POINTS[S.level] || POINTS[1];
   const MODULES = [
     { key: 'vocab',  name: 'Vokabeln',        sub: 'Eintippen, bei Bedarf Hilfe' },
     { key: 'errors', name: 'Fehler finden',   sub: 'Das falsche Wort antippen' },
@@ -252,13 +274,13 @@
       const s = JSON.parse(localStorage.getItem(STORE_KEY));
       if (s && typeof s === 'object') return s;
     } catch (e) {}
-    return { level: 1, direction: 'de-fr', vocab: {}, done: {}, daily: null };
+    return { level: 1, direction: 'de-fr', vocab: {}, done: {}, daily: null, points: 0 };
   }
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {}
   }
   const S = load();
-  S.vocab = S.vocab || {}; S.done = S.done || {}; S.level = S.level || 1; S.direction = S.direction || 'de-fr';
+  S.vocab = S.vocab || {}; S.done = S.done || {}; S.level = S.level || 1; S.direction = S.direction || 'de-fr'; S.points = S.points || 0;
 
   // ---------- Helfer ----------
   const app = document.getElementById('app');
@@ -357,7 +379,7 @@
   function renderHome() {
     app.innerHTML = '';
     const top = el('div', 'top');
-    top.appendChild(el('div', '', '<h1>' + esc(C.meta.title) + '</h1><div class="sub">Stufe ' + S.level + '</div>'));
+    top.appendChild(el('div', '', '<h1>' + esc(C.meta.title) + '</h1><div class="sub">Stufe ' + S.level + ', ' + S.points + ' Punkte</div>'));
     app.appendChild(top);
 
     const seg = el('div', 'seg');
@@ -376,6 +398,14 @@
     daily.onclick = () => finished ? renderResult(d.results, true) : runQueue(d.items, d.results, true);
     app.appendChild(daily);
 
+    const unlocked = C.places.filter(pl => S.points >= pl.at).length;
+    const nextPl = C.places.find(pl => S.points < pl.at);
+    const mapb = el('button', 'mapbtn');
+    mapb.innerHTML = '<div class="t">Meine Frankreichkarte</div><div class="d">' + unlocked + ' von ' + C.places.length + ' Orten' +
+      (nextPl ? ', der nächste ab ' + nextPl.at + ' Punkten' : ', alle entdeckt') + '</div>';
+    mapb.onclick = () => renderMap();
+    app.appendChild(mapb);
+
     const ul = el('ul', 'modules');
     MODULES.forEach(m => {
       const p = moduleProgress(m.key);
@@ -390,9 +420,9 @@
     const foot = el('div', 'foot');
     const dir = el('button', '', 'Vokabeln: ' + (S.direction === 'de-fr' ? 'Deutsch → Französisch' : 'Französisch → Deutsch'));
     dir.onclick = () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderHome(); };
-    const reset = el('button', '', 'Fortschritt löschen');
-    reset.onclick = () => { if (confirm('Gesamten Fortschritt auf diesem Gerät löschen?')) { localStorage.removeItem(STORE_KEY); location.reload(); } };
-    foot.appendChild(dir); foot.appendChild(reset);
+    const transfer = el('button', '', 'Spielstand übertragen');
+    transfer.onclick = renderTransfer;
+    foot.appendChild(dir); foot.appendChild(transfer);
     app.appendChild(foot);
   }
 
@@ -424,9 +454,12 @@
     const actions = el('div', 'actions');
     app.appendChild(actions);
 
-    const finish = (correct) => {
-      results.push({ type: ref.type, id: ref.id, correct: !!correct });
-      if (daily) save();
+    const finish = (correct, pts) => {
+      pts = pts || 0;
+      results.push({ type: ref.type, id: ref.id, correct: !!correct, pts });
+      S.points += pts;
+      save();
+      actions.className = 'actions';
       actions.innerHTML = '';
       const next = el('button', 'btn primary', idx + 1 < queue.length ? 'Weiter' : 'Fertig');
       next.onclick = () => runQueue(queue, results, daily);
@@ -445,11 +478,13 @@
     const prompt = toFr ? v.de : v.fr;
     const target = toFr ? v.fr : v.de;
     const lang = toFr ? 'fr' : 'de';
-    const accepted = [target].concat(toFr ? (v.alt || []) : []).map(norm);
+    const accepted = [target].concat(toFr ? (v.alt || []) : (v.altDe || [])).map(norm);
+    const ctx = toFr ? v.ctxDe : v.ctxFr;
 
     const card = el('div', 'card');
     card.appendChild(el('div', 'theme', esc(v.theme)));
     card.appendChild(el('p', 'lang' + (toFr ? '' : ' small'), esc(prompt)));
+    if (ctx) card.appendChild(el('div', 'ctx', esc(ctx)));
     if (!toFr) { const b = el('button', 'btn quiet', 'Anhören'); b.style.marginTop = '14px'; b.onclick = () => speak(v.fr); card.appendChild(b); }
     const input = el('input');
     input.type = 'text'; input.autocapitalize = 'off'; input.autocomplete = 'off'; input.spellcheck = false;
@@ -465,8 +500,9 @@
 
     const check = el('button', 'btn primary', 'Prüfen');
     const help = el('button', 'btn', 'Hilfe');
-    actions.className = 'actions row';
-    actions.appendChild(help); actions.appendChild(check);
+    const row = el('div', 'inrow');
+    row.appendChild(help); row.appendChild(check);
+    card.insertBefore(row, fb);
 
     function reveal(ok, delta, msg) {
       settled = true;
@@ -478,7 +514,8 @@
       listen.onclick = () => speak(v.fr);
       fb.appendChild(listen);
       bumpVocab(v.id, delta);
-      finish(ok && delta > 0);
+      row.remove();
+      finish(ok, ok ? P()[0] : 0);
     }
 
     function doCheck() {
@@ -502,7 +539,6 @@
       if (settled) return;
       settled = true;
       input.disabled = true;
-      help.disabled = true; check.disabled = true;
       const pool = C.vocab.filter(x => x.id !== v.id && norm(toFr ? x.fr : x.de) !== norm(target));
       const same = pool.filter(x => x.theme === v.theme);
       const distract = shuffle(same.length >= 3 ? same : pool).slice(0, 3).map(x => toFr ? x.fr : x.de);
@@ -519,8 +555,8 @@
           listen.onclick = () => speak(v.fr);
           fb.appendChild(listen);
           bumpVocab(v.id, ok ? 0 : -1);
-          actions.className = 'actions';
-          finish(false);
+          row.remove();
+          finish(false, ok ? P()[1] : 0);
         };
         opts.appendChild(b);
       });
@@ -546,7 +582,7 @@
         fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Genau. ' : 'Nicht dieses Wort. Der Fehler steckt hier: ') +
           '<b>' + fixed + '</b><div class="tip">' + esc(e.explain) + '</div></div>';
         markDone('errors', e.id, ok);
-        finish(ok);
+        finish(ok, ok ? P()[0] : 0);
       };
       words.appendChild(b);
     });
@@ -585,8 +621,8 @@
     actions.className = 'actions row';
     const again = el('button', 'btn', 'Nochmal üben');
     const ok = el('button', 'btn ok', 'Klappt');
-    again.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, false); actions.className = 'actions'; finish(false); };
-    ok.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, true); actions.className = 'actions'; finish(true); };
+    again.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, false); finish(false, 0); };
+    ok.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, true); finish(true, P()[0]); };
     actions.appendChild(again); actions.appendChild(ok);
   };
 
@@ -629,7 +665,7 @@
             const all = right === t.questions.length;
             fb.innerHTML += '<div class="note">' + right + ' von ' + t.questions.length + ' richtig.</div>';
             markDone('texts', t.id, all);
-            finish(all);
+            finish(all, right * P()[0]);
           }
         };
         b.dataset.i = i;
@@ -662,7 +698,7 @@
         listen.onclick = () => speak(z.sentence.replace('___', z.options[z.answer]));
         fb.appendChild(listen);
         markDone('tenses', z.id, ok);
-        finish(ok);
+        finish(ok, ok ? P()[0] : 0);
       };
       b.dataset.i = i;
       opts.appendChild(b);
@@ -676,15 +712,157 @@
   function renderResult(results, daily) {
     app.innerHTML = '';
     const right = results.filter(r => r.correct).length;
+    const pts = results.reduce((a, r) => a + (r.pts || 0), 0);
     const r = el('div', 'result');
-    r.innerHTML = '<div class="big">' + right + '</div><div class="of">von ' + results.length + ' auf Anhieb</div>' +
+    r.innerHTML = '<div class="big">' + right + '</div><div class="of">von ' + results.length + ' auf Anhieb</div><div class="pts" style="margin-top:10px">+' + pts + ' Punkte, jetzt ' + S.points + '</div>' +
       '<p>' + (daily ? 'Tagesprogramm für heute erledigt.' : right === results.length ? 'Alles richtig.' : 'Was nicht saß, kommt bald wieder dran.') + '</p>';
     app.appendChild(r);
+    const before = S.points - pts;
+    const fresh = C.places.filter(pl => before < pl.at && S.points >= pl.at);
     const actions = el('div', 'actions');
+    if (fresh.length) {
+      r.appendChild(el('div', 'unlock', 'Neu auf deiner Karte: ' + fresh.map(pl => esc(pl.name)).join(', ')));
+      const tomap = el('button', 'btn', 'Karte ansehen');
+      tomap.onclick = () => renderMap(fresh[0].id);
+      actions.appendChild(tomap);
+    }
     const home = el('button', 'btn primary', 'Zur Übersicht');
     home.onclick = renderHome;
     actions.appendChild(home);
     app.appendChild(actions);
+  }
+
+  // ---------- Frankreichkarte ----------
+  // Grober Umriss von Frankreich und Korsika, Koordinaten in Längen-/Breitengrad, vereinfacht.
+  const FR_OUTLINE = [[2.4,51.05],[1.85,50.95],[1.6,50.4],[1.4,50.06],[0.7,49.85],[0.1,49.5],[-0.3,49.35],[-1.1,49.35],[-1.6,49.65],[-1.85,49.1],[-1.5,48.64],[-2.0,48.65],[-2.7,48.55],[-3.5,48.8],[-4.5,48.4],[-4.75,48.03],[-4.1,47.98],[-3.4,47.75],[-2.75,47.65],[-2.2,47.27],[-1.8,46.5],[-1.15,46.15],[-1.0,45.6],[-1.2,44.65],[-1.55,43.48],[-1.78,43.37],[-0.5,42.8],[0.7,42.8],[1.7,42.5],[3.05,42.45],[3.0,43.1],[3.7,43.4],[4.1,43.55],[4.9,43.4],[5.4,43.3],[5.93,43.1],[6.65,43.27],[7.27,43.7],[7.5,43.78],[7.0,44.2],[6.9,45.0],[7.1,45.5],[6.8,46.0],[6.1,46.2],[6.0,46.5],[6.9,47.3],[7.6,47.6],[8.1,48.6],[8.2,49.0],[7.3,49.1],[6.4,49.5],[5.5,49.5],[4.9,50.0],[4.2,49.95],[4.1,50.1],[3.6,50.4],[3.2,50.7]];
+  const CORSICA = [[9.4,43.0],[9.55,42.6],[9.35,41.5],[9.0,41.4],[8.7,41.9],[8.6,42.3],[9.3,42.7]];
+  const proj = (lon, lat) => [((lon + 5.4) * 28).toFixed(1), ((51.4 - lat) * 40.5).toFixed(1)];
+  const pathOf = pts => 'M' + pts.map(p => proj(p[0], p[1]).join(',')).join('L') + 'Z';
+
+  function renderMap(openId) {
+    app.innerHTML = '';
+    const top = el('div', 'top');
+    const back = el('button', 'back', '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>');
+    back.onclick = renderHome;
+    top.appendChild(back);
+    const unlocked = C.places.filter(pl => S.points >= pl.at).length;
+    top.appendChild(el('div', '', '<div>Meine Frankreichkarte</div><div class="sub">' + unlocked + ' von ' + C.places.length + ' Orten, ' + S.points + ' Punkte</div>'));
+    app.appendChild(top);
+
+    const card = el('div', 'card'); card.style.padding = '10px';
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 420 410'); svg.setAttribute('class', 'map');
+    const land = document.createElementNS(svgNS, 'path'); land.setAttribute('d', pathOf(FR_OUTLINE) + ' ' + pathOf(CORSICA)); land.setAttribute('class', 'land');
+    svg.appendChild(land);
+    const detail = el('div');
+    const labels = [];
+    C.places.forEach(pl => {
+      const on = S.points >= pl.at;
+      const [x, y] = proj(pl.lon, pl.lat);
+      if (on) { const g = document.createElementNS(svgNS, 'circle'); g.setAttribute('cx', x); g.setAttribute('cy', y); g.setAttribute('r', 12); g.setAttribute('class', 'glow'); svg.appendChild(g); }
+      const d = document.createElementNS(svgNS, 'circle'); d.setAttribute('cx', x); d.setAttribute('cy', y); d.setAttribute('r', 3); d.setAttribute('class', 'dot' + (on ? ' on' : '')); svg.appendChild(d);
+      const t = document.createElementNS(svgNS, 'text');
+      const left = pl.lon > 6.5; // am rechten Rand nach links beschriften
+      t.setAttribute('x', +x + (left ? -7 : 7)); t.setAttribute('y', +y + 4 + (pl.dy || 0)); t.setAttribute('class', 'place' + (on ? ' on' : ''));
+      if (left) t.setAttribute('text-anchor', 'end');
+      t.textContent = pl.name;
+      t.onclick = () => showPlace(pl);
+      svg.appendChild(t); labels.push(t);
+    });
+    card.appendChild(svg);
+    app.appendChild(card);
+    app.appendChild(detail);
+
+    function showPlace(pl) {
+      detail.innerHTML = '';
+      const pc = el('div', 'card place-card');
+      if (S.points >= pl.at) {
+        pc.appendChild(el('div', 'theme', esc(pl.name)));
+        pc.appendChild(el('p', 'lang small', esc(pl.title)));
+        pc.appendChild(el('div', '', '<div style="height:12px"></div>'));
+        pl.fr.forEach((f, i) => { pc.appendChild(el('p', 'fr', esc(f))); pc.appendChild(el('div', 'de', esc(pl.de[i]))); });
+        const listen = el('button', 'btn', 'Anhören');
+        listen.onclick = () => speak(pl.fr.join(' '));
+        pc.appendChild(listen);
+      } else {
+        pc.appendChild(el('div', 'theme', esc(pl.name)));
+        pc.appendChild(el('div', '', 'Erscheint ab ' + pl.at + ' Punkten. Noch ' + (pl.at - S.points) + ' bis dahin.'));
+      }
+      detail.appendChild(pc);
+      pc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    if (openId) { const pl = C.places.find(p => p.id === openId); if (pl) showPlace(pl); }
+    else app.appendChild(el('div', 'note', 'Tippe auf einen leuchtenden Ort. Blasse Orte warten noch auf Punkte.'));
+  }
+
+  // ---------- Spielstand übertragen ----------
+  function encodeState() {
+    const compact = { p: S.points, l: S.level, dir: S.direction, v: {}, d: S.done, t: today() };
+    Object.keys(S.vocab).forEach(id => { compact.v[id] = [S.vocab[id].lvl, S.vocab[id].last]; });
+    return btoa(unescape(encodeURIComponent(JSON.stringify(compact)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function decodeState(code) {
+    code = code.trim().replace(/-/g, '+').replace(/_/g, '/');
+    while (code.length % 4) code += '=';
+    const c = JSON.parse(decodeURIComponent(escape(atob(code))));
+    if (typeof c.p !== 'number' || typeof c.v !== 'object') throw new Error('bad');
+    return c;
+  }
+  function renderTransfer() {
+    app.innerHTML = '';
+    const top = el('div', 'top');
+    const back = el('button', 'back', '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>');
+    back.onclick = renderHome;
+    top.appendChild(back);
+    top.appendChild(el('div', '', '<div>Spielstand übertragen</div><div class="sub">' + S.points + ' Punkte</div>'));
+    app.appendChild(top);
+
+    const out = el('div', 'card');
+    out.appendChild(el('div', 'prompt', 'Dieser Code enthält Punkte, Vokabelstand und erledigte Übungen. Auf dem anderen Gerät unten einfügen.'));
+    const code = encodeState();
+    out.appendChild(el('div', 'code', esc(code)));
+    const row = el('div', 'inrow');
+    const copy = el('button', 'btn primary', 'Code kopieren');
+    copy.onclick = () => {
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(() => { copy.textContent = 'Kopiert'; }, () => { copy.textContent = 'Bitte markieren und kopieren'; });
+      else copy.textContent = 'Bitte markieren und kopieren';
+    };
+    row.appendChild(copy);
+    if (navigator.share) {
+      const share = el('button', 'btn', 'Teilen');
+      share.onclick = () => navigator.share({ title: 'Français Spielstand', text: code }).catch(() => {});
+      row.appendChild(share);
+    }
+    out.appendChild(row);
+    app.appendChild(out);
+
+    const inn = el('div', 'card');
+    inn.appendChild(el('div', 'prompt', 'Code von einem anderen Gerät einfügen. Der Spielstand hier wird dabei ersetzt.'));
+    const ta = el('textarea'); ta.placeholder = 'Code hier einfügen'; ta.spellcheck = false; ta.autocapitalize = 'off';
+    inn.appendChild(ta);
+    const fb = el('div');
+    const btn = el('button', 'btn primary', 'Spielstand übernehmen'); btn.style.marginTop = '12px'; btn.style.width = '100%';
+    btn.onclick = () => {
+      try {
+        const c = decodeState(ta.value);
+        if (!confirm('Spielstand mit ' + c.p + ' Punkten übernehmen? Der aktuelle Stand auf diesem Gerät wird ersetzt.')) return;
+        S.points = c.p; S.level = c.l || 1; S.direction = c.dir || 'de-fr'; S.done = c.d || {}; S.vocab = {}; S.daily = null;
+        Object.keys(c.v).forEach(id => { S.vocab[id] = { lvl: c.v[id][0], last: c.v[id][1] }; });
+        save();
+        renderHome();
+      } catch (e) {
+        fb.innerHTML = '<div class="feedback err">Der Code ist unvollständig oder beschädigt. Bitte den ganzen Code einfügen.</div>';
+      }
+    };
+    inn.appendChild(btn); inn.appendChild(fb);
+    app.appendChild(inn);
+
+    const foot = el('div', 'foot');
+    const reset = el('button', '', 'Fortschritt auf diesem Gerät löschen');
+    reset.onclick = () => { if (confirm('Gesamten Fortschritt auf diesem Gerät löschen?')) { localStorage.removeItem(STORE_KEY); location.reload(); } };
+    foot.appendChild(reset);
+    app.appendChild(foot);
   }
 
   // ---------- Start ----------
