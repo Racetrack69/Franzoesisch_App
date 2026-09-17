@@ -3,44 +3,67 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2E4FD6">
+<meta name="theme-color" content="#EDE3D1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Français">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Archivo:wght@400;500;600&display=swap">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Français</title>
 <style>
   :root {
-    --bg: #F1F3F6;
-    --card: #FFFFFF;
-    --ink: #1B2333;
-    --muted: #667085;
-    --line: #E1E5EC;
-    --accent: #2E4FD6;
-    --accent-ink: #FFFFFF;
-    --accent-soft: #E6EBFB;
-    --ok: #1E8A5B;
-    --ok-soft: #E3F4EB;
-    --err: #C2402F;
-    --err-soft: #FBE8E4;
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --bg: #EDE3D1;          /* Sable */
+    --card: #F8F3E8;        /* Papier */
+    --field: #FFFCF5;
+    --ink: #16253C;         /* Encre */
+    --muted: #5E5747;
+    --faint: #A0947D;
+    --line: #DCCFB6;
+    --line-strong: #C0B49B;
+    --accent: #B8412C;      /* Vermillon */
+    --accent-ink: #FFF8EC;
+    --accent-soft: #F5E3DC;
+    --gold: #B5822A;        /* Ocre */
+    --ok: #4A6B52;          /* Sauge */
+    --ok-soft: #E7EEE4;
+    --ok-ink: #35503B;
+    --err: #B8412C;
+    --err-soft: #F5E3DC;
+    --plate: #16253C;
+    --plate-ink: #F8F3E8;
+    --plate-line: #8C9AB0;
+    --plate-mute: #C3B9A5;
+    --plate-rail: #3A4A63;
+    --serif: "EB Garamond", "Iowan Old Style", Palatino, Georgia, serif;
+    --sans: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #121722;
-      --card: #1B2230;
-      --ink: #EDEFF3;
-      --muted: #98A2B3;
-      --line: #2A3344;
-      --accent: #7C93F2;
-      --accent-ink: #0F1424;
-      --accent-soft: #263354;
-      --ok: #4CC38A;
-      --ok-soft: #1D3A2D;
-      --err: #F0776A;
-      --err-soft: #4A2620;
+      --bg: #131E2E;
+      --card: #1C2A3D;
+      --field: #162333;
+      --ink: #F2E8D8;
+      --muted: #A69B88;
+      --faint: #7D8CA3;
+      --line: #2E3E55;
+      --line-strong: #43556F;
+      --accent: #E07A63;
+      --accent-ink: #16253C;
+      --accent-soft: #3A2A28;
+      --gold: #D7A34A;
+      --ok: #7FA987;
+      --ok-soft: #22332A;
+      --ok-ink: #A8C9AE;
+      --err: #E07A63;
+      --err-soft: #3A2A28;
+      --plate: #E0D3BC;
+      --plate-ink: #16253C;
+      --plate-line: #A8977B;
+      --plate-mute: #57503F;
+      --plate-rail: #C2B195;
     }
   }
   * { box-sizing: border-box; }
@@ -58,194 +81,159 @@
   #app {
     max-width: 520px;
     margin: 0 auto;
-    padding: calc(env(safe-area-inset-top) + 16px) 18px calc(env(safe-area-inset-bottom) + 24px);
+    padding: calc(env(safe-area-inset-top) + 18px) 22px calc(env(safe-area-inset-bottom) + 24px);
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
   }
-  button {
-    font: inherit;
-    color: inherit;
-    background: none;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-  }
-  button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* Kopfzeile */
-  .top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-height: 44px;
-    margin-bottom: 14px;
-  }
-  .top h1 {
-    font-family: var(--serif);
-    font-weight: 400;
-    font-size: 30px;
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-  .top .sub { color: var(--muted); font-size: 15px; margin-top: 2px; }
-  .back {
-    width: 44px; height: 44px;
-    display: grid; place-items: center;
-    border-radius: 12px;
-    margin-left: -8px;
-  }
+  .top { display: flex; align-items: center; gap: 12px; min-height: 44px; margin-bottom: 16px; }
+  .top h1 { font-family: var(--serif); font-weight: 500; font-size: 42px; margin: 0; line-height: 1; letter-spacing: -0.01em; }
+  .top .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .back { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 4px; margin-left: -12px; }
   .back:active { background: var(--accent-soft); }
-  .counter { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .headpts { margin-left: auto; text-align: right; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
-  /* Fortschrittslinie oben in Übungen */
-  .bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 18px; }
+  /* Zähler und mitlaufender Punktestand */
+  .counter { margin-left: auto; text-align: right; position: relative; }
+  .counter .of { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .counter .score { font-family: var(--serif); font-size: 21px; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .counter .score.pop { animation: pop .45s ease; }
+  .gain {
+    position: absolute; right: 0; top: 44px;
+    font-family: var(--serif); font-size: 21px; color: var(--gold);
+    font-variant-numeric: tabular-nums; pointer-events: none;
+    animation: rise 1s ease forwards;
+  }
+  @keyframes rise { 0% { opacity: 0; transform: translateY(10px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(-14px); } }
+  @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.22); } 100% { transform: scale(1); } }
+
+  .bar { height: 2px; background: var(--line); margin-bottom: 20px; }
   .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s ease; }
 
   /* Startseite */
-  .seg {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 12px; padding: 4px; margin-bottom: 18px;
-  }
-  .seg button { padding: 10px 0; border-radius: 9px; color: var(--muted); font-weight: 500; }
-  .seg button.on { background: var(--accent-soft); color: var(--accent); }
-  .daily {
-    display: block; width: 100%; text-align: left;
-    background: var(--accent); color: var(--accent-ink);
-    border-radius: 16px; padding: 18px 20px; margin-bottom: 22px;
-  }
-  .daily .t { font-family: var(--serif); font-size: 24px; }
-  .daily .d { opacity: .85; font-size: 15px; margin-top: 4px; }
-  .daily.done { background: var(--ok); }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ink); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .seg button { height: 44px; color: var(--ink); font-size: 15px; border-left: 1px solid var(--ink); }
+  .seg button:first-child { border-left: 0; }
+  .seg button.on { background: var(--ink); color: var(--bg); font-weight: 500; }
+
+  .daily { display: block; width: 100%; text-align: left; background: var(--plate); border-radius: 6px; padding: 8px; margin-bottom: 16px; }
+  .daily .keyline { border: 1px solid var(--plate-line); border-radius: 3px; padding: 22px 20px 20px; }
+  .daily .t { font-family: var(--serif); font-size: 32px; color: var(--plate-ink); line-height: 1.1; }
+  .daily .d { font-size: 15px; color: var(--plate-mute); margin-top: 8px; }
+  .daily .rule { height: 1px; background: var(--plate-rail); margin: 18px 0 14px; }
+  .daily .row { display: flex; align-items: center; gap: 10px; }
+  .daily .track { flex: 1; height: 5px; background: var(--plate-rail); border-radius: 3px; overflow: hidden; }
+  .daily .track i { display: block; height: 100%; background: var(--gold); }
+  .daily .num { font-size: 13px; color: var(--plate-mute); font-variant-numeric: tabular-nums; }
+
+  .mapbtn { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; margin-bottom: 18px; }
+  .mapbtn .t { font-family: var(--serif); font-size: 21px; }
+  .mapbtn .d { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
   .modules { list-style: none; margin: 0; padding: 0; }
-  .modules li + li { border-top: 1px solid var(--line); }
-  .modules button {
-    width: 100%; text-align: left;
-    display: flex; align-items: center; gap: 14px;
-    padding: 16px 4px;
-  }
-  .modules .n { flex: 1; }
-  .modules .n small { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
-  .modules .pct { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
-  .modules .chev { color: var(--muted); }
+  .modules li { border-bottom: 1px solid var(--line); }
+  .modules li:last-child { border-bottom: 0; }
+  .modules button { width: 100%; text-align: left; display: flex; align-items: center; gap: 12px; padding: 15px 2px; }
+  .modules .n { flex: 1; font-size: 17px; font-weight: 500; }
+  .modules .n small { display: block; color: var(--muted); font-size: 13px; font-weight: 400; margin-top: 2px; }
+  .modules .pct { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .modules .chev { color: var(--faint); display: flex; }
   .foot { margin-top: auto; padding-top: 28px; color: var(--muted); font-size: 13px; display: flex; gap: 16px; justify-content: space-between; }
-  .foot button { text-decoration: underline; color: var(--muted); }
+  .foot button { text-decoration: underline; color: var(--muted); text-underline-offset: 3px; }
 
   /* Übungskarte */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 26px 22px;
-    margin-bottom: 16px;
-  }
-  .lang {
-    font-family: var(--serif);
-    font-size: 30px;
-    line-height: 1.25;
-    margin: 0;
-  }
-  .lang.small { font-size: 23px; }
-  .lang.hidden { color: transparent; text-shadow: 0 0 14px var(--muted); user-select: none; }
-  .de { color: var(--muted); font-size: 17px; margin-top: 10px; }
-  .prompt { color: var(--muted); font-size: 15px; margin-bottom: 8px; }
-  .theme { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
-  .ctx { font-family: var(--serif); color: var(--muted); font-size: 18px; margin-top: 8px; }
-  .inrow { display: flex; gap: 10px; margin-top: 14px; }
-  .inrow .btn { flex: 1; }
-  .pts { color: var(--muted); font-size: 15px; }
-  textarea { width: 100%; font: inherit; font-size: 14px; padding: 12px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); min-height: 110px; word-break: break-all; }
-  .code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; word-break: break-all; background: var(--bg); border-radius: 12px; padding: 12px; margin-top: 10px; }
-  .text { font-family: var(--serif); font-size: 20px; line-height: 1.5; margin: 0; }
-  .text.hidden { color: transparent; text-shadow: 0 0 14px var(--muted); user-select: none; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 26px 22px 22px; margin-bottom: 16px; }
+  .lang { font-family: var(--serif); font-size: 40px; line-height: 1.1; margin: 0; }
+  .lang.small { font-size: 28px; }
+  .lang.hidden { color: transparent; text-shadow: 0 0 14px var(--faint); user-select: none; }
+  .ctx { font-family: var(--serif); font-style: italic; font-size: 19px; color: var(--muted); margin-top: 8px; }
+  .de { color: var(--muted); font-size: 15px; margin-top: 6px; }
+  .prompt { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+  .theme { color: var(--muted); font-size: 13px; }
+  .text { font-family: var(--serif); font-size: 21px; line-height: 1.5; margin: 0; }
+  .text.hidden { color: transparent; text-shadow: 0 0 14px var(--faint); user-select: none; }
   .title { font-family: var(--serif); font-size: 15px; color: var(--muted); margin-bottom: 8px; }
 
+  label.field { display: block; font-size: 13px; color: var(--muted); margin: 22px 0 7px; }
   input[type=text] {
-    width: 100%;
-    font: inherit;
-    font-family: var(--serif);
-    font-size: 24px;
-    padding: 12px 14px;
-    border: 1.5px solid var(--line);
-    border-radius: 12px;
-    background: var(--bg);
-    color: var(--ink);
-    margin-top: 18px;
+    width: 100%; font-family: var(--serif); font-size: 26px; height: 56px; padding: 0 14px;
+    border: 1px solid var(--ink); border-radius: 4px; background: var(--field); color: var(--ink);
   }
   input[type=text].ok { border-color: var(--ok); }
   input[type=text].err { border-color: var(--err); }
 
-  .feedback {
-    border-radius: 12px; padding: 12px 14px; margin-top: 14px; font-size: 16px;
-  }
-  .feedback.ok { background: var(--ok-soft); color: var(--ok); }
-  .feedback.err { background: var(--err-soft); color: var(--err); }
+  .feedback { border-radius: 4px; padding: 14px 16px; margin-top: 16px; font-size: 15px; }
+  .feedback.ok { background: var(--ok-soft); color: var(--ok-ink); }
+  .feedback.err { background: var(--err-soft); color: var(--accent); }
   .feedback.hint { background: var(--accent-soft); color: var(--accent); }
-  .feedback b { font-family: var(--serif); font-weight: 400; font-size: 20px; }
-  .feedback .tip { color: var(--ink); font-size: 15px; margin-top: 6px; opacity: .85; }
+  .feedback b { font-family: var(--serif); font-weight: 500; font-size: 22px; color: var(--ink); }
+  .feedback .tip { font-family: var(--serif); font-size: 16px; color: var(--ink); margin-top: 8px; line-height: 1.5; opacity: .9; }
 
-  /* Antwortoptionen */
   .opts { display: grid; gap: 10px; margin-top: 16px; }
-  .opts button {
-    text-align: left;
-    padding: 14px 16px;
-    border: 1.5px solid var(--line);
-    border-radius: 12px;
-    background: var(--card);
-    font-size: 18px;
-  }
-  .opts button.fr { font-family: var(--serif); font-size: 21px; }
-  .opts button.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
-  .opts button.err { border-color: var(--err); background: var(--err-soft); color: var(--err); }
+  .opts button { text-align: left; padding: 14px 16px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--field); font-size: 17px; }
+  .opts button.fr { font-family: var(--serif); font-size: 22px; }
+  .opts button.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok-ink); }
+  .opts button.err { border-color: var(--err); background: var(--err-soft); color: var(--accent); }
   .opts button:disabled { cursor: default; }
 
-  /* Wörter zum Antippen */
   .words { display: flex; flex-wrap: wrap; gap: 8px 6px; margin-top: 6px; }
-  .words button {
-    font-family: var(--serif); font-size: 23px; line-height: 1.2;
-    padding: 6px 9px; border-radius: 9px;
-    border: 1.5px solid transparent; background: var(--bg);
-  }
-  .words button.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
-  .words button.err { border-color: var(--err); background: var(--err-soft); color: var(--err); text-decoration: line-through; }
+  .words button { font-family: var(--serif); font-size: 25px; line-height: 1.2; padding: 6px 9px; border-radius: 4px; border: 1px solid transparent; background: var(--field); }
+  .words button.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok-ink); }
+  .words button.err { border-color: var(--err); background: var(--err-soft); color: var(--accent); text-decoration: line-through; }
   .words button:disabled { cursor: default; }
 
-  /* Aktionen */
   .actions { display: grid; gap: 10px; margin-top: auto; padding-top: 6px; }
   .actions.row { grid-template-columns: 1fr 1fr; }
-  .btn {
-    padding: 15px 18px; border-radius: 14px; font-weight: 600; font-size: 17px; text-align: center;
-    border: 1.5px solid var(--line); background: var(--card);
-  }
-  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-  .btn.ok { background: var(--ok); color: #fff; border-color: var(--ok); }
-  .btn.quiet { color: var(--muted); }
+  .btn { padding: 0 18px; min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 9px; border-radius: 4px; font-size: 16px; text-align: center; border: 1px solid var(--line-strong); background: transparent; }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+  .btn.dark { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 600; }
+  .btn.ok { background: var(--ok); color: #FFF8EC; border-color: var(--ok); font-weight: 600; }
+  .btn.quiet { color: var(--muted); min-height: 44px; font-size: 15px; }
   .btn:disabled { opacity: .45; cursor: default; }
+  .inrow { display: flex; gap: 10px; margin-top: 14px; }
+  .inrow .btn { flex: 1; }
   .listen { display: flex; gap: 10px; margin-top: 18px; }
   .listen .btn { flex: 1; }
 
   /* Ergebnis */
   .result { text-align: center; padding: 40px 0 20px; }
-  .result .big { font-family: var(--serif); font-size: 64px; line-height: 1; }
-  .result .of { color: var(--muted); margin-top: 8px; }
-  .result p { color: var(--muted); margin-top: 26px; }
+  .result .big { font-family: var(--serif); font-size: 96px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .result .of { color: var(--muted); font-size: 15px; margin-top: 10px; }
+  .result .plate { display: inline-flex; align-items: baseline; gap: 8px; margin-top: 22px; padding: 9px 16px; background: var(--plate); border-radius: 3px; }
+  .result .plate .p { font-family: var(--serif); font-size: 22px; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .result .plate .l { font-size: 14px; color: var(--plate-mute); }
+  .result p { color: var(--muted); font-size: 15px; margin-top: 30px; }
+  .unlock { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 22px 20px; margin-top: 34px; }
+  .unlock .l { font-size: 13px; color: var(--muted); }
+  .unlock .n { font-family: var(--serif); font-size: 30px; margin-top: 10px; }
+  .unlock .s { font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--muted); margin-top: 6px; }
 
-  .note { color: var(--muted); font-size: 14px; margin-top: 10px; }
-  .mapbtn { display: block; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; margin: -8px 0 22px; }
-  .mapbtn .t { font-family: var(--serif); font-size: 19px; }
-  .mapbtn .d { color: var(--muted); font-size: 14px; margin-top: 2px; }
+  .note { color: var(--muted); font-size: 13px; margin-top: 12px; }
+
+  /* Karte */
   .map { width: 100%; height: auto; display: block; }
-  .map .land { fill: var(--card); stroke: var(--line); stroke-width: 1.5; }
-  .map .place { font-family: var(--serif); font-size: 15px; fill: var(--muted); opacity: .45; cursor: pointer; }
-  .map .place.on { fill: var(--accent); opacity: 1; font-weight: 600; }
-  .map .glow { fill: var(--accent); opacity: .18; }
-  .map .dot { fill: var(--muted); opacity: .35; }
-  .map .dot.on { fill: var(--accent); opacity: 1; }
-  .place-card .fr { font-family: var(--serif); font-size: 20px; line-height: 1.45; margin: 0 0 4px; }
-  .place-card .de { margin-bottom: 14px; }
-  .unlock { background: var(--accent-soft); color: var(--accent); border-radius: 12px; padding: 12px 14px; margin: 18px 0 0; font-size: 16px; }
-  @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+  .map .land { fill: var(--field); stroke: var(--line-strong); stroke-width: 1.4; }
+  .map .place { font-family: var(--serif); font-size: 16px; fill: var(--faint); cursor: pointer; }
+  .map .place.on { fill: var(--accent); font-weight: 600; }
+  .map .glow { fill: var(--accent); opacity: .14; }
+  .map .dot { fill: var(--faint); }
+  .map .dot.on { fill: var(--accent); }
+  .place-card .fr { font-family: var(--serif); font-size: 19px; line-height: 1.45; margin: 0; }
+  .place-card .de { margin: 4px 0 14px; }
+  .place-card .rule { height: 1px; background: var(--line); margin: 16px 0 14px; }
+
+  textarea { width: 100%; font-family: var(--sans); font-size: 14px; padding: 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--field); color: var(--ink); min-height: 110px; word-break: break-all; }
+  .code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; word-break: break-all; background: var(--field); border: 1px solid var(--line); border-radius: 4px; padding: 12px; margin-top: 10px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar i { transition: none; }
+    .gain, .counter .score.pop { animation: none; }
+    .gain { opacity: .9; }
+  }
 </style>
 </head>
 <body>
@@ -281,6 +269,14 @@
   }
   const S = load();
   S.vocab = S.vocab || {}; S.done = S.done || {}; S.level = S.level || 1; S.direction = S.direction || 'de-fr'; S.points = S.points || 0;
+
+  // ---------- Symbole ----------
+  const ICON = {
+    back: '<svg width="11" height="18" viewBox="0 0 11 18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9.5 1 L1.5 9 L9.5 17"/></svg>',
+    chev: '<svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M1 1 L7 7 L1 13"/></svg>',
+    sound: '<svg width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 6.5 L5.5 6.5 L9.5 3 L9.5 15 L5.5 11.5 L2 11.5 Z"/><path d="M12.6 6.2 A4 4 0 0 1 12.6 11.8"/></svg>',
+    hex: '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M17 3.5 L28.7 10.25 L28.7 23.75 L17 30.5 L5.3 23.75 L5.3 10.25 Z"/><circle cx="18.5" cy="14" r="2.2" fill="currentColor" stroke="none"/></svg>'
+  };
 
   // ---------- Helfer ----------
   const app = document.getElementById('app');
@@ -379,7 +375,8 @@
   function renderHome() {
     app.innerHTML = '';
     const top = el('div', 'top');
-    top.appendChild(el('div', '', '<h1>' + esc(C.meta.title) + '</h1><div class="sub">Stufe ' + S.level + ', ' + S.points + ' Punkte</div>'));
+    top.appendChild(el('div', '', '<h1>' + esc(C.meta.title) + '</h1>'));
+    top.appendChild(el('div', 'headpts', S.points + ' Punkte'));
     app.appendChild(top);
 
     const seg = el('div', 'seg');
@@ -392,17 +389,23 @@
 
     const d = dailyState();
     const doneCount = d.results.length, total = d.items.length, finished = doneCount >= total;
-    const daily = el('button', 'daily' + (finished ? ' done' : ''));
-    daily.innerHTML = '<div class="t">Tagesprogramm</div><div class="d">' +
-      (finished ? 'Heute erledigt. Morgen gibt es ein neues.' : doneCount === 0 ? total + ' Übungen, etwa 10 Minuten' : 'Weiter bei ' + (doneCount + 1) + ' von ' + total) + '</div>';
+    const daily = el('button', 'daily');
+    daily.innerHTML = '<div class="keyline">' +
+      '<div class="t">Le programme du jour</div>' +
+      '<div class="d">' + (finished ? 'Heute erledigt, morgen gibt es ein neues' : 'Tagesprogramm, ' + total + ' Übungen') + '</div>' +
+      '<div class="rule"></div>' +
+      '<div class="row"><div class="track"><i style="width:' + Math.round(doneCount / total * 100) + '%"></i></div>' +
+      '<div class="num">' + doneCount + ' / ' + total + '</div></div></div>';
     daily.onclick = () => finished ? renderResult(d.results, true) : runQueue(d.items, d.results, true);
     app.appendChild(daily);
 
     const unlocked = C.places.filter(pl => S.points >= pl.at).length;
     const nextPl = C.places.find(pl => S.points < pl.at);
     const mapb = el('button', 'mapbtn');
-    mapb.innerHTML = '<div class="t">Meine Frankreichkarte</div><div class="d">' + unlocked + ' von ' + C.places.length + ' Orten' +
-      (nextPl ? ', der nächste ab ' + nextPl.at + ' Punkten' : ', alle entdeckt') + '</div>';
+    mapb.innerHTML = '<span style="color:var(--accent);display:flex">' + ICON.hex + '</span>' +
+      '<span><span class="t" style="display:block">Meine Frankreichkarte</span>' +
+      '<span class="d" style="display:block">' + unlocked + ' von ' + C.places.length + ' Orten' +
+      (nextPl ? ', nächster ab ' + nextPl.at : ', alle entdeckt') + '</span></span>';
     mapb.onclick = () => renderMap();
     app.appendChild(mapb);
 
@@ -411,14 +414,14 @@
       const p = moduleProgress(m.key);
       const li = el('li');
       const b = el('button');
-      b.innerHTML = '<div class="n">' + m.name + '<small>' + m.sub + '</small></div><div class="pct">' + esc(p.text) + '</div><div class="chev">›</div>';
+      b.innerHTML = '<div class="n">' + m.name + '<small>' + m.sub + '</small></div><div class="pct">' + esc(p.text) + '</div><div class="chev">' + ICON.chev + '</div>';
       b.onclick = () => runQueue(buildQueue(m.key), [], false);
       li.appendChild(b); ul.appendChild(li);
     });
     app.appendChild(ul);
 
     const foot = el('div', 'foot');
-    const dir = el('button', '', 'Vokabeln: ' + (S.direction === 'de-fr' ? 'Deutsch → Französisch' : 'Französisch → Deutsch'));
+    const dir = el('button', '', S.direction === 'de-fr' ? 'Deutsch nach Französisch' : 'Französisch nach Deutsch');
     dir.onclick = () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderHome(); };
     const transfer = el('button', '', 'Spielstand übertragen');
     transfer.onclick = renderTransfer;
@@ -438,12 +441,15 @@
 
     app.innerHTML = '';
     const top = el('div', 'top');
-    const back = el('button', 'back', '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>');
+    const back = el('button', 'back', ICON.back);
     back.setAttribute('aria-label', 'Zurück');
     back.onclick = () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); renderHome(); };
     top.appendChild(back);
     top.appendChild(el('div', '', '<div>' + (daily ? 'Tagesprogramm' : mod.name) + '</div><div class="sub">' + (daily ? mod.name : 'Stufe ' + S.level) + '</div>'));
-    top.appendChild(el('div', 'counter', (idx + 1) + ' / ' + queue.length));
+    const counter = el('div', 'counter');
+    counter.innerHTML = '<div class="of">' + (idx + 1) + ' / ' + queue.length + '</div>' +
+      '<div class="score">' + S.points + '</div>';
+    top.appendChild(counter);
     app.appendChild(top);
     const bar = el('div', 'bar', '<i></i>');
     app.appendChild(bar);
@@ -456,18 +462,40 @@
 
     const finish = (correct, pts) => {
       pts = pts || 0;
+      const from = S.points;
       results.push({ type: ref.type, id: ref.id, correct: !!correct, pts });
       S.points += pts;
       save();
+      if (pts > 0) awardPoints(counter, from, S.points, pts);
       actions.className = 'actions';
       actions.innerHTML = '';
-      const next = el('button', 'btn primary', idx + 1 < queue.length ? 'Weiter' : 'Fertig');
+      const next = el('button', 'btn dark', idx + 1 < queue.length ? 'Weiter' : 'Fertig');
       next.onclick = () => runQueue(queue, results, daily);
       actions.appendChild(next);
       next.focus();
     };
 
     RENDER[ref.type](item, body, actions, finish);
+  }
+
+  // Punktestand im Kopf hochzählen und den Zugewinn kurz einblenden
+  function awardPoints(counter, from, to, pts) {
+    const score = counter.querySelector('.score');
+    if (!score) return;
+    const gain = el('div', 'gain', '+' + pts);
+    counter.appendChild(gain);
+    setTimeout(() => gain.remove(), 1100);
+    score.classList.add('pop');
+    setTimeout(() => score.classList.remove('pop'), 500);
+    const slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (slow) { score.textContent = to; return; }
+    const steps = Math.min(pts, 8), dur = 420;
+    let i = 0;
+    const tick = setInterval(() => {
+      i++;
+      score.textContent = Math.round(from + (to - from) * (i / steps));
+      if (i >= steps) { clearInterval(tick); score.textContent = to; }
+    }, dur / steps);
   }
 
   const RENDER = {};
@@ -485,12 +513,13 @@
     card.appendChild(el('div', 'theme', esc(v.theme)));
     card.appendChild(el('p', 'lang' + (toFr ? '' : ' small'), esc(prompt)));
     if (ctx) card.appendChild(el('div', 'ctx', esc(ctx)));
-    if (!toFr) { const b = el('button', 'btn quiet', 'Anhören'); b.style.marginTop = '14px'; b.onclick = () => speak(v.fr); card.appendChild(b); }
+    if (!toFr) { const b = el('button', 'btn quiet', ICON.sound + ' Anhören'); b.style.marginTop = '14px'; b.onclick = () => speak(v.fr); card.appendChild(b); }
+    const lab = el('label', 'field', toFr ? 'Übersetzung auf Französisch, mit Artikel' : 'Übersetzung auf Deutsch, mit Artikel');
+    lab.setAttribute('for', 'answer');
     const input = el('input');
-    input.type = 'text'; input.autocapitalize = 'off'; input.autocomplete = 'off'; input.spellcheck = false;
-    input.placeholder = toFr ? 'auf Französisch, mit Artikel' : 'auf Deutsch, mit Artikel';
+    input.type = 'text'; input.id = 'answer'; input.autocapitalize = 'off'; input.autocomplete = 'off'; input.spellcheck = false;
     input.setAttribute('lang', toFr ? 'fr' : 'de');
-    card.appendChild(input);
+    card.appendChild(lab); card.appendChild(input);
     const fb = el('div');
     card.appendChild(fb);
     body.appendChild(card);
@@ -510,7 +539,7 @@
       input.className = ok ? 'ok' : 'err';
       fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + msg + '<b>' + esc(target) + '</b>' +
         (v.tip ? '<div class="tip">' + esc(v.tip) + '</div>' : '') + '</div>';
-      const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '10px';
+      const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
       listen.onclick = () => speak(v.fr);
       fb.appendChild(listen);
       bumpVocab(v.id, delta);
@@ -551,7 +580,7 @@
           if (!ok) b.classList.add('err');
           fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig, mit Hilfe. ' : 'Leider nicht. Richtig ist: ') + '<b>' + esc(target) + '</b>' +
             (v.tip ? '<div class="tip">' + esc(v.tip) + '</div>' : '') + '</div>';
-          const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '10px';
+          const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
           listen.onclick = () => speak(v.fr);
           fb.appendChild(listen);
           bumpVocab(v.id, ok ? 0 : -1);
@@ -603,7 +632,7 @@
     else { card.appendChild(fr); card.appendChild(de); }
 
     const listen = el('div', 'listen');
-    const play = el('button', 'btn', mode === 3 ? 'Lösung anhören' : 'Anhören');
+    const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Lösung anhören' : ' Anhören'));
     const slow = el('button', 'btn', 'Langsam');
     play.onclick = () => { speak(s.fr); if (mode === 3) fr.classList.remove('hidden'); };
     slow.onclick = () => { speak(s.fr, 0.7); if (mode === 3) fr.classList.remove('hidden'); };
@@ -631,7 +660,7 @@
     const card = el('div', 'card');
     card.appendChild(el('div', 'title', esc(t.title)));
     card.appendChild(el('p', 'text', esc(t.text)));
-    const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '16px';
+    const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '16px';
     listen.onclick = () => speak(t.text);
     card.appendChild(listen);
     body.appendChild(card);
@@ -694,7 +723,7 @@
         if (!ok) b.classList.add('err');
         sent.innerHTML = esc(parts[0]) + '<u>' + esc(z.options[z.answer]) + '</u>' + esc(parts[1] || '');
         fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Leider nicht.') + '<div class="tip">' + esc(z.explain) + '</div></div>';
-        const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '10px';
+        const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(z.sentence.replace('___', z.options[z.answer]));
         fb.appendChild(listen);
         markDone('tenses', z.id, ok);
@@ -714,19 +743,24 @@
     const right = results.filter(r => r.correct).length;
     const pts = results.reduce((a, r) => a + (r.pts || 0), 0);
     const r = el('div', 'result');
-    r.innerHTML = '<div class="big">' + right + '</div><div class="of">von ' + results.length + ' auf Anhieb</div><div class="pts" style="margin-top:10px">+' + pts + ' Punkte, jetzt ' + S.points + '</div>' +
+    r.innerHTML = '<div class="big">' + right + '</div><div class="of">von ' + results.length + ' auf Anhieb</div>' +
+      '<div class="plate"><span class="p">+' + pts + '</span><span class="l">Punkte, jetzt ' + S.points + '</span></div>' +
       '<p>' + (daily ? 'Tagesprogramm für heute erledigt.' : right === results.length ? 'Alles richtig.' : 'Was nicht saß, kommt bald wieder dran.') + '</p>';
     app.appendChild(r);
     const before = S.points - pts;
     const fresh = C.places.filter(pl => before < pl.at && S.points >= pl.at);
     const actions = el('div', 'actions');
     if (fresh.length) {
-      r.appendChild(el('div', 'unlock', 'Neu auf deiner Karte: ' + fresh.map(pl => esc(pl.name)).join(', ')));
-      const tomap = el('button', 'btn', 'Karte ansehen');
+      const u = el('div', 'unlock');
+      u.innerHTML = '<div class="l" style="display:flex;align-items:center;gap:10px"><span style="color:var(--accent);display:flex">' + ICON.hex + '</span>Neu auf deiner Karte</div>' +
+        '<div class="n">' + fresh.map(pl => esc(pl.name)).join(', ') + '</div>' +
+        '<div class="s">' + esc(fresh[0].title) + '</div>';
+      r.appendChild(u);
+      const tomap = el('button', 'btn', 'Auf der Karte ansehen');
       tomap.onclick = () => renderMap(fresh[0].id);
       actions.appendChild(tomap);
     }
-    const home = el('button', 'btn primary', 'Zur Übersicht');
+    const home = el('button', 'btn dark', 'Zur Übersicht');
     home.onclick = renderHome;
     actions.appendChild(home);
     app.appendChild(actions);
@@ -742,7 +776,7 @@
   function renderMap(openId) {
     app.innerHTML = '';
     const top = el('div', 'top');
-    const back = el('button', 'back', '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>');
+    const back = el('button', 'back', ICON.back);
     back.onclick = renderHome;
     top.appendChild(back);
     const unlocked = C.places.filter(pl => S.points >= pl.at).length;
@@ -760,8 +794,8 @@
     C.places.forEach(pl => {
       const on = S.points >= pl.at;
       const [x, y] = proj(pl.lon, pl.lat);
-      if (on) { const g = document.createElementNS(svgNS, 'circle'); g.setAttribute('cx', x); g.setAttribute('cy', y); g.setAttribute('r', 12); g.setAttribute('class', 'glow'); svg.appendChild(g); }
-      const d = document.createElementNS(svgNS, 'circle'); d.setAttribute('cx', x); d.setAttribute('cy', y); d.setAttribute('r', 3); d.setAttribute('class', 'dot' + (on ? ' on' : '')); svg.appendChild(d);
+      if (on) { const g = document.createElementNS(svgNS, 'circle'); g.setAttribute('cx', x); g.setAttribute('cy', y); g.setAttribute('r', 13); g.setAttribute('class', 'glow'); svg.appendChild(g); }
+      const d = document.createElementNS(svgNS, 'circle'); d.setAttribute('cx', x); d.setAttribute('cy', y); d.setAttribute('r', on ? 3.4 : 2.6); d.setAttribute('class', 'dot' + (on ? ' on' : '')); svg.appendChild(d);
       const t = document.createElementNS(svgNS, 'text');
       const left = pl.lon > 6.5; // am rechten Rand nach links beschriften
       t.setAttribute('x', +x + (left ? -7 : 7)); t.setAttribute('y', +y + 4 + (pl.dy || 0)); t.setAttribute('class', 'place' + (on ? ' on' : ''));
@@ -778,11 +812,11 @@
       detail.innerHTML = '';
       const pc = el('div', 'card place-card');
       if (S.points >= pl.at) {
-        pc.appendChild(el('div', 'theme', esc(pl.name)));
+        pc.appendChild(el('div', 'theme', esc(pl.name) + ', freigeschaltet bei ' + pl.at + ' Punkten'));
         pc.appendChild(el('p', 'lang small', esc(pl.title)));
-        pc.appendChild(el('div', '', '<div style="height:12px"></div>'));
+        pc.appendChild(el('div', 'rule'));
         pl.fr.forEach((f, i) => { pc.appendChild(el('p', 'fr', esc(f))); pc.appendChild(el('div', 'de', esc(pl.de[i]))); });
-        const listen = el('button', 'btn', 'Anhören');
+        const listen = el('button', 'btn', ICON.sound + ' Anhören');
         listen.onclick = () => speak(pl.fr.join(' '));
         pc.appendChild(listen);
       } else {
@@ -812,7 +846,7 @@
   function renderTransfer() {
     app.innerHTML = '';
     const top = el('div', 'top');
-    const back = el('button', 'back', '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>');
+    const back = el('button', 'back', ICON.back);
     back.onclick = renderHome;
     top.appendChild(back);
     top.appendChild(el('div', '', '<div>Spielstand übertragen</div><div class="sub">' + S.points + ' Punkte</div>'));

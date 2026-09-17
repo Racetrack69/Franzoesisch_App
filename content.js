@@ -118,38 +118,30 @@ window.CONTENT = {
   ],
 
   // Orte auf der Frankreichkarte. "at" ist die Punktzahl, ab der der Ort erscheint.
-  // "lon"/"lat" sind die Koordinaten für die Karte, "dy" verschiebt die Beschriftung bei Überlappung. Die Sätze sind Allgemeinwissen, Zahlen sind gerundet.
+  // "lon"/"lat" sind die Koordinaten für die Karte, "dy" verschiebt die Beschriftung bei Überlappung.
+  // Die Sätze sind Allgemeinwissen, Zahlen sind gerundet.
   places: [
     { id: "paris", at: 10, name: "Paris", lon: 2.35, lat: 48.86, title: "La tour Eiffel",
       fr: ["La tour Eiffel a été construite pour l'Exposition universelle de 1889.", "Elle mesure environ 330 mètres."],
       de: ["Der Eiffelturm wurde für die Weltausstellung 1889 gebaut.", "Er ist etwa 330 Meter hoch."] },
-    { id: "msm", at: 25, name: "Mont-Saint-Michel", lon: -1.51, lat: 48.64, title: "Le Mont-Saint-Michel",
-      fr: ["Le Mont-Saint-Michel est une île à marée haute.", "À marée basse, on peut faire le tour à pied, avec un guide."],
-      de: ["Der Mont-Saint-Michel ist bei Flut eine Insel.", "Bei Ebbe kann man ihn zu Fuß umrunden, mit Führung."] },
-    { id: "bordeaux", at: 50, name: "Bordeaux", lon: -0.58, lat: 44.84, title: "Les vins de Bordeaux",
+    { id: "brest", at: 30, name: "Brest", lon: -4.49, lat: 48.39, title: "Le bout de la Bretagne",
+      fr: ["Brest est un grand port tout à l'ouest de la Bretagne.", "La ville a été reconstruite après la Seconde Guerre mondiale."],
+      de: ["Brest ist ein großer Hafen ganz im Westen der Bretagne.", "Die Stadt wurde nach dem Zweiten Weltkrieg wieder aufgebaut."] },
+    { id: "bordeaux", at: 60, name: "Bordeaux", lon: -0.58, lat: 44.84, title: "Les vins de Bordeaux",
       fr: ["Bordeaux est célèbre pour ses vins rouges.", "Le centre-ville est inscrit au patrimoine mondial de l'UNESCO."],
       de: ["Bordeaux ist berühmt für seine Rotweine.", "Die Innenstadt gehört zum UNESCO-Welterbe."] },
-    { id: "strasbourg", at: 100, name: "Strasbourg", lon: 7.75, lat: 48.57, title: "La cathédrale de Strasbourg",
-      fr: ["La cathédrale de Strasbourg est en grès rose.", "En décembre, la ville accueille un grand marché de Noël."],
-      de: ["Das Straßburger Münster ist aus rosa Sandstein.", "Im Dezember gibt es in der Stadt einen großen Weihnachtsmarkt."] },
-    { id: "etretat", at: 175, name: "Étretat", lon: 0.2, lat: 49.7, title: "Les falaises d'Étretat",
-      fr: ["Les falaises d'Étretat sont en craie blanche.", "Beaucoup de peintres, comme Monet, les ont peintes."],
-      de: ["Die Klippen von Étretat sind aus weißer Kreide.", "Viele Maler, etwa Monet, haben sie gemalt."] },
-    { id: "loire", at: 250, name: "Amboise", lon: 0.98, lat: 47.41, title: "Les châteaux de la Loire",
-      fr: ["Les châteaux de la Loire datent surtout de la Renaissance.", "Léonard de Vinci a passé ses dernières années à Amboise."],
-      de: ["Die Loire-Schlösser stammen vor allem aus der Renaissance.", "Leonardo da Vinci verbrachte seine letzten Jahre in Amboise."] },
-    { id: "provence", at: 400, name: "Valensole", lon: 5.98, lat: 43.84, title: "La lavande de Provence",
-      fr: ["En été, les champs de lavande sont violets.", "La récolte a lieu en général en juillet."],
-      de: ["Im Sommer sind die Lavendelfelder violett.", "Die Ernte findet meist im Juli statt."] },
-    { id: "marseille", at: 600, name: "Marseille", lon: 5.37, lat: 43.3, title: "Marseille et la pétanque",
+    { id: "avignon", at: 110, name: "Avignon", lon: 4.81, lat: 43.95, title: "Le palais des Papes",
+      fr: ["Au XIVe siècle, les papes ont vécu à Avignon.", "Le pont Saint-Bénézet est connu grâce à une vieille chanson."],
+      de: ["Im 14. Jahrhundert lebten die Päpste in Avignon.", "Die Brücke Saint-Bénézet ist durch ein altes Lied bekannt."] },
+    { id: "marseille", at: 180, name: "Marseille", lon: 5.37, lat: 43.3, title: "Marseille et la pétanque",
       fr: ["Marseille est la plus vieille ville de France.", "On y joue à la pétanque sur les places, à l'ombre."],
       de: ["Marseille ist die älteste Stadt Frankreichs.", "Auf den Plätzen spielt man im Schatten Pétanque."] },
-    { id: "lyon", at: 800, name: "Lyon", lon: 4.84, lat: 45.76, title: "La cuisine de Lyon",
+    { id: "lyon", at: 280, name: "Lyon", lon: 4.84, lat: 45.76, title: "La cuisine de Lyon",
       fr: ["Lyon est connue pour sa cuisine.", "Les petits restaurants traditionnels s'appellent des bouchons."],
       de: ["Lyon ist bekannt für seine Küche.", "Die kleinen traditionellen Restaurants heißen Bouchons."] },
-    { id: "montblanc", at: 1000, name: "Chamonix", lon: 6.87, lat: 45.92, dy: -14, title: "Le mont Blanc",
-      fr: ["Le mont Blanc est le plus haut sommet des Alpes.", "Il fait environ 4 800 mètres."],
-      de: ["Der Mont Blanc ist der höchste Gipfel der Alpen.", "Er ist etwa 4800 Meter hoch."] }
+    { id: "strasbourg", at: 420, name: "Strasbourg", lon: 7.75, lat: 48.57, title: "La cathédrale de Strasbourg",
+      fr: ["La cathédrale de Strasbourg est en grès rose.", "En décembre, la ville accueille un grand marché de Noël."],
+      de: ["Das Straßburger Münster ist aus rosa Sandstein.", "Im Dezember gibt es in der Stadt einen großen Weihnachtsmarkt."] }
   ],
 
   tenses: [
