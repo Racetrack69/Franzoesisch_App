@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2E4FD6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Français">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Français</title>
+<style>
+  :root {
+    --bg: #F1F3F6;
+    --card: #FFFFFF;
+    --ink: #1B2333;
+    --muted: #667085;
+    --line: #E1E5EC;
+    --accent: #2E4FD6;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #E6EBFB;
+    --ok: #1E8A5B;
+    --ok-soft: #E3F4EB;
+    --err: #C2402F;
+    --err-soft: #FBE8E4;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121722;
+      --card: #1B2230;
+      --ink: #EDEFF3;
+      --muted: #98A2B3;
+      --line: #2A3344;
+      --accent: #7C93F2;
+      --accent-ink: #0F1424;
+      --accent-soft: #263354;
+      --ok: #4CC38A;
+      --ok-soft: #1D3A2D;
+      --err: #F0776A;
+      --err-soft: #4A2620;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100dvh;
+  }
+  #app {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: calc(env(safe-area-inset-top) + 16px) 18px calc(env(safe-area-inset-bottom) + 24px);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* Kopfzeile */
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    margin-bottom: 14px;
+  }
+  .top h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 30px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .top .sub { color: var(--muted); font-size: 15px; margin-top: 2px; }
+  .back {
+    width: 44px; height: 44px;
+    display: grid; place-items: center;
+    border-radius: 12px;
+    margin-left: -8px;
+  }
+  .back:active { background: var(--accent-soft); }
+  .counter { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  /* Fortschrittslinie oben in Übungen */
+  .bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 18px; }
+  .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .3s ease; }
+
+  /* Startseite */
+  .seg {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 4px; margin-bottom: 18px;
+  }
+  .seg button { padding: 10px 0; border-radius: 9px; color: var(--muted); font-weight: 500; }
+  .seg button.on { background: var(--accent-soft); color: var(--accent); }
+  .daily {
+    display: block; width: 100%; text-align: left;
+    background: var(--accent); color: var(--accent-ink);
+    border-radius: 16px; padding: 18px 20px; margin-bottom: 22px;
+  }
+  .daily .t { font-family: var(--serif); font-size: 24px; }
+  .daily .d { opacity: .85; font-size: 15px; margin-top: 4px; }
+  .daily.done { background: var(--ok); }
+  .modules { list-style: none; margin: 0; padding: 0; }
+  .modules li + li { border-top: 1px solid var(--line); }
+  .modules button {
+    width: 100%; text-align: left;
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 4px;
+  }
+  .modules .n { flex: 1; }
+  .modules .n small { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+  .modules .pct { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .modules .chev { color: var(--muted); }
+  .foot { margin-top: auto; padding-top: 28px; color: var(--muted); font-size: 13px; display: flex; gap: 16px; justify-content: space-between; }
+  .foot button { text-decoration: underline; color: var(--muted); }
+
+  /* Übungskarte */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px 22px;
+    margin-bottom: 16px;
+  }
+  .lang {
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.25;
+    margin: 0;
+  }
+  .lang.small { font-size: 23px; }
+  .lang.hidden { color: transparent; text-shadow: 0 0 14px var(--muted); user-select: none; }
+  .de { color: var(--muted); font-size: 17px; margin-top: 10px; }
+  .prompt { color: var(--muted); font-size: 15px; margin-bottom: 8px; }
+  .theme { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+  .text { font-family: var(--serif); font-size: 20px; line-height: 1.5; margin: 0; }
+  .text.hidden { color: transparent; text-shadow: 0 0 14px var(--muted); user-select: none; }
+  .title { font-family: var(--serif); font-size: 15px; color: var(--muted); margin-bottom: 8px; }
+
+  input[type=text] {
+    width: 100%;
+    font: inherit;
+    font-family: var(--serif);
+    font-size: 24px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--ink);
+    margin-top: 18px;
+  }
+  input[type=text].ok { border-color: var(--ok); }
+  input[type=text].err { border-color: var(--err); }
+
+  .feedback {
+    border-radius: 12px; padding: 12px 14px; margin-top: 14px; font-size: 16px;
+  }
+  .feedback.ok { background: var(--ok-soft); color: var(--ok); }
+  .feedback.err { background: var(--err-soft); color: var(--err); }
+  .feedback.hint { background: var(--accent-soft); color: var(--accent); }
+  .feedback b { font-family: var(--serif); font-weight: 400; font-size: 20px; }
+  .feedback .tip { color: var(--ink); font-size: 15px; margin-top: 6px; opacity: .85; }
+
+  /* Antwortoptionen */
+  .opts { display: grid; gap: 10px; margin-top: 16px; }
+  .opts button {
+    text-align: left;
+    padding: 14px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: var(--card);
+    font-size: 18px;
+  }
+  .opts button.fr { font-family: var(--serif); font-size: 21px; }
+  .opts button.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+  .opts button.err { border-color: var(--err); background: var(--err-soft); color: var(--err); }
+  .opts button:disabled { cursor: default; }
+
+  /* Wörter zum Antippen */
+  .words { display: flex; flex-wrap: wrap; gap: 8px 6px; margin-top: 6px; }
+  .words button {
+    font-family: var(--serif); font-size: 23px; line-height: 1.2;
+    padding: 6px 9px; border-radius: 9px;
+    border: 1.5px solid transparent; background: var(--bg);
+  }
+  .words button.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+  .words button.err { border-color: var(--err); background: var(--err-soft); color: var(--err); text-decoration: line-through; }
+  .words button:disabled { cursor: default; }
+
+  /* Aktionen */
+  .actions { display: grid; gap: 10px; margin-top: auto; padding-top: 6px; }
+  .actions.row { grid-template-columns: 1fr 1fr; }
+  .btn {
+    padding: 15px 18px; border-radius: 14px; font-weight: 600; font-size: 17px; text-align: center;
+    border: 1.5px solid var(--line); background: var(--card);
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn.ok { background: var(--ok); color: #fff; border-color: var(--ok); }
+  .btn.quiet { color: var(--muted); }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .listen { display: flex; gap: 10px; margin-top: 18px; }
+  .listen .btn { flex: 1; }
+
+  /* Ergebnis */
+  .result { text-align: center; padding: 40px 0 20px; }
+  .result .big { font-family: var(--serif); font-size: 64px; line-height: 1; }
+  .result .of { color: var(--muted); margin-top: 8px; }
+  .result p { color: var(--muted); margin-top: 26px; }
+
+  .note { color: var(--muted); font-size: 14px; margin-top: 10px; }
+  @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="content.js"></script>
+<script>
+(function () {
+  'use strict';
+  const C = window.CONTENT;
+  const STORE_KEY = 'francais-app-v1';
+  const DAILY_MIX = { vocab: 10, errors: 3, speak: 3, texts: 1, tenses: 4 };
+  const MODULES = [
+    { key: 'vocab',  name: 'Vokabeln',        sub: 'Eintippen, bei Bedarf Hilfe' },
+    { key: 'errors', name: 'Fehler finden',   sub: 'Das falsche Wort antippen' },
+    { key: 'speak',  name: 'Nachsprechen',    sub: 'Anhören, nachsprechen, einschätzen' },
+    { key: 'texts',  name: 'Text verstehen',  sub: 'Kurzer Text, drei Fragen' },
+    { key: 'tenses', name: 'Zeiten und Formen', sub: 'Die passende Form wählen' }
+  ];
+
+  // ---------- Speicher ----------
+  function load() {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORE_KEY));
+      if (s && typeof s === 'object') return s;
+    } catch (e) {}
+    return { level: 1, direction: 'de-fr', vocab: {}, done: {}, daily: null };
+  }
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {}
+  }
+  const S = load();
+  S.vocab = S.vocab || {}; S.done = S.done || {}; S.level = S.level || 1; S.direction = S.direction || 'de-fr';
+
+  // ---------- Helfer ----------
+  const app = document.getElementById('app');
+  const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const today = () => new Date().toISOString().slice(0, 10);
+  const byLevel = (list) => list.filter(x => x.level === S.level);
+  const findItem = (type, id) => C[type].find(x => x.id === id);
+
+  function norm(s) {
+    return String(s).toLowerCase()
+      .replace(/[’`´]/g, "'")
+      .replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/ß/g, 'ss')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.!?,;:]/g, '')
+      .replace(/\s+/g, ' ').trim();
+  }
+  const ART_FR = /^(le|la|les|un|une|des|l')\s*/;
+  const ART_DE = /^(der|die|das|ein|eine)\s+/;
+  function stripArticle(s, lang) { return norm(s).replace(lang === 'fr' ? ART_FR : ART_DE, '').trim(); }
+  function hasArticle(s, lang) { return (lang === 'fr' ? ART_FR : ART_DE).test(norm(s)); }
+
+  // ---------- Sprachausgabe ----------
+  let voice = null;
+  function pickVoice() {
+    if (!('speechSynthesis' in window)) return;
+    const vs = speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('fr'));
+    voice = vs.find(v => v.lang.toLowerCase() === 'fr-fr' && v.localService) || vs.find(v => v.lang.toLowerCase() === 'fr-fr') || vs[0] || null;
+  }
+  if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+  function speak(text, rate) {
+    if (!('speechSynthesis' in window)) { alert('Dieser Browser kann keine Sprachausgabe.'); return; }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = C.meta.lang; u.rate = rate || 0.95;
+    if (voice) u.voice = voice;
+    speechSynthesis.speak(u);
+  }
+
+  // ---------- Fortschritt ----------
+  function vocabLevel(id) { return (S.vocab[id] && S.vocab[id].lvl) || 0; }
+  function bumpVocab(id, delta) {
+    const v = S.vocab[id] || { lvl: 0, last: 0 };
+    v.lvl = Math.max(0, Math.min(3, v.lvl + delta)); v.last = Date.now();
+    S.vocab[id] = v; save();
+  }
+  function markDone(type, id, correct) { S.done[type] = S.done[type] || {}; S.done[type][id] = correct ? 2 : 1; save(); }
+  function isDone(type, id) { return !!(S.done[type] && S.done[type][id]); }
+
+  function moduleProgress(key) {
+    const items = byLevel(C[key]);
+    if (!items.length) return { text: 'Noch keine Inhalte', pct: 0 };
+    if (key === 'vocab') {
+      const learned = items.filter(v => vocabLevel(v.id) >= 3).length;
+      return { text: learned + ' von ' + items.length + ' sicher', pct: learned / items.length };
+    }
+    const done = items.filter(x => isDone(key, x.id)).length;
+    return { text: done + ' von ' + items.length, pct: done / items.length };
+  }
+
+  // ---------- Auswahl der Übungen ----------
+  function pickVocab(n) {
+    const items = byLevel(C.vocab).map(v => ({ v, lvl: vocabLevel(v.id), last: (S.vocab[v.id] || {}).last || 0, r: Math.random() }));
+    items.sort((a, b) => a.lvl - b.lvl || a.last - b.last || a.r - b.r);
+    return items.slice(0, n).map(x => ({ type: 'vocab', id: x.v.id }));
+  }
+  function pickOther(type, n) {
+    const items = byLevel(C[type]);
+    const fresh = shuffle(items.filter(x => !isDone(type, x.id)));
+    const rest = shuffle(items.filter(x => isDone(type, x.id)));
+    return fresh.concat(rest).slice(0, n).map(x => ({ type, id: x.id }));
+  }
+  function buildQueue(type) {
+    if (type === 'vocab') return pickVocab(10);
+    const counts = { errors: 5, speak: 4, texts: 1, tenses: 5 };
+    return pickOther(type, counts[type]);
+  }
+  function buildDaily() {
+    return shuffle([]
+      .concat(pickVocab(DAILY_MIX.vocab))
+      .concat(pickOther('errors', DAILY_MIX.errors))
+      .concat(pickOther('speak', DAILY_MIX.speak))
+      .concat(pickOther('texts', DAILY_MIX.texts))
+      .concat(pickOther('tenses', DAILY_MIX.tenses)));
+  }
+  function dailyState() {
+    if (!S.daily || S.daily.date !== today() || S.daily.level !== S.level) {
+      S.daily = { date: today(), level: S.level, items: buildDaily(), results: [] };
+      save();
+    }
+    return S.daily;
+  }
+
+  // ---------- Startseite ----------
+  function renderHome() {
+    app.innerHTML = '';
+    const top = el('div', 'top');
+    top.appendChild(el('div', '', '<h1>' + esc(C.meta.title) + '</h1><div class="sub">Stufe ' + S.level + '</div>'));
+    app.appendChild(top);
+
+    const seg = el('div', 'seg');
+    [1, 2, 3].forEach(l => {
+      const b = el('button', l === S.level ? 'on' : '', 'Stufe ' + l);
+      b.onclick = () => { S.level = l; save(); renderHome(); };
+      seg.appendChild(b);
+    });
+    app.appendChild(seg);
+
+    const d = dailyState();
+    const doneCount = d.results.length, total = d.items.length, finished = doneCount >= total;
+    const daily = el('button', 'daily' + (finished ? ' done' : ''));
+    daily.innerHTML = '<div class="t">Tagesprogramm</div><div class="d">' +
+      (finished ? 'Heute erledigt. Morgen gibt es ein neues.' : doneCount === 0 ? total + ' Übungen, etwa 10 Minuten' : 'Weiter bei ' + (doneCount + 1) + ' von ' + total) + '</div>';
+    daily.onclick = () => finished ? renderResult(d.results, true) : runQueue(d.items, d.results, true);
+    app.appendChild(daily);
+
+    const ul = el('ul', 'modules');
+    MODULES.forEach(m => {
+      const p = moduleProgress(m.key);
+      const li = el('li');
+      const b = el('button');
+      b.innerHTML = '<div class="n">' + m.name + '<small>' + m.sub + '</small></div><div class="pct">' + esc(p.text) + '</div><div class="chev">›</div>';
+      b.onclick = () => runQueue(buildQueue(m.key), [], false);
+      li.appendChild(b); ul.appendChild(li);
+    });
+    app.appendChild(ul);
+
+    const foot = el('div', 'foot');
+    const dir = el('button', '', 'Vokabeln: ' + (S.direction === 'de-fr' ? 'Deutsch → Französisch' : 'Französisch → Deutsch'));
+    dir.onclick = () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderHome(); };
+    const reset = el('button', '', 'Fortschritt löschen');
+    reset.onclick = () => { if (confirm('Gesamten Fortschritt auf diesem Gerät löschen?')) { localStorage.removeItem(STORE_KEY); location.reload(); } };
+    foot.appendChild(dir); foot.appendChild(reset);
+    app.appendChild(foot);
+  }
+
+  // ---------- Ablauf einer Übungsreihe ----------
+  // queue: [{type, id}], results: [{correct}], daily: true wenn Tagesprogramm (Ergebnisse werden gespeichert)
+  function runQueue(queue, results, daily) {
+    if (!queue.length) { renderHome(); return; }
+    const idx = results.length;
+    if (idx >= queue.length) { renderResult(results, daily); return; }
+    const ref = queue[idx];
+    const item = findItem(ref.type, ref.id);
+    const mod = MODULES.find(m => m.key === ref.type);
+
+    app.innerHTML = '';
+    const top = el('div', 'top');
+    const back = el('button', 'back', '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>');
+    back.setAttribute('aria-label', 'Zurück');
+    back.onclick = () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); renderHome(); };
+    top.appendChild(back);
+    top.appendChild(el('div', '', '<div>' + (daily ? 'Tagesprogramm' : mod.name) + '</div><div class="sub">' + (daily ? mod.name : 'Stufe ' + S.level) + '</div>'));
+    top.appendChild(el('div', 'counter', (idx + 1) + ' / ' + queue.length));
+    app.appendChild(top);
+    const bar = el('div', 'bar', '<i></i>');
+    app.appendChild(bar);
+    requestAnimationFrame(() => { bar.firstChild.style.width = (idx / queue.length * 100) + '%'; });
+
+    const body = el('div');
+    app.appendChild(body);
+    const actions = el('div', 'actions');
+    app.appendChild(actions);
+
+    const finish = (correct) => {
+      results.push({ type: ref.type, id: ref.id, correct: !!correct });
+      if (daily) save();
+      actions.innerHTML = '';
+      const next = el('button', 'btn primary', idx + 1 < queue.length ? 'Weiter' : 'Fertig');
+      next.onclick = () => runQueue(queue, results, daily);
+      actions.appendChild(next);
+      next.focus();
+    };
+
+    RENDER[ref.type](item, body, actions, finish);
+  }
+
+  const RENDER = {};
+
+  // Vokabel: eintippen, Hilfe mit 4 Optionen
+  RENDER.vocab = function (v, body, actions, finish) {
+    const toFr = S.direction === 'de-fr';
+    const prompt = toFr ? v.de : v.fr;
+    const target = toFr ? v.fr : v.de;
+    const lang = toFr ? 'fr' : 'de';
+    const accepted = [target].concat(toFr ? (v.alt || []) : []).map(norm);
+
+    const card = el('div', 'card');
+    card.appendChild(el('div', 'theme', esc(v.theme)));
+    card.appendChild(el('p', 'lang' + (toFr ? '' : ' small'), esc(prompt)));
+    if (!toFr) { const b = el('button', 'btn quiet', 'Anhören'); b.style.marginTop = '14px'; b.onclick = () => speak(v.fr); card.appendChild(b); }
+    const input = el('input');
+    input.type = 'text'; input.autocapitalize = 'off'; input.autocomplete = 'off'; input.spellcheck = false;
+    input.placeholder = toFr ? 'auf Französisch, mit Artikel' : 'auf Deutsch, mit Artikel';
+    input.setAttribute('lang', toFr ? 'fr' : 'de');
+    card.appendChild(input);
+    const fb = el('div');
+    card.appendChild(fb);
+    body.appendChild(card);
+
+    let articleHintGiven = false;
+    let settled = false;
+
+    const check = el('button', 'btn primary', 'Prüfen');
+    const help = el('button', 'btn', 'Hilfe');
+    actions.className = 'actions row';
+    actions.appendChild(help); actions.appendChild(check);
+
+    function reveal(ok, delta, msg) {
+      settled = true;
+      input.disabled = true;
+      input.className = ok ? 'ok' : 'err';
+      fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + msg + '<b>' + esc(target) + '</b>' +
+        (v.tip ? '<div class="tip">' + esc(v.tip) + '</div>' : '') + '</div>';
+      const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '10px';
+      listen.onclick = () => speak(v.fr);
+      fb.appendChild(listen);
+      bumpVocab(v.id, delta);
+      finish(ok && delta > 0);
+    }
+
+    function doCheck() {
+      if (settled) return;
+      const a = norm(input.value);
+      if (!a) { input.focus(); return; }
+      if (accepted.includes(a)) { reveal(true, +1, 'Richtig: '); return; }
+      const targetHasArticle = hasArticle(target, lang);
+      if (targetHasArticle && !articleHintGiven && !hasArticle(a, lang) && a === stripArticle(target, lang)) {
+        articleHintGiven = true;
+        fb.innerHTML = '<div class="feedback hint">Fast. Der Artikel fehlt noch.</div>';
+        input.focus();
+        return;
+      }
+      reveal(false, -1, 'Leider nicht. Richtig ist: ');
+    }
+    check.onclick = doCheck;
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doCheck(); } });
+
+    help.onclick = () => {
+      if (settled) return;
+      settled = true;
+      input.disabled = true;
+      help.disabled = true; check.disabled = true;
+      const pool = C.vocab.filter(x => x.id !== v.id && norm(toFr ? x.fr : x.de) !== norm(target));
+      const same = pool.filter(x => x.theme === v.theme);
+      const distract = shuffle(same.length >= 3 ? same : pool).slice(0, 3).map(x => toFr ? x.fr : x.de);
+      const opts = el('div', 'opts');
+      shuffle([target].concat(distract)).forEach(o => {
+        const b = el('button', toFr ? 'fr' : '', esc(o));
+        b.onclick = () => {
+          const ok = norm(o) === norm(target);
+          Array.from(opts.children).forEach(c => { c.disabled = true; if (norm(c.textContent) === norm(target)) c.classList.add('ok'); });
+          if (!ok) b.classList.add('err');
+          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig, mit Hilfe. ' : 'Leider nicht. Richtig ist: ') + '<b>' + esc(target) + '</b>' +
+            (v.tip ? '<div class="tip">' + esc(v.tip) + '</div>' : '') + '</div>';
+          const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '10px';
+          listen.onclick = () => speak(v.fr);
+          fb.appendChild(listen);
+          bumpVocab(v.id, ok ? 0 : -1);
+          actions.className = 'actions';
+          finish(false);
+        };
+        opts.appendChild(b);
+      });
+      fb.innerHTML = '';
+      fb.appendChild(opts);
+    };
+    setTimeout(() => input.focus(), 50);
+  };
+
+  // Fehler finden
+  RENDER.errors = function (e, body, actions, finish) {
+    const card = el('div', 'card');
+    card.appendChild(el('div', 'prompt', 'Ein Wort ist falsch. Tippe es an.'));
+    const words = el('div', 'words');
+    const fb = el('div');
+    e.words.forEach((w, i) => {
+      const b = el('button', '', esc(w));
+      b.onclick = () => {
+        Array.from(words.children).forEach(c => c.disabled = true);
+        const ok = i === e.wrong;
+        words.children[e.wrong].classList.add('err');
+        const fixed = e.words.map((x, j) => j === e.wrong ? '<u>' + esc(e.correct) + '</u>' : esc(x)).join(' ');
+        fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Genau. ' : 'Nicht dieses Wort. Der Fehler steckt hier: ') +
+          '<b>' + fixed + '</b><div class="tip">' + esc(e.explain) + '</div></div>';
+        markDone('errors', e.id, ok);
+        finish(ok);
+      };
+      words.appendChild(b);
+    });
+    card.appendChild(words);
+    card.appendChild(fb);
+    body.appendChild(card);
+  };
+
+  // Nachsprechen: Stufe 1 mit Text, Stufe 2 nur hören, Stufe 3 vom Deutschen aus
+  RENDER.speak = function (s, body, actions, finish) {
+    const mode = S.level;
+    const card = el('div', 'card');
+    const hint = mode === 1 ? 'Anhören und nachsprechen.' : mode === 2 ? 'Nur anhören, dann nachsprechen. Der Text bleibt verdeckt.' : 'Sag den Satz auf Französisch. Danach die Lösung anhören.';
+    card.appendChild(el('div', 'prompt', hint));
+    const fr = el('p', 'lang small' + (mode === 1 ? '' : ' hidden'), esc(s.fr));
+    const de = el('div', 'de', esc(s.de));
+    if (mode === 3) { de.className = 'lang small'; card.appendChild(de); card.appendChild(fr); fr.style.marginTop = '14px'; }
+    else { card.appendChild(fr); card.appendChild(de); }
+
+    const listen = el('div', 'listen');
+    const play = el('button', 'btn', mode === 3 ? 'Lösung anhören' : 'Anhören');
+    const slow = el('button', 'btn', 'Langsam');
+    play.onclick = () => { speak(s.fr); if (mode === 3) fr.classList.remove('hidden'); };
+    slow.onclick = () => { speak(s.fr, 0.7); if (mode === 3) fr.classList.remove('hidden'); };
+    listen.appendChild(play); listen.appendChild(slow);
+    card.appendChild(listen);
+    if (mode === 2) {
+      const show = el('button', 'btn quiet', 'Text anzeigen'); show.style.marginTop = '10px';
+      show.onclick = () => { fr.classList.remove('hidden'); show.remove(); };
+      card.appendChild(show);
+    }
+    body.appendChild(card);
+
+    if (mode !== 3) speak(s.fr);
+
+    actions.className = 'actions row';
+    const again = el('button', 'btn', 'Nochmal üben');
+    const ok = el('button', 'btn ok', 'Klappt');
+    again.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, false); actions.className = 'actions'; finish(false); };
+    ok.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, true); actions.className = 'actions'; finish(true); };
+    actions.appendChild(again); actions.appendChild(ok);
+  };
+
+  // Text verstehen: Text lesen, dann Fragen nacheinander
+  RENDER.texts = function (t, body, actions, finish) {
+    const card = el('div', 'card');
+    card.appendChild(el('div', 'title', esc(t.title)));
+    card.appendChild(el('p', 'text', esc(t.text)));
+    const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '16px';
+    listen.onclick = () => speak(t.text);
+    card.appendChild(listen);
+    body.appendChild(card);
+
+    const qcard = el('div', 'card');
+    body.appendChild(qcard);
+    let qi = 0, right = 0;
+
+    function askQuestion() {
+      const q = t.questions[qi];
+      qcard.innerHTML = '';
+      qcard.appendChild(el('div', 'prompt', 'Frage ' + (qi + 1) + ' von ' + t.questions.length));
+      qcard.appendChild(el('div', '', '<strong>' + esc(q.q) + '</strong>'));
+      const opts = el('div', 'opts');
+      const fb = el('div');
+      shuffle(q.options.map((o, i) => ({ o, i }))).forEach(({ o, i }) => {
+        const b = el('button', '', esc(o));
+        b.onclick = () => {
+          const ok = i === q.answer;
+          if (ok) right++;
+          Array.from(opts.children).forEach(c => { c.disabled = true; if (c.dataset.i == q.answer) c.classList.add('ok'); });
+          if (!ok) b.classList.add('err');
+          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Leider nicht.') + '</div>';
+          qi++;
+          actions.innerHTML = '';
+          if (qi < t.questions.length) {
+            const next = el('button', 'btn primary', 'Nächste Frage');
+            next.onclick = () => { actions.innerHTML = ''; askQuestion(); };
+            actions.appendChild(next);
+          } else {
+            const all = right === t.questions.length;
+            fb.innerHTML += '<div class="note">' + right + ' von ' + t.questions.length + ' richtig.</div>';
+            markDone('texts', t.id, all);
+            finish(all);
+          }
+        };
+        b.dataset.i = i;
+        opts.appendChild(b);
+      });
+      qcard.appendChild(opts);
+      qcard.appendChild(fb);
+    }
+    askQuestion();
+  };
+
+  // Zeiten und Formen: Lücke mit drei Optionen
+  RENDER.tenses = function (z, body, actions, finish) {
+    const card = el('div', 'card');
+    card.appendChild(el('div', 'theme', esc(z.topic)));
+    const parts = z.sentence.split('___');
+    const sent = el('p', 'lang small', esc(parts[0]) + '<span style="border-bottom:2px solid var(--accent);padding:0 22px"> </span>' + esc(parts[1] || ''));
+    card.appendChild(sent);
+    const opts = el('div', 'opts');
+    const fb = el('div');
+    shuffle(z.options.map((o, i) => ({ o, i }))).forEach(({ o, i }) => {
+      const b = el('button', 'fr', esc(o));
+      b.onclick = () => {
+        const ok = i === z.answer;
+        Array.from(opts.children).forEach(c => { c.disabled = true; if (c.dataset.i == z.answer) c.classList.add('ok'); });
+        if (!ok) b.classList.add('err');
+        sent.innerHTML = esc(parts[0]) + '<u>' + esc(z.options[z.answer]) + '</u>' + esc(parts[1] || '');
+        fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Leider nicht.') + '<div class="tip">' + esc(z.explain) + '</div></div>';
+        const listen = el('button', 'btn quiet', 'Anhören'); listen.style.marginTop = '10px';
+        listen.onclick = () => speak(z.sentence.replace('___', z.options[z.answer]));
+        fb.appendChild(listen);
+        markDone('tenses', z.id, ok);
+        finish(ok);
+      };
+      b.dataset.i = i;
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+    card.appendChild(fb);
+    body.appendChild(card);
+  };
+
+  // ---------- Ergebnis ----------
+  function renderResult(results, daily) {
+    app.innerHTML = '';
+    const right = results.filter(r => r.correct).length;
+    const r = el('div', 'result');
+    r.innerHTML = '<div class="big">' + right + '</div><div class="of">von ' + results.length + ' auf Anhieb</div>' +
+      '<p>' + (daily ? 'Tagesprogramm für heute erledigt.' : right === results.length ? 'Alles richtig.' : 'Was nicht saß, kommt bald wieder dran.') + '</p>';
+    app.appendChild(r);
+    const actions = el('div', 'actions');
+    const home = el('button', 'btn primary', 'Zur Übersicht');
+    home.onclick = renderHome;
+    actions.appendChild(home);
+    app.appendChild(actions);
+  }
+
+  // ---------- Start ----------
+  renderHome();
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
