@@ -10,6 +10,27 @@ window.CONTENT = {
   meta: { lang: "fr-FR", title: "Flâner" },
 
   vocab: [
+    // Station Bordeaux: Im Café bestellen
+    { id: "c01", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Kaffee", fr: "le café", altDe: ["das Café"], ctxFr: "Un café, s'il vous plaît.", ctxDe: "Einen Kaffee, bitte.", tip: "Un café ist ein kleiner schwarzer Espresso. Wer Filterkaffee will, sagt un café allongé." },
+    { id: "c02", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Milchkaffee", fr: "le café au lait", alt: ["le café crème", "le crème"], tip: "Im Café bestellt man eher un crème oder un café crème." },
+    { id: "c03", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Tee", fr: "le thé", tip: "Mit Akzent, sonst wäre es te (dich)." },
+    { id: "c04", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "das Croissant", fr: "le croissant", tip: "Maskulin, obwohl es im Deutschen sächlich ist. Das t am Ende ist stumm." },
+    { id: "c05", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "das Butterbrot", fr: "la tartine", altDe: ["die Brotscheibe"], tip: "Ein Stück Baguette mit Butter oder Marmelade, das klassische Frühstück." },
+    { id: "c06", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Orangensaft", fr: "le jus d'orange", tip: "Jus mit stummem s. Un jus de pomme: Apfelsaft." },
+    { id: "c07", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "das Sprudelwasser", fr: "l'eau gazeuse", alt: ["l'eau pétillante"], tip: "Stilles Wasser: l'eau plate. Leitungswasser ist kostenlos: une carafe d'eau." },
+    { id: "c08", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "die Speisekarte", fr: "la carte", altDe: ["die Karte"], ctxFr: "La carte, s'il vous plaît.", ctxDe: "Die Karte, bitte.", tip: "Auch: die Landkarte, die Bankkarte.", trap: "Stolperstein: le menu ist nicht die Speisekarte, sondern das feste Tagesmenü. Die Karte ist la carte." },
+    { id: "c09", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "die Terrasse", fr: "la terrasse", tip: "En terrasse: draußen sitzen. Doppel-r, Doppel-s." },
+    { id: "c10", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Kellner", fr: "le serveur", alt: ["la serveuse"], tip: "Vom Verb servir. Kellnerin: la serveuse.", trap: "Stolperstein: Garçon! ruft heute niemand mehr. Man sagt s'il vous plaît oder Monsieur, Madame." },
+    { id: "c11", pos: "verb", station: "bordeaux", level: 1, theme: "Im Café", de: "bestellen", fr: "commander", tip: "Je voudrais commander. Auch: befehlen, steuern." },
+    { id: "c12", pos: "verb", station: "bordeaux", level: 1, theme: "Im Café", de: "nehmen", fr: "prendre", ctxFr: "Je prends un café.", ctxDe: "Ich nehme einen Kaffee.", tip: "Je prends, vous prenez, ils prennent. Das übliche Wort beim Bestellen.", trap: "Stolperstein: Beim Bestellen nicht j'ai un café, sondern je prends un café." },
+    { id: "c13", pos: "verb", station: "bordeaux", level: 1, theme: "Im Café", de: "trinken", fr: "boire", tip: "Unregelmäßig: je bois, nous buvons, ils boivent." },
+    { id: "c14", pos: "verb", station: "bordeaux", level: 1, theme: "Im Café", de: "essen", fr: "manger", tip: "Nous mangeons, mit e vor dem o, damit das g weich bleibt." },
+    { id: "c15", pos: "verb", station: "bordeaux", level: 1, theme: "Im Café", de: "kosten", fr: "coûter", ctxFr: "Ça coûte combien ?", ctxDe: "Wie viel kostet das?", tip: "Ça coûte deux euros. Mit Zirkumflex auf dem u." },
+    { id: "c16", pos: "adjektiv", station: "bordeaux", level: 1, theme: "Im Café", de: "heiß", fr: "chaud", alt: ["chaude"], altDe: ["warm"], tip: "Un chocolat chaud: eine heiße Schokolade. Feminin: chaude." },
+    { id: "c17", pos: "adjektiv", station: "bordeaux", level: 1, theme: "Im Café", de: "kalt", fr: "froid", alt: ["froide"], tip: "Une boisson froide. Das d hört man erst im Femininum." },
+    { id: "c18", pos: "adjektiv", station: "bordeaux", level: 1, theme: "Im Café", de: "süß", fr: "sucré", alt: ["sucrée"], tip: "Von le sucre. Sans sucre: ohne Zucker." },
+    { id: "c19", pos: "wendung", station: "bordeaux", level: 1, theme: "Im Café", de: "Ich hätte gern", fr: "Je voudrais", tip: "Die höfliche Form von vouloir. Je veux klingt fordernd." },
+    { id: "c20", pos: "wendung", station: "bordeaux", level: 1, theme: "Im Café", de: "Guten Appetit", fr: "Bon appétit", tip: "Zwei p, ein t. Sagt auch der Kellner beim Servieren." },
     // Station Brest: Begrüßen und sich vorstellen
     { id: "b01", pos: "wendung", station: "brest", level: 1, theme: "Begrüßen", de: "Guten Tag", fr: "Bonjour", tip: "Wörtlich: guten Tag. Gilt bis zum frühen Abend, danach bonsoir." },
     { id: "b02", pos: "wendung", station: "brest", level: 1, theme: "Begrüßen", de: "Hallo", fr: "Salut", altDe: ["Tschüss"], ctxFr: "Salut Marie, ça va ?", ctxDe: "Hallo Marie, wie geht's?", tip: "Nur unter Freunden und Jüngeren. Heißt auch tschüss.", trap: "Stolperstein: Salut zu Fremden oder Älteren wirkt unhöflich. Im Zweifel bonjour." },
@@ -93,6 +114,11 @@ window.CONTENT = {
   // Artikel: Stufe 1 und 2 bestimmter Artikel (le, la, l', les), Stufe 3 Teilungsartikel (du, de la, de l', des, und de nach Verneinung).
   // "prompt" mit ___ ist die Lücke, "answer" der Index der richtigen Option, "de" die Übersetzung für die Auflösung.
   articles: [
+    { id: "ca1", station: "bordeaux", level: 1, prompt: "___ café", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le café ist maskulin, wie le thé, le jus.", de: "der Kaffee" },
+    { id: "ca2", station: "bordeaux", level: 1, prompt: "___ carte", options: ["le", "la", "l'", "les"], answer: 1, explain: "La carte ist feminin.", de: "die Speisekarte" },
+    { id: "ca3", station: "bordeaux", level: 1, prompt: "___ addition", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal: l'addition. Feminin, wie alle Wörter auf -tion.", de: "die Rechnung" },
+    { id: "ca4", station: "bordeaux", level: 1, prompt: "___ croissant", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le croissant ist maskulin, anders als im Deutschen.", de: "das Croissant" },
+    { id: "ca5", station: "bordeaux", level: 1, prompt: "___ terrasse", options: ["le", "la", "l'", "les"], answer: 1, explain: "La terrasse ist feminin, wie die meisten Wörter auf -e.", de: "die Terrasse" },
     { id: "ba1", station: "brest", level: 1, prompt: "___ prénom", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le prénom ist maskulin, wie le nom.", de: "der Vorname" },
     { id: "ba2", station: "brest", level: 1, prompt: "___ ville", options: ["le", "la", "l'", "les"], answer: 1, explain: "La ville ist feminin. Auch la ville de Brest.", de: "die Stadt" },
     { id: "ba3", station: "brest", level: 1, prompt: "___ Allemagne", options: ["le", "la", "l'", "les"], answer: 2, explain: "Allemagne ist feminin und beginnt mit Vokal: l'Allemagne.", de: "Deutschland" },
@@ -127,6 +153,11 @@ window.CONTENT = {
   ],
 
   errors: [
+    { id: "ce1", station: "bordeaux", level: 1, words: ["Je", "prends", "une", "croissant."], wrong: 2, correct: "un", explain: "Le croissant ist maskulin: un croissant." },
+    { id: "ce2", station: "bordeaux", level: 1, words: ["L'addition,", "s'il", "te", "plaît."], wrong: 2, correct: "vous", explain: "Den Kellner siezt man: s'il vous plaît. S'il te plaît nur unter Freunden." },
+    { id: "ce3", station: "bordeaux", level: 1, words: ["Je", "voudrais", "de l'eau", "gazeux."], wrong: 3, correct: "gazeuse", explain: "Eau ist feminin, das Adjektiv folgt: de l'eau gazeuse." },
+    { id: "ce4", station: "bordeaux", level: 1, words: ["Vous", "avez", "de la", "thé ?"], wrong: 2, correct: "du", explain: "Le thé ist maskulin, also du thé (de + le)." },
+    { id: "ce5", station: "bordeaux", level: 1, words: ["Il fait chaud,", "je", "voudrais", "une", "boisson", "froid."], wrong: 5, correct: "froide", explain: "La boisson ist feminin: une boisson froide." },
     { id: "be1", station: "brest", level: 1, words: ["Je", "suis appelle", "Thomas."], wrong: 1, correct: "m'appelle", explain: "Heißen ist reflexiv: je m'appelle, tu t'appelles, il s'appelle." },
     { id: "be2", station: "brest", level: 1, words: ["J'habite", "en", "Munich."], wrong: 1, correct: "à", explain: "Vor Städten steht à: à Munich, à Paris. En vor femininen Ländern: en Allemagne." },
     { id: "be3", station: "brest", level: 1, words: ["Je", "viens", "de", "Allemagne."], wrong: 2, correct: "d'", explain: "Vor Vokal wird de zu d': d'Allemagne, d'Italie." },
@@ -152,6 +183,10 @@ window.CONTENT = {
   ],
 
   speak: [
+    { id: "cs1", station: "bordeaux", level: 1, fr: "Un café au lait et un croissant, s'il vous plaît.", de: "Einen Milchkaffee und ein Croissant, bitte." },
+    { id: "cs2", station: "bordeaux", level: 1, fr: "Vous avez une table en terrasse ?", de: "Haben Sie einen Tisch draußen?" },
+    { id: "cs3", station: "bordeaux", level: 1, fr: "Je prends un thé, sans sucre.", de: "Ich nehme einen Tee, ohne Zucker." },
+    { id: "cs4", station: "bordeaux", level: 1, fr: "L'addition, s'il vous plaît. Merci, c'était très bon.", de: "Die Rechnung, bitte. Danke, es war sehr gut." },
     { id: "bs1", station: "brest", level: 1, fr: "Bonjour, je m'appelle Thomas.", de: "Guten Tag, ich heiße Thomas." },
     { id: "bs2", station: "brest", level: 1, fr: "Enchanté ! Comment vous appelez-vous ?", de: "Sehr erfreut! Wie heißen Sie?" },
     { id: "bs3", station: "brest", level: 1, fr: "Je viens d'Allemagne, j'habite près de Francfort.", de: "Ich komme aus Deutschland, ich wohne bei Frankfurt." },
@@ -175,12 +210,57 @@ window.CONTENT = {
 
   texts: [
     {
+      id: "ct1", station: "bordeaux", level: 1, title: "Au café du port",
+      text: "Il est dix heures. Marie et Paul sont au café du port. Marie commande un café crème et un croissant. Paul prend un thé et une tartine. Ils sont en terrasse parce qu'il fait beau. Le serveur est très gentil. Ça fait huit euros cinquante.",
+      questions: [
+        { q: "Was bestellt Paul?", options: ["Tee und Butterbrot", "Kaffee und Croissant", "Orangensaft"], answer: 0 },
+        { q: "Warum sitzen sie draußen?", options: ["Weil das Wetter schön ist", "Weil drinnen kein Platz ist", "Weil es billiger ist"], answer: 0 },
+        { q: "Wie viel bezahlen sie?", options: ["8,50 Euro", "10 Euro", "18,50 Euro"], answer: 0 }
+      ]
+    },
+    {
+      id: "ct2", station: "bordeaux", level: 1, title: "La carte",
+      text: "Café : 2 euros. Café crème : 3 euros. Thé : 2 euros 50. Jus d'orange : 3 euros 50. Croissant : 1 euro 50. Tartine beurre : 2 euros. Petit-déjeuner complet : une boisson chaude, un jus d'orange et un croissant, 6 euros.",
+      questions: [
+        { q: "Was kostet ein Croissant?", options: ["1,50 Euro", "2 Euro", "3 Euro"], answer: 0 },
+        { q: "Was gehört zum kompletten Frühstück?", options: ["Heißgetränk, Saft, Croissant", "Zwei Kaffee und eine Tartine", "Tee und Butterbrot"], answer: 0 },
+        { q: "Welches Getränk ist am teuersten?", options: ["Orangensaft", "Café crème", "Tee"], answer: 0 }
+      ]
+    },
+    {
+      id: "ct3", station: "bordeaux", level: 1, title: "Un mot de la serveuse",
+      text: "Bonjour ! Aujourd'hui, le café est fermé l'après-midi. Nous ouvrons de sept heures à treize heures. Le matin, il y a des croissants chauds. Le week-end, la terrasse est ouverte. À bientôt !",
+      questions: [
+        { q: "Bis wann ist das Café heute geöffnet?", options: ["Bis 13 Uhr", "Bis 7 Uhr", "Bis 19 Uhr"], answer: 0 },
+        { q: "Wann gibt es warme Croissants?", options: ["Morgens", "Nachmittags", "Nur am Wochenende"], answer: 0 },
+        { q: "Wann ist die Terrasse geöffnet?", options: ["Am Wochenende", "Jeden Tag", "Nie"], answer: 0 }
+      ]
+    },
+    {
       id: "bt1", station: "brest", level: 1, title: "Léa se présente",
       text: "Bonjour ! Je m'appelle Léa. J'ai trente ans et j'habite à Brest, en Bretagne. Je suis professeure. Je parle français, anglais et un peu allemand. Enchantée de faire votre connaissance !",
       questions: [
         { q: "Wo wohnt Léa?", options: ["In Brest", "In Paris", "In Lyon"], answer: 0 },
         { q: "Was ist Léa von Beruf?", options: ["Lehrerin", "Ärztin", "Köchin"], answer: 0 },
         { q: "Welche Sprache spricht sie nur ein bisschen?", options: ["Deutsch", "Englisch", "Französisch"], answer: 0 }
+      ]
+    },
+    {
+      id: "bt2", station: "brest", level: 1, title: "Un message de Paul",
+      text: "Salut ! Moi, c'est Paul. J'habite à Rennes, mais je viens de Nantes. Je suis étudiant en informatique. Le week-end, je fais du vélo avec des amis. Et toi, tu viens d'où ?",
+      questions: [
+        { q: "Wo wohnt Paul jetzt?", options: ["In Rennes", "In Nantes", "In Brest"], answer: 0 },
+        { q: "Was studiert Paul?", options: ["Informatik", "Medizin", "Geschichte"], answer: 0 },
+        { q: "Was macht er am Wochenende?", options: ["Fahrrad fahren", "Kochen", "Fußball spielen"], answer: 0 }
+      ]
+    },
+    {
+      id: "bt3", station: "brest", level: 1, title: "À la réception",
+      text: "Bonjour, madame. Je m'appelle Anna Weber, je suis allemande. J'ai une réservation pour deux nuits. Je parle un peu français, mais je comprends bien. Vous pouvez parler lentement, s'il vous plaît ?",
+      questions: [
+        { q: "Wie lange bleibt Anna?", options: ["Zwei Nächte", "Eine Nacht", "Eine Woche"], answer: 0 },
+        { q: "Worum bittet sie?", options: ["Langsam zu sprechen", "Auf Deutsch zu sprechen", "Um einen Stadtplan"], answer: 0 },
+        { q: "Was sagt sie über ihr Französisch?", options: ["Sie versteht gut", "Sie spricht fließend", "Sie versteht nichts"], answer: 0 }
       ]
     },
     {
@@ -242,6 +322,33 @@ window.CONTENT = {
   // Dialoge: am Ende der letzten Etappe einer Station. Pro Zug drei Antworten, "ok" markiert die passende,
   // "note" erklärt kurz, warum die anderen nicht ideal sind.
   dialogs: [
+    { id: "cd1", station: "bordeaux", title: "Au café", intro: "Ein Café in Bordeaux, vormittags. Der Kellner kommt an den Tisch.",
+      turns: [
+        { npc: "Bonjour, vous désirez ?", npcDe: "Guten Tag, was darf es sein?",
+          options: [
+            { fr: "Bonjour. Je voudrais un café crème, s'il vous plaît.", de: "Guten Tag. Ich hätte gern einen Milchkaffee, bitte.", ok: true },
+            { fr: "Je veux un café.", de: "Ich will einen Kaffee.", note: "Grammatisch richtig, aber je veux klingt wie ein Befehl. Bestellt wird mit je voudrais oder je prends." },
+            { fr: "Un café crème, c'est combien ?", de: "Ein Milchkaffee, wie viel kostet der?", note: "Nicht falsch, aber der Kellner hat nach der Bestellung gefragt. Preise stehen auf der Karte." }
+          ] },
+        { npc: "Très bien. Et avec ça ? Un croissant, une tartine ?", npcDe: "Sehr gern. Und dazu? Ein Croissant, ein Butterbrot?",
+          options: [
+            { fr: "Un croissant, s'il vous plaît.", de: "Ein Croissant, bitte.", ok: true },
+            { fr: "Oui.", de: "Ja.", note: "Ja, aber was? Der Kellner weiß nicht, welches von beiden." },
+            { fr: "Je veux le croissant.", de: "Ich will das Croissant.", note: "Le croissant klingt, als gäbe es nur eines. Beim Bestellen: un croissant. Und wieder je veux." }
+          ] },
+        { npc: "Vous êtes en terrasse ou à l'intérieur ?", npcDe: "Sitzen Sie draußen oder drinnen?",
+          options: [
+            { fr: "En terrasse, s'il vous plaît, il fait beau.", de: "Draußen bitte, das Wetter ist schön.", ok: true },
+            { fr: "Dans la terrasse.", de: "In der Terrasse.", note: "Die feste Wendung heißt en terrasse oder à la terrasse. Dans passt hier nicht." },
+            { fr: "Je suis à l'extérieur de la France.", de: "Ich bin außerhalb Frankreichs.", note: "Missverständnis: à l'intérieur heißt hier drinnen, nicht im Landesinneren." }
+          ] },
+        { npc: "Voilà. Ça fait cinq euros cinquante.", npcDe: "Bitte sehr. Das macht fünf Euro fünfzig.",
+          options: [
+            { fr: "Merci. Voilà, gardez la monnaie.", de: "Danke. Bitte, stimmt so.", ok: true },
+            { fr: "C'est trop cher !", de: "Das ist zu teuer!", note: "Nach dem Trinken über den Preis zu streiten kommt nicht gut an." },
+            { fr: "Je paie demain.", de: "Ich bezahle morgen.", note: "Das geht im Café nicht. Bezahlt wird jetzt." }
+          ] }
+      ] },
     { id: "bd1", station: "brest", title: "À l'accueil", intro: "Du kommst in einer Pension in Brest an. Die Vermieterin begrüßt dich.",
       turns: [
         { npc: "Bonjour ! Vous êtes Monsieur Schmidt ?", npcDe: "Guten Tag! Sind Sie Herr Schmidt?",
@@ -272,6 +379,11 @@ window.CONTENT = {
   ],
 
   tenses: [
+    { id: "cz1", station: "bordeaux", level: 1, topic: "Präsens: prendre", sentence: "Je ___ un café.", options: ["prends", "prend", "prenez"], answer: 0, explain: "Prendre: je prends, tu prends, il prend, nous prenons, vous prenez, ils prennent." },
+    { id: "cz2", station: "bordeaux", level: 1, topic: "Präsens: prendre", sentence: "Vous ___ un thé ?", options: ["prenez", "prends", "prennent"], answer: 0, explain: "Vous-Form: vous prenez. Die Kellnerfrage schlechthin." },
+    { id: "cz3", station: "bordeaux", level: 1, topic: "Präsens: boire", sentence: "Nous ___ de l'eau.", options: ["buvons", "boivent", "bois"], answer: 0, explain: "Boire ist unregelmäßig: je bois, nous buvons, ils boivent." },
+    { id: "cz4", station: "bordeaux", level: 1, topic: "Präsens: -er", sentence: "Ils ___ des croissants.", options: ["mangent", "mange", "mangez"], answer: 0, explain: "Ils-Form auf -ent, das man nicht hört: ils mangent." },
+    { id: "cz5", station: "bordeaux", level: 1, topic: "Höflichkeitsform", sentence: "Elle ___ un jus d'orange, s'il vous plaît.", options: ["voudrait", "voudrais", "veut"], answer: 0, explain: "Konditional als höfliche Form: je voudrais, elle voudrait. Elle veut wäre grammatisch richtig, aber fordernd." },
     { id: "bz1", station: "brest", level: 1, topic: "Präsens: être", sentence: "Je ___ allemand.", options: ["suis", "es", "est"], answer: 0, explain: "Être: je suis, tu es, il est, nous sommes, vous êtes, ils sont." },
     { id: "bz2", station: "brest", level: 1, topic: "Präsens: avoir", sentence: "Tu ___ quel âge ?", options: ["as", "a", "ai"], answer: 0, explain: "Avoir: j'ai, tu as, il a. Das Alter hat man: j'ai trente ans.", trap: "Stolperstein: nicht je suis trente ans. Alter wird mit avoir gebildet." },
     { id: "bz3", station: "brest", level: 1, topic: "Präsens: -er", sentence: "Nous ___ à Brest.", options: ["habitons", "habitez", "habitent"], answer: 0, explain: "Regelmäßig auf -er: nous habitons, vous habitez, ils habitent." },

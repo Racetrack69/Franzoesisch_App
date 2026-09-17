@@ -91,8 +91,8 @@
   button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* Kopfzeile */
-  .top { display: flex; align-items: center; gap: 12px; min-height: 44px; margin-bottom: 16px; }
-  .top h1 { font-family: var(--serif); font-weight: 500; font-size: 42px; margin: 0; line-height: 1; letter-spacing: -0.01em; }
+  .top { display: flex; align-items: center; gap: 12px; min-height: 44px; margin-bottom: 12px; }
+  .top h1 { font-family: var(--serif); font-weight: 500; font-size: 36px; margin: 0; line-height: 1; letter-spacing: -0.01em; }
   .top .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
   .back { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 4px; margin-left: -12px; }
   .back:active { background: var(--accent-soft); }
@@ -123,9 +123,9 @@
 
   .daily { display: block; width: 100%; text-align: left; background: var(--plate); border-radius: 6px; padding: 8px; margin-bottom: 16px; }
   .daily .keyline { border: 1px solid var(--plate-line); border-radius: 3px; padding: 22px 20px 20px; }
-  .daily .keyline.slim { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px 16px; }
-  .daily.slim { padding: 6px; opacity: .85; }
-  .daily .keyline.slim .t { font-size: 20px; }
+  .daily .keyline.slim { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 9px 14px; }
+  .daily.slim { padding: 5px; opacity: .9; margin-bottom: 10px; }
+  .daily .keyline.slim .t { font-size: 19px; }
   .daily .keyline.slim .d { margin-top: 0; font-size: 13px; }
   .daily .t { font-family: var(--serif); font-size: 32px; color: var(--plate-ink); line-height: 1.1; }
   .daily .d { font-size: 15px; color: var(--plate-mute); margin-top: 8px; }
@@ -147,9 +147,9 @@
   .modules .n small { display: block; color: var(--muted); font-size: 13px; font-weight: 400; margin-top: 2px; }
   .modules .pct { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
   .modules .chev { color: var(--faint); display: flex; }
-  .foot { margin-top: auto; padding-top: 28px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 10px 18px; }
+  .foot { margin-top: auto; padding-top: 14px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 10px 18px; }
   .foot button { text-decoration: underline; color: var(--muted); text-underline-offset: 3px; }
-  .ver { display: block; width: 100%; text-align: left; color: var(--faint); font-size: 12px; padding: 14px 0 calc(env(safe-area-inset-bottom) + 16px); }
+  .ver { display: block; width: 100%; text-align: left; color: var(--faint); font-size: 12px; padding: 10px 0 calc(env(safe-area-inset-bottom) + 12px); }
 
   /* Übungskarte */
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 26px 22px 22px; margin-bottom: 16px; }
@@ -241,10 +241,13 @@
   .result .goal .g { font-size: 14px; color: var(--muted); margin-top: 8px; text-align: center; }
 
   /* Karte */
-  .mapcard { padding: 8px; margin-bottom: 14px; }
+  .mapcard { padding: 4px 4px 0; margin-bottom: 10px; }
   .map { width: 100%; height: auto; display: block; }
   .map .route { fill: none; stroke: var(--line-strong); stroke-width: 1.6; stroke-dasharray: 4 5; }
   .map .route.done { stroke: var(--accent); stroke-dasharray: none; stroke-width: 2; opacity: .8; }
+  .map .route.done.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.8s ease-out .3s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .map .route.done.draw { animation: none; stroke-dashoffset: 0; } .map .pulse { animation: none; } }
   .map .st { cursor: pointer; }
   .map .st .dot { fill: var(--faint); }
   .map .st.done .dot, .map .st.cur .dot { fill: var(--accent); }
@@ -253,12 +256,12 @@
   .map .st.cur .place { fill: var(--accent); font-weight: 600; }
   .map .pulse { fill: var(--accent); opacity: .18; animation: pulse 2.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
   @keyframes pulse { 0%, 100% { transform: scale(.8); opacity: .12; } 50% { transform: scale(1.15); opacity: .26; } }
-  .stcard { display: block; width: 100%; text-align: left; background: var(--plate); color: var(--plate-ink); border-radius: 6px; padding: 20px 20px 18px; margin-bottom: 18px; }
+  .stcard { display: block; width: 100%; text-align: left; background: var(--plate); color: var(--plate-ink); border-radius: 6px; padding: 14px 18px 14px; margin-bottom: 12px; }
   .stcard .l { font-size: 13px; color: var(--plate-mute); }
-  .stcard .n { font-family: var(--serif); font-size: 32px; line-height: 1.1; margin-top: 4px; }
+  .stcard .n { font-family: var(--serif); font-size: 28px; line-height: 1.1; margin-top: 2px; }
   .stcard .th { font-size: 15px; color: var(--plate-mute); margin-top: 4px; }
-  .stcard .cta { margin-top: 16px; font-weight: 600; font-size: 16px; }
-  .pills { display: flex; gap: 6px; margin-top: 14px; }
+  .stcard .cta { margin-top: 10px; font-weight: 600; font-size: 16px; }
+  .pills { display: flex; gap: 6px; margin-top: 10px; }
   .pills i { flex: 1; height: 6px; border-radius: 3px; background: var(--plate-rail); }
   .stcard .pills i.done { background: var(--gold); }
   .stcard .pills i.next { background: var(--plate-line); }
@@ -486,9 +489,10 @@
   }
   function pickOther(type, n) {
     const items = byLevel(C[type]);
-    const fresh = shuffle(items.filter(x => !isDone(type, x.id)));
-    const rest = shuffle(items.filter(x => isDone(type, x.id)));
-    return fresh.concat(rest).slice(0, n).map(x => ({ type, id: x.id }));
+    // Zuerst nie Gesehenes, dann das am längsten nicht Gesehene, damit sich nichts zu schnell wiederholt
+    const seen = (S.seen && S.seen[type]) || {};
+    const ranked = shuffle(items).sort((a, b) => (seen[a.id] || 0) - (seen[b.id] || 0));
+    return ranked.slice(0, n).map(x => ({ type, id: x.id }));
   }
   function pickMatch() {
     // 5 Paare, bevorzugt aus der Stufe, gemischte Wortarten sind hier gewollt
@@ -539,20 +543,40 @@
   // ---------- Karte (Umriss, vereinfacht) ----------
   const FR_OUTLINE = [[2.4,51.05],[1.85,50.95],[1.6,50.4],[1.4,50.06],[0.7,49.85],[0.1,49.5],[-0.3,49.35],[-1.1,49.35],[-1.6,49.65],[-1.85,49.1],[-1.5,48.64],[-2.0,48.65],[-2.7,48.55],[-3.5,48.8],[-4.5,48.4],[-4.75,48.03],[-4.1,47.98],[-3.4,47.75],[-2.75,47.65],[-2.2,47.27],[-1.8,46.5],[-1.15,46.15],[-1.0,45.6],[-1.2,44.65],[-1.55,43.48],[-1.78,43.37],[-0.5,42.8],[0.7,42.8],[1.7,42.5],[3.05,42.45],[3.0,43.1],[3.7,43.4],[4.1,43.55],[4.9,43.4],[5.4,43.3],[5.93,43.1],[6.65,43.27],[7.27,43.7],[7.5,43.78],[7.0,44.2],[6.9,45.0],[7.1,45.5],[6.8,46.0],[6.1,46.2],[6.0,46.5],[6.9,47.3],[7.6,47.6],[8.1,48.6],[8.2,49.0],[7.3,49.1],[6.4,49.5],[5.5,49.5],[4.9,50.0],[4.2,49.95],[4.1,50.1],[3.6,50.4],[3.2,50.7]];
   const CORSICA = [[9.4,43.0],[9.55,42.6],[9.35,41.5],[9.0,41.4],[8.7,41.9],[8.6,42.3],[9.3,42.7]];
+  // Zwischenpunkte, damit die Route über Land führt (grob entlang echter Strecken)
+  const WAYPOINTS = {
+    'brest-bordeaux': [[-1.68, 48.11], [-1.55, 47.22]],            // Rennes, Nantes
+    'bordeaux-marseille': [[1.44, 43.6], [3.88, 43.61]],           // Toulouse, Montpellier
+    'lyon-strasbourg': [[5.04, 47.32], [6.02, 47.24]],             // Dijon, Besançon
+    'strasbourg-paris': [[6.18, 48.69], [4.03, 49.26]]             // Nancy, Reims
+  };
+  function routePoints(fromIdx, toIdx) {
+    const a = C.stations[fromIdx], b = C.stations[toIdx];
+    const mid = WAYPOINTS[a.id + '-' + b.id] || [];
+    return [[a.lon, a.lat]].concat(mid, [[b.lon, b.lat]]).map(p => proj(p[0], p[1]));
+  }
   const proj = (lon, lat) => [+((lon + 5.4) * 28).toFixed(1), +((51.4 - lat) * 40.5).toFixed(1)];
   const pathOf = pts => 'M' + pts.map(p => proj(p[0], p[1]).join(',')).join('L') + 'Z';
   const svgNS = 'http://www.w3.org/2000/svg';
   const sv = (tag, attrs) => { const n = document.createElementNS(svgNS, tag); Object.keys(attrs).forEach(k => n.setAttribute(k, attrs[k])); return n; };
 
   function buildMap(onTap) {
-    const svg = sv('svg', { viewBox: '0 0 430 415', class: 'map' });
+    const svg = sv('svg', { viewBox: '10 8 415 400', class: 'map' });
     svg.appendChild(sv('path', { d: pathOf(FR_OUTLINE) + ' ' + pathOf(CORSICA), class: 'land' }));
     const open = openedStations(), cur = currentStation();
-    // Route: gestrichelte Linie durch alle Stationen, der bereits gereiste Teil kräftig
+    // Route: gestrichelte Linie durch alle Stationen, der bereits gereiste Teil kräftig.
+    // Das zuletzt freigeschaltete Stück zeichnet sich einmal langsam nach.
     const pts = C.stations.map(st => proj(st.lon, st.lat));
     const doneIdx = open.length - 1;
-    if (doneIdx > 0) svg.appendChild(sv('polyline', { points: pts.slice(0, doneIdx + 1).map(p => p.join(',')).join(' '), class: 'route done' }));
-    svg.appendChild(sv('polyline', { points: pts.slice(Math.max(0, doneIdx)).map(p => p.join(',')).join(' '), class: 'route' }));
+    for (let i = 0; i < C.stations.length - 1; i++) {
+      const seg = routePoints(i, i + 1).map(p => p.join(',')).join(' ');
+      const isDone = i < doneIdx;
+      const animate = isDone && S.anim === C.stations[i + 1].id;
+      const line = sv('polyline', { points: seg, class: 'route' + (isDone ? ' done' : '') + (animate ? ' draw' : '') });
+      if (animate) line.setAttribute('pathLength', '1');
+      svg.appendChild(line);
+    }
+    if (S.anim) { delete S.anim; save(); }
     C.stations.forEach((st, i) => {
       const [x, y] = pts[i];
       const state = progOf(st.id) >= 5 ? 'done' : st.id === cur.id ? 'cur' : 'locked';
@@ -607,24 +631,14 @@
     const foot = el('div', 'foot');
     const all = el('button', '', 'Frei üben');
     all.onclick = () => renderModules(null);
-    foot.appendChild(all);
-    const dir = el('button', '', S.direction === 'de-fr' ? 'Deutsch nach Französisch' : 'Französisch nach Deutsch');
-    dir.onclick = () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderHome(); };
-    const transfer = el('button', '', 'Spielstand übertragen');
-    transfer.onclick = renderTransfer;
-    const vs = frVoices();
-    if (vs.length > 1) {
-      pickVoice();
-      const vb = el('button', '', 'Stimme: ' + (voice ? voice.name.replace(/\s*\(.*\)$/, '') : ''));
-      vb.onclick = () => { const i = vs.findIndex(v => voice && v.name === voice.name); voice = vs[(i + 1) % vs.length]; S.voiceName = voice.name; save(); speak('Bonjour'); renderHome(); };
-      foot.appendChild(vb);
-    }
-    const rd = el('button', '', 'Vorlesen ' + (S.autoRead ? 'an' : 'aus'));
-    rd.onclick = () => { S.autoRead = !S.autoRead; save(); renderHome(); };
-    const sd = el('button', '', 'Töne ' + (S.sound ? 'an' : 'aus'));
-    sd.onclick = () => { S.sound = !S.sound; save(); if (S.sound) sfx('ok'); renderHome(); };
-    foot.appendChild(dir); foot.appendChild(rd); foot.appendChild(sd); foot.appendChild(transfer);
+    const set = el('button', '', 'Einstellungen');
+    set.onclick = renderSettings;
+    foot.appendChild(all); foot.appendChild(set);
     app.appendChild(foot);
+    app.appendChild(versionLine());
+  }
+
+  function versionLine() {
     const ver = el('button', 'ver', 'Flâner ' + (window.APP_VERSION || '') + ', ' + (window.APP_DATE || '') + '. Tippen lädt die neueste Fassung.');
     ver.onclick = async () => {
       ver.textContent = 'Lade neu …';
@@ -634,7 +648,31 @@
       } catch (e) {}
       location.reload();
     };
-    app.appendChild(ver);
+    return ver;
+  }
+
+  // ---------- Einstellungen ----------
+  function renderSettings() {
+    app.innerHTML = '';
+    const top = el('div', 'top');
+    const back = el('button', 'back', ICON.back); back.onclick = renderHome;
+    top.appendChild(back);
+    top.appendChild(el('div', '', '<div>Einstellungen</div>'));
+    app.appendChild(top);
+    const ul = el('ul', 'modules');
+    function row(name, sub, val, fn) {
+      const li = el('li'); const b = el('button');
+      b.innerHTML = '<div class="n">' + name + '<small>' + sub + '</small></div><div class="pct">' + esc(val) + '</div><div class="chev">' + ICON.chev + '</div>';
+      b.onclick = fn; li.appendChild(b); ul.appendChild(li);
+    }
+    row('Vokabelrichtung', 'Welche Sprache abgefragt wird', S.direction === 'de-fr' ? 'Deutsch nach Französisch' : 'Französisch nach Deutsch', () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderSettings(); });
+    row('Vorlesen', 'Lösung nach der Antwort automatisch vorlesen', S.autoRead ? 'an' : 'aus', () => { S.autoRead = !S.autoRead; save(); renderSettings(); });
+    row('Töne', 'Kurzer Ton bei richtig und falsch', S.sound ? 'an' : 'aus', () => { S.sound = !S.sound; save(); if (S.sound) sfx('ok'); renderSettings(); });
+    const vs = frVoices();
+    if (vs.length) { pickVoice(); row('Stimme', vs.length > 1 ? 'Antippen wechselt, mit Hörprobe' : 'Nur eine französische Stimme auf diesem Gerät', voice ? voice.name.replace(/\s*\(.*\)$/, '') : '', () => { if (vs.length < 2) { speak('Bonjour'); return; } const i = vs.findIndex(v => voice && v.name === voice.name); voice = vs[(i + 1) % vs.length]; S.voiceName = voice.name; save(); speak('Bonjour'); renderSettings(); }); }
+    row('Spielstand übertragen', 'Code für ein anderes Gerät', '', renderTransfer);
+    app.appendChild(ul);
+    app.appendChild(versionLine());
   }
 
   function startEtappe(sid, n) {
@@ -752,6 +790,7 @@
       pts = pts || 0;
       const from = S.points;
       results.push({ type: ref.type, id: ref.id, correct: !!correct, pts });
+      S.seen = S.seen || {}; S.seen[ref.type] = S.seen[ref.type] || {}; S.seen[ref.type][ref.id] = Date.now();
       S.points += pts;
       save();
       if (ref.type !== 'match' && ref.type !== 'texts' && ref.type !== 'dialogs') sfx(correct ? 'ok' : 'err');
@@ -1015,18 +1054,25 @@
     function showTurn() {
       const t = d.turns[turn];
       const npc = el('div', 'bubble npc');
-      npc.innerHTML = '<p class="fr">' + esc(t.npc) + '</p><div class="de">' + esc(t.npcDe) + '</div>';
+      npc.innerHTML = '<p class="fr">' + esc(t.npc) + '</p><div class="de tr" style="display:none">' + esc(t.npcDe) + '</div>';
+      const row = el('div', 'listen'); row.style.marginTop = '8px';
       const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.onclick = () => speak(t.npc);
-      npc.appendChild(listen);
+      const trb = el('button', 'btn quiet', 'Übersetzung');
+      let helpedTurn = false;
+      trb.onclick = () => { helpedTurn = true; conv.querySelectorAll('.tr').forEach(x => x.style.display = ''); trb.remove(); };
+      row.appendChild(listen); row.appendChild(trb);
+      npc.appendChild(row);
       conv.appendChild(npc);
       if (S.autoRead) speak(t.npc);
       const opts = el('div', 'opts');
       const fb = el('div');
       shuffle(t.options.map((o, i) => ({ o, i }))).forEach(({ o, i }) => {
-        const b = el('button', 'fr', '<span style="display:block">' + esc(o.fr) + '</span><span class="de" style="display:block;font-family:var(--sans);font-size:13px;margin-top:2px">' + esc(o.de) + '</span>');
+        const b = el('button', 'fr', '<span style="display:block">' + esc(o.fr) + '</span><span class="de tr" style="display:none;font-family:var(--sans);font-size:13px;margin-top:2px">' + esc(o.de) + '</span>');
         b.onclick = () => {
           const ok = !!o.ok;
-          if (ok) right++;
+          if (ok) right += helpedTurn ? 0.5 : 1;
+          trb.remove();
+          conv.querySelectorAll('.tr').forEach(x => x.style.display = '');
           Array.from(opts.children).forEach(c => { c.disabled = true; if (t.options[c.dataset.i].ok) c.classList.add('ok'); else if (c !== b) c.style.display = 'none'; });
           if (!ok) b.classList.add('err');
           sfx(ok ? 'ok' : 'err');
@@ -1042,7 +1088,7 @@
             opts.remove(); fb.remove(); conv.appendChild(me);
             actions.innerHTML = '';
             if (turn < d.turns.length) showTurn();
-            else { markDone('dialogs', d.id, right === d.turns.length); finish(right === d.turns.length, right * P()[0]); }
+            else { markDone('dialogs', d.id, right === d.turns.length); finish(right === d.turns.length, Math.round(right * P()[0])); }
           };
           actions.appendChild(next);
         };
@@ -1091,8 +1137,16 @@
     card.appendChild(el('div', 'prompt', hint));
     const fr = el('p', 'lang small' + (mode === 1 ? '' : ' hidden'), esc(s.fr));
     const de = el('div', 'de', esc(s.de));
+    let helped = false;
     if (mode === 3) { de.className = 'lang small'; card.appendChild(de); card.appendChild(fr); fr.style.marginTop = '14px'; }
-    else { card.appendChild(fr); card.appendChild(de); }
+    else {
+      // Übersetzung erst auf Wunsch, das kostet einen Teil der Punkte
+      de.style.display = 'none';
+      card.appendChild(fr); card.appendChild(de);
+      const tr = el('button', 'btn quiet', 'Übersetzung'); tr.style.marginTop = '10px';
+      tr.onclick = () => { helped = true; de.style.display = ''; tr.remove(); };
+      card.appendChild(tr);
+    }
 
     const listen = el('div', 'listen');
     const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Lösung anhören' : ' Anhören'));
@@ -1114,8 +1168,8 @@
     actions.className = 'actions row';
     const again = el('button', 'btn', 'Nochmal');
     const ok = el('button', 'btn ok', 'Sitzt');
-    again.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, false); finish(false, 0); };
-    ok.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, true); finish(true, P()[0]); };
+    again.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; markDone('speak', s.id, false); finish(false, 0); };
+    ok.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; markDone('speak', s.id, !helped); finish(!helped, helped ? P()[1] : P()[0]); };
     actions.appendChild(again); actions.appendChild(ok);
   };
 
@@ -1227,7 +1281,7 @@
     if (etappe) {
       const before = progOf(ctx.station);
       if (ctx.n > before) { S.prog[ctx.station] = ctx.n; save(); }
-      if (ctx.n === 5 && before < 5) { stationDone = true; unlockedStation = C.stations[stIdx(ctx.station) + 1] || null; }
+      if (ctx.n === 5 && before < 5) { stationDone = true; unlockedStation = C.stations[stIdx(ctx.station) + 1] || null; if (unlockedStation) { S.anim = unlockedStation.id; save(); } }
     }
     const st = etappe ? C.stations.find(x => x.id === ctx.station) : currentStation();
     const n = progOf(st.id);
