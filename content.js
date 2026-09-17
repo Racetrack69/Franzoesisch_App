@@ -70,34 +70,34 @@ window.CONTENT = {
 
 
   // Artikel: Stufe 1 und 2 bestimmter Artikel (le, la, l', les), Stufe 3 Teilungsartikel (du, de la, de l', des, und de nach Verneinung).
-  // "prompt" mit ___ ist die Lücke, "answer" der Index der richtigen Option.
+  // "prompt" mit ___ ist die Lücke, "answer" der Index der richtigen Option, "de" die Übersetzung für die Auflösung.
   articles: [
-    { id: "a01", level: 1, prompt: "___ pain", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le pain ist maskulin." },
-    { id: "a02", level: 1, prompt: "___ boulangerie", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -erie sind feminin: la boulangerie, la boucherie." },
-    { id: "a03", level: 1, prompt: "___ eau", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal wird le oder la zu l'. Eau ist feminin: une eau fraîche.", trap: "Stolperstein: Vor Vokal sieht man das Geschlecht nicht. Merke es dir am Adjektiv: une eau froide." },
-    { id: "a04", level: 1, prompt: "___ enfants", options: ["le", "la", "l'", "les"], answer: 3, explain: "Plural, also les. Das s hört man vor Vokal: les‿enfants." },
-    { id: "a05", level: 1, prompt: "___ fromage", options: ["le", "la", "l'", "les"], answer: 0, explain: "Wörter auf -age sind maskulin, Ausnahmen: la page, la plage, la cage, l'image.", trap: "Stolperstein: Das Geschlecht folgt der Endung, nicht dem deutschen Wort. Le fromage, le garage, le village, aber la plage (der Strand)." },
-    { id: "a06", level: 1, prompt: "___ pomme", options: ["le", "la", "l'", "les"], answer: 1, explain: "Die meisten Wörter auf -e sind feminin, la pomme." },
-    { id: "a07", level: 1, prompt: "___ argent", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vokal am Anfang: l'argent. Maskulin: de l'argent, il est cher." },
-    { id: "a08", level: 1, prompt: "___ marché", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le marché ist maskulin, wie le café, le thé." },
+    { id: "a01", level: 1, prompt: "___ pain", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le pain ist maskulin.", de: "das Brot" },
+    { id: "a02", level: 1, prompt: "___ boulangerie", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -erie sind feminin: la boulangerie, la boucherie.", de: "die Bäckerei" },
+    { id: "a03", level: 1, prompt: "___ eau", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal wird le oder la zu l'. Eau ist feminin: une eau fraîche.", trap: "Stolperstein: Vor Vokal sieht man das Geschlecht nicht. Merke es dir am Adjektiv: une eau froide.", de: "das Wasser" },
+    { id: "a04", level: 1, prompt: "___ enfants", options: ["le", "la", "l'", "les"], answer: 3, explain: "Plural, also les. Das s hört man vor Vokal: les‿enfants.", de: "die Kinder" },
+    { id: "a05", level: 1, prompt: "___ fromage", options: ["le", "la", "l'", "les"], answer: 0, explain: "Wörter auf -age sind maskulin, Ausnahmen: la page, la plage, la cage, l'image.", trap: "Stolperstein: Das Geschlecht folgt der Endung, nicht dem deutschen Wort. Le fromage, le garage, le village, aber la plage (der Strand).", de: "der Käse" },
+    { id: "a06", level: 1, prompt: "___ pomme", options: ["le", "la", "l'", "les"], answer: 1, explain: "Die meisten Wörter auf -e sind feminin, la pomme.", de: "der Apfel" },
+    { id: "a07", level: 1, prompt: "___ argent", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vokal am Anfang: l'argent. Maskulin: de l'argent, il est cher.", de: "das Geld" },
+    { id: "a08", level: 1, prompt: "___ marché", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le marché ist maskulin, wie le café, le thé.", de: "der Markt" },
 
-    { id: "a09", level: 2, prompt: "___ réunion", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -tion und -sion sind feminin: la réunion, la décision." },
-    { id: "a10", level: 2, prompt: "___ problème", options: ["le", "la", "l'", "les"], answer: 0, explain: "Trotz -e maskulin: le problème, le système, le thème (griechischer Ursprung).", trap: "Stolperstein: Viele Wörter griechischen Ursprungs auf -ème und -amme sind maskulin: le problème, le programme." },
-    { id: "a11", level: 2, prompt: "___ musée", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le musée und le lycée sind maskulin, obwohl sie auf -ée enden." },
-    { id: "a12", level: 2, prompt: "___ hôtel", options: ["le", "la", "l'", "les"], answer: 2, explain: "Stummes h zählt wie ein Vokal: l'hôtel, l'homme. Aber: le haricot (h aspiré).", trap: "Stolperstein: Nicht jedes h ist stumm. Le haricot, le héros, la haine (h aspiré) behalten den vollen Artikel." },
-    { id: "a13", level: 2, prompt: "___ vacances", options: ["le", "la", "l'", "les"], answer: 3, explain: "Vacances steht immer im Plural: les vacances." },
-    { id: "a14", level: 2, prompt: "___ main", options: ["le", "la", "l'", "les"], answer: 1, explain: "La main ist feminin, obwohl es nicht auf -e endet." },
-    { id: "a15", level: 2, prompt: "___ voiture", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -ure sind feminin: la voiture, la nature." },
-    { id: "a16", level: 2, prompt: "___ journal", options: ["le", "la", "l'", "les"], answer: 0, explain: "Wörter auf -al sind maskulin: le journal, le cheval. Plural: les journaux." },
+    { id: "a09", level: 2, prompt: "___ réunion", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -tion und -sion sind feminin: la réunion, la décision.", de: "die Besprechung" },
+    { id: "a10", level: 2, prompt: "___ problème", options: ["le", "la", "l'", "les"], answer: 0, explain: "Trotz -e maskulin: le problème, le système, le thème (griechischer Ursprung).", trap: "Stolperstein: Viele Wörter griechischen Ursprungs auf -ème und -amme sind maskulin: le problème, le programme.", de: "das Problem" },
+    { id: "a11", level: 2, prompt: "___ musée", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le musée und le lycée sind maskulin, obwohl sie auf -ée enden.", de: "das Museum" },
+    { id: "a12", level: 2, prompt: "___ hôtel", options: ["le", "la", "l'", "les"], answer: 2, explain: "Stummes h zählt wie ein Vokal: l'hôtel, l'homme. Aber: le haricot (h aspiré).", trap: "Stolperstein: Nicht jedes h ist stumm. Le haricot, le héros, la haine (h aspiré) behalten den vollen Artikel.", de: "das Hotel" },
+    { id: "a13", level: 2, prompt: "___ vacances", options: ["le", "la", "l'", "les"], answer: 3, explain: "Vacances steht immer im Plural: les vacances.", de: "die Ferien" },
+    { id: "a14", level: 2, prompt: "___ main", options: ["le", "la", "l'", "les"], answer: 1, explain: "La main ist feminin, obwohl es nicht auf -e endet.", de: "die Hand" },
+    { id: "a15", level: 2, prompt: "___ voiture", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -ure sind feminin: la voiture, la nature.", de: "das Auto" },
+    { id: "a16", level: 2, prompt: "___ journal", options: ["le", "la", "l'", "les"], answer: 0, explain: "Wörter auf -al sind maskulin: le journal, le cheval. Plural: les journaux.", de: "die Zeitung" },
 
-    { id: "a17", level: 3, prompt: "Je voudrais ___ pain.", options: ["du", "de la", "de l'", "des"], answer: 0, explain: "Unbestimmte Menge, maskulin: du pain (de + le)." },
-    { id: "a18", level: 3, prompt: "Elle mange ___ confiture.", options: ["du", "de la", "de l'", "des"], answer: 1, explain: "Unbestimmte Menge, feminin: de la confiture." },
-    { id: "a19", level: 3, prompt: "Tu veux ___ eau ?", options: ["du", "de la", "de l'", "des"], answer: 2, explain: "Vor Vokal: de l'eau, de l'argent." },
-    { id: "a20", level: 3, prompt: "On achète ___ œufs.", options: ["du", "de la", "de l'", "des"], answer: 3, explain: "Plural: des œufs (de + les)." },
-    { id: "a21", level: 3, prompt: "Il boit ___ café.", options: ["du", "de la", "de l'", "des"], answer: 0, explain: "Du café: eine unbestimmte Menge Kaffee. Un café wäre eine Tasse." },
-    { id: "a22", level: 3, prompt: "Il n'y a pas ___ lait.", options: ["du", "de la", "de", "des"], answer: 2, explain: "Nach Verneinung wird der Teilungsartikel zu de: pas de lait, pas d'eau.", trap: "Stolperstein: Nach pas, plus, jamais wird du, de la, des zu de. Nur nach être bleibt der Artikel: ce n'est pas du lait." },
-    { id: "a23", level: 3, prompt: "Je ne prends pas ___ sucre.", options: ["du", "de", "de la", "des"], answer: 1, explain: "Verneinung: pas de sucre. Du sucre nur im bejahten Satz." },
-    { id: "a24", level: 3, prompt: "Vous avez ___ enfants ?", options: ["du", "de la", "de l'", "des"], answer: 3, explain: "Plural, unbestimmt: des enfants." }
+    { id: "a17", level: 3, prompt: "Je voudrais ___ pain.", options: ["du", "de la", "de l'", "des"], answer: 0, explain: "Unbestimmte Menge, maskulin: du pain (de + le).", de: "Ich hätte gern Brot." },
+    { id: "a18", level: 3, prompt: "Elle mange ___ confiture.", options: ["du", "de la", "de l'", "des"], answer: 1, explain: "Unbestimmte Menge, feminin: de la confiture.", de: "Sie isst Marmelade." },
+    { id: "a19", level: 3, prompt: "Tu veux ___ eau ?", options: ["du", "de la", "de l'", "des"], answer: 2, explain: "Vor Vokal: de l'eau, de l'argent.", de: "Möchtest du Wasser?" },
+    { id: "a20", level: 3, prompt: "On achète ___ œufs.", options: ["du", "de la", "de l'", "des"], answer: 3, explain: "Plural: des œufs (de + les).", de: "Wir kaufen Eier." },
+    { id: "a21", level: 3, prompt: "Il boit ___ café.", options: ["du", "de la", "de l'", "des"], answer: 0, explain: "Du café: eine unbestimmte Menge Kaffee. Un café wäre eine Tasse.", de: "Er trinkt Kaffee." },
+    { id: "a22", level: 3, prompt: "Il n'y a pas ___ lait.", options: ["du", "de la", "de", "des"], answer: 2, explain: "Nach Verneinung wird der Teilungsartikel zu de: pas de lait, pas d'eau.", trap: "Stolperstein: Nach pas, plus, jamais wird du, de la, des zu de. Nur nach être bleibt der Artikel: ce n'est pas du lait.", de: "Es gibt keine Milch." },
+    { id: "a23", level: 3, prompt: "Je ne prends pas ___ sucre.", options: ["du", "de", "de la", "des"], answer: 1, explain: "Verneinung: pas de sucre. Du sucre nur im bejahten Satz.", de: "Ich nehme keinen Zucker." },
+    { id: "a24", level: 3, prompt: "Vous avez ___ enfants ?", options: ["du", "de la", "de l'", "des"], answer: 3, explain: "Plural, unbestimmt: des enfants.", de: "Haben Sie Kinder?" }
   ],
 
   errors: [

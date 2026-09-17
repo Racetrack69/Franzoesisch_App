@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#EDE3D1">
+<meta name="theme-color" content="#EDE3D1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131E2E" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Flâner">
@@ -122,6 +123,10 @@
 
   .daily { display: block; width: 100%; text-align: left; background: var(--plate); border-radius: 6px; padding: 8px; margin-bottom: 16px; }
   .daily .keyline { border: 1px solid var(--plate-line); border-radius: 3px; padding: 22px 20px 20px; }
+  .daily .keyline.slim { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px 16px; }
+  .daily.slim { padding: 6px; opacity: .85; }
+  .daily .keyline.slim .t { font-size: 20px; }
+  .daily .keyline.slim .d { margin-top: 0; font-size: 13px; }
   .daily .t { font-family: var(--serif); font-size: 32px; color: var(--plate-ink); line-height: 1.1; }
   .daily .d { font-size: 15px; color: var(--plate-mute); margin-top: 8px; }
   .daily .rule { height: 1px; background: var(--plate-rail); margin: 18px 0 14px; }
@@ -144,6 +149,7 @@
   .modules .chev { color: var(--faint); display: flex; }
   .foot { margin-top: auto; padding-top: 28px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 10px 18px; }
   .foot button { text-decoration: underline; color: var(--muted); text-underline-offset: 3px; }
+  .ver { display: block; width: 100%; text-align: left; color: var(--faint); font-size: 12px; padding: 14px 0 calc(env(safe-area-inset-bottom) + 16px); }
 
   /* Übungskarte */
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 26px 22px 22px; margin-bottom: 16px; }
@@ -200,10 +206,6 @@
   .inrow { display: flex; gap: 10px; margin-top: 14px; }
   .inrow .btn { flex: 1; }
   .listen { display: flex; gap: 10px; margin-top: 18px; }
-  .rec { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
-  .rec .note { margin-top: 0; }
-  .meter { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
-  .meter i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .06s linear; }
   .listen .btn { flex: 1; }
 
   /* Ergebnis */
@@ -222,8 +224,8 @@
   .note { color: var(--muted); font-size: 13px; margin-top: 12px; }
 
   /* Zuordnen */
-  .match { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
-  .mbtn { min-height: 56px; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--field); font-size: 16px; line-height: 1.25; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .match { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 10px; margin-top: 8px; }
+  .mbtn { min-height: 60px; height: 100%; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--field); font-size: 16px; line-height: 1.25; display: flex; align-items: center; justify-content: center; text-align: center; }
   .mbtn.fr { font-family: var(--serif); font-size: 20px; }
   .mbtn.sel { border-color: var(--ink); background: var(--accent-soft); }
   .mbtn.done { border-color: var(--line); background: transparent; color: var(--faint); }
@@ -261,6 +263,7 @@
 </head>
 <body>
 <div id="app"></div>
+<script src="version.js"></script>
 <script src="content.js"></script>
 <script>
 (function () {
@@ -330,10 +333,19 @@
 
   // ---------- Sprachausgabe ----------
   let voice = null;
-  function pickVoice() {
-    if (!('speechSynthesis' in window)) return;
+  const FEMALE = /aur[ée]lie|am[ée]lie|audrey|marie|chantal|c[ée]line|l[ée]a|virginie|female|femme|-vlf-|sabrina|zoe|zoé/i;
+  const MALE = /thomas|daniel|nicolas|-vlm-|male|homme/i;
+  function frVoices() {
+    if (!('speechSynthesis' in window)) return [];
     const vs = speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('fr'));
-    voice = vs.find(v => v.lang.toLowerCase() === 'fr-fr' && v.localService) || vs.find(v => v.lang.toLowerCase() === 'fr-fr') || vs[0] || null;
+    // fr-FR zuerst, dann übrige französische Stimmen
+    return vs.sort((a, b) => (b.lang.toLowerCase() === 'fr-fr') - (a.lang.toLowerCase() === 'fr-fr'));
+  }
+  function pickVoice() {
+    const vs = frVoices();
+    if (!vs.length) { voice = null; return; }
+    if (S.voiceName) { const chosen = vs.find(v => v.name === S.voiceName); if (chosen) { voice = chosen; return; } }
+    voice = vs.find(v => FEMALE.test(v.name) && !MALE.test(v.name)) || vs.find(v => !MALE.test(v.name)) || vs[0];
   }
   if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
   function speak(text, rate) {
@@ -356,16 +368,26 @@
     o.connect(g); g.connect(actx.destination);
     o.start(at); o.stop(at + dur + 0.05);
   }
-  function sfx(kind) {
-    if (!S.sound) return;
+  function ensureAudio() {
     try {
       actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-      if (actx.state === 'suspended') actx.resume();
+      if (actx.state === 'suspended') return actx.resume();
+    } catch (e) {}
+    return Promise.resolve();
+  }
+  // Browser geben Ton erst nach einer Berührung frei. Der erste Tipp irgendwo in der App reicht,
+  // danach klappt es auch bei Antworten, die über die Tastatur abgeschickt werden.
+  document.addEventListener('touchend', () => { if (S.sound) ensureAudio(); }, { passive: true });
+  document.addEventListener('pointerdown', () => { if (S.sound) ensureAudio(); }, { passive: true });
+  function sfx(kind) {
+    if (!S.sound) return;
+    ensureAudio().then(() => {
+      if (!actx) return;
       const t = actx.currentTime + 0.01;
       if (kind === 'ok') { tone(523, 0.16, t); tone(784, 0.22, t + 0.11); }
       else if (kind === 'err') { tone(196, 0.22, t, 'triangle', 0.1); }
       else if (kind === 'unlock') { [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.28, t + i * 0.13)); }
-    } catch (e) {}
+    }).catch(() => {});
   }
 
   // ---------- Fortschritt ----------
@@ -379,15 +401,16 @@
   function isDone(type, id) { return !!(S.done[type] && S.done[type][id]); }
 
   function moduleProgress(key) {
-    if (key === 'match') { const n = (S.done.match && Object.keys(S.done.match).length) || 0; return { text: n + (n === 1 ? ' Runde' : ' Runden'), pct: 0 }; }
+    if (key === 'match') return { text: '5 Paare je Runde', pct: 0 };
     const items = byLevel(C[key]);
     if (!items.length) return { text: 'Noch keine Inhalte', pct: 0 };
     if (key === 'vocab') {
-      const learned = items.filter(v => vocabLevel(v.id) >= 3).length;
-      return { text: learned + ' von ' + items.length + ' sicher', pct: learned / items.length };
+      const learned = items.filter(v => vocabLevel(v.id) >= 2).length;
+      return { text: learned + ' von ' + items.length + ' sitzen', pct: learned / items.length };
     }
-    const done = items.filter(x => isDone(key, x.id)).length;
-    return { text: done + ' von ' + items.length, pct: done / items.length };
+    // Zählt nur richtig gelöste Aufgaben, nicht bloß gesehene
+    const done = items.filter(x => S.done[key] && S.done[key][x.id] === 2).length;
+    return { text: done + ' von ' + items.length + ' sitzen', pct: done / items.length };
   }
 
   // ---------- Auswahl der Übungen ----------
@@ -449,8 +472,9 @@
 
     const d = dailyState();
     const doneCount = d.results.length, total = d.items.length, finished = doneCount >= total;
-    const daily = el('button', 'daily');
-    daily.innerHTML = '<div class="keyline">' +
+    const daily = el('button', finished ? 'daily slim' : 'daily');
+    if (finished) daily.innerHTML = '<div class="keyline slim"><span class="t">Le programme du jour</span><span class="d">Heute erledigt</span></div>';
+    else daily.innerHTML = '<div class="keyline">' +
       '<div class="t">Le programme du jour</div>' +
       '<div class="d">' + (finished ? 'Heute erledigt, morgen gibt es ein neues' : 'Tagesprogramm, ' + total + ' Übungen') + '</div>' +
       '<div class="rule"></div>' +
@@ -485,12 +509,29 @@
     dir.onclick = () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderHome(); };
     const transfer = el('button', '', 'Spielstand übertragen');
     transfer.onclick = renderTransfer;
+    const vs = frVoices();
+    if (vs.length > 1) {
+      pickVoice();
+      const vb = el('button', '', 'Stimme: ' + (voice ? voice.name.replace(/\s*\(.*\)$/, '') : ''));
+      vb.onclick = () => { const i = vs.findIndex(v => voice && v.name === voice.name); voice = vs[(i + 1) % vs.length]; S.voiceName = voice.name; save(); speak('Bonjour'); renderHome(); };
+      foot.appendChild(vb);
+    }
     const rd = el('button', '', 'Vorlesen ' + (S.autoRead ? 'an' : 'aus'));
     rd.onclick = () => { S.autoRead = !S.autoRead; save(); renderHome(); };
     const sd = el('button', '', 'Töne ' + (S.sound ? 'an' : 'aus'));
     sd.onclick = () => { S.sound = !S.sound; save(); if (S.sound) sfx('ok'); renderHome(); };
     foot.appendChild(dir); foot.appendChild(rd); foot.appendChild(sd); foot.appendChild(transfer);
     app.appendChild(foot);
+    const ver = el('button', 'ver', 'Flâner ' + (window.APP_VERSION || '') + ', ' + (window.APP_DATE || '') + '. Tippen lädt die neueste Fassung.');
+    ver.onclick = async () => {
+      ver.textContent = 'Lade neu …';
+      try {
+        if (navigator.serviceWorker) { const regs = await navigator.serviceWorker.getRegistrations(); await Promise.all(regs.map(r => r.unregister())); }
+        if (window.caches) { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); }
+      } catch (e) {}
+      location.reload();
+    };
+    app.appendChild(ver);
   }
 
   // ---------- Ablauf einer Übungsreihe ----------
@@ -603,10 +644,10 @@
       if (ctxEl) ctxEl.remove();
       if (!listenBtn.parentNode) small.after(listenBtn);
     }
-    const lab = el('label', 'field', toFr ? 'Übersetzung auf Französisch, mit Artikel' : 'Übersetzung auf Deutsch, mit Artikel');
+    const lab = el('label', 'field', toFr ? 'Wie heißt das auf Französisch?' : 'Wie heißt das auf Deutsch?');
     lab.setAttribute('for', 'answer');
     const input = el('input');
-    input.type = 'text'; input.id = 'answer'; input.autocapitalize = 'off'; input.autocomplete = 'off'; input.spellcheck = false;
+    input.type = 'text'; input.id = 'answer'; input.autocapitalize = 'off'; input.autocomplete = 'off'; input.spellcheck = false; input.placeholder = 'mit Artikel'; input.setAttribute('enterkeyhint', 'done');
     input.setAttribute('lang', toFr ? 'fr' : 'de');
     card.appendChild(lab); card.appendChild(input);
     const fb = el('div');
@@ -627,7 +668,7 @@
       input.disabled = true;
       input.className = ok ? 'ok' : 'err';
       showSolution();
-      fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Leider nicht.', v);
+      fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Knapp daneben.', v);
       bumpVocab(v.id, delta);
       row.remove();
       finish(ok, ok ? P()[0] : 0, v.fr);
@@ -670,7 +711,7 @@
           Array.from(opts.children).forEach(c => { c.disabled = true; if (norm(c.textContent) === norm(target)) c.classList.add('ok'); });
           if (!ok) b.classList.add('err');
           showSolution();
-          fb.innerHTML = explainBox(ok, ok ? 'Richtig, mit Hilfe.' : 'Leider nicht.', v);
+          fb.innerHTML = explainBox(ok, ok ? 'Richtig, mit Hilfe.' : 'Knapp daneben.', v);
           bumpVocab(v.id, ok ? 0 : -1);
           row.remove();
           finish(false, ok ? P()[1] : 0, v.fr);
@@ -686,7 +727,7 @@
   // Artikel: Lücke mit vier Optionen
   RENDER.articles = function (a, body, actions, finish) {
     const card = el('div', 'card');
-    card.appendChild(el('div', 'theme', a.level === 3 ? 'Teilungsartikel' : 'Bestimmter Artikel'));
+    card.appendChild(el('div', 'theme', a.level === 3 ? 'du, de la oder des?' : 'le, la, l’ oder les?'));
     const parts = a.prompt.split('___');
     const sent = el('p', 'lang small', esc(parts[0]) + '<span style="border-bottom:2px solid var(--accent);padding:0 18px"> </span>' + esc(parts[1] || ''));
     sent.style.marginTop = '10px';
@@ -703,7 +744,7 @@
         if (!ok) b.classList.add('err');
         const full = a.prompt.replace('___', a.options[a.answer]);
         sent.innerHTML = esc(parts[0]) + '<u>' + esc(a.options[a.answer]) + '</u>' + esc(parts[1] || '');
-        fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Leider nicht.', a);
+        fb.innerHTML = explainBox(ok, (ok ? 'Richtig. ' : 'Knapp daneben. ') + '<b>' + esc(full) + '</b>' + (a.de ? '<div class="de" style="margin-top:2px">' + esc(a.de) + '</div>' : ''), a);
         const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(full);
         fb.appendChild(listen);
@@ -723,7 +764,7 @@
     const words = m.ids.map(id => C.vocab.find(v => v.id === id)).filter(Boolean);
     const byEar = S.level >= 2;
     const card = el('div', 'card');
-    card.appendChild(el('div', 'prompt', byEar ? 'Anhören, dann das deutsche Wort dazu antippen.' : 'Erst ein Wort links, dann das passende rechts.'));
+    card.appendChild(el('div', 'prompt', byEar ? 'Was gehört zusammen? Links anhören.' : 'Was gehört zusammen?'));
     const grid = el('div', 'match');
     const left = shuffle(words), right = shuffle(words);
     const btns = { fr: [], de: [] };
@@ -756,7 +797,6 @@
         if (pairs === words.length) {
           const pts = Math.max(0, words.length * P()[1] - mistakes);
           fb.innerHTML = '<div class="feedback ' + (mistakes ? 'hint' : 'ok') + '">' + (mistakes ? mistakes + (mistakes === 1 ? ' Fehlversuch' : ' Fehlversuche') + '.' : 'Alle Paare ohne Fehler.') + '</div>';
-          markDone('match', m.id, mistakes === 0);
           finish(mistakes === 0, pts);
         }
       } else {
@@ -776,7 +816,7 @@
   // Fehler finden
   RENDER.errors = function (e, body, actions, finish) {
     const card = el('div', 'card');
-    card.appendChild(el('div', 'prompt', 'Ein Wort ist falsch. Tippe es an.'));
+    card.appendChild(el('div', 'prompt', 'Ein Wort stimmt nicht.'));
     const words = el('div', 'words');
     const fb = el('div');
     e.words.forEach((w, i) => {
@@ -787,7 +827,7 @@
         words.children[e.wrong].classList.add('err');
         const fixed = e.words.map((x, j) => j === e.wrong ? '<u>' + esc(e.correct) + '</u>' : esc(x)).join(' ');
         const corrected = e.words.map((x, j) => j === e.wrong ? e.correct : x).join(' ');
-        fb.innerHTML = explainBox(ok, (ok ? 'Genau. ' : 'Nicht dieses Wort. Der Fehler steckt hier: ') + '<b>' + fixed + '</b>', e);
+        fb.innerHTML = explainBox(ok, (ok ? 'Genau. ' : 'Nicht das. Der Fehler steckt hier: ') + '<b>' + fixed + '</b>', e);
         const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(corrected);
         fb.appendChild(listen);
@@ -805,7 +845,7 @@
   RENDER.speak = function (s, body, actions, finish) {
     const mode = S.level;
     const card = el('div', 'card');
-    const hint = mode === 1 ? 'Anhören und nachsprechen.' : mode === 2 ? 'Nur anhören, dann nachsprechen. Der Text bleibt verdeckt.' : 'Sag den Satz auf Französisch. Danach die Lösung anhören.';
+    const hint = mode === 1 ? 'Sag es laut.' : mode === 2 ? 'Nur hören, dann laut sagen.' : 'Sag es auf Französisch, dann hör die Lösung.';
     card.appendChild(el('div', 'prompt', hint));
     const fr = el('p', 'lang small' + (mode === 1 ? '' : ' hidden'), esc(s.fr));
     const de = el('div', 'de', esc(s.de));
@@ -813,7 +853,7 @@
     else { card.appendChild(fr); card.appendChild(de); }
 
     const listen = el('div', 'listen');
-    const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Original' : ' Original'));
+    const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Lösung anhören' : ' Anhören'));
     const slow = el('button', 'btn', 'Langsam');
     play.onclick = () => { speak(s.fr); if (mode === 3) fr.classList.remove('hidden'); };
     slow.onclick = () => { speak(s.fr, 0.7); if (mode === 3) fr.classList.remove('hidden'); };
@@ -825,83 +865,15 @@
       card.appendChild(show);
     }
 
-    // Aufnehmen und vergleichen (fällt ohne Mikrofon still auf die reine Selbsteinschätzung zurück)
-    const recBox = el('div', 'rec');
-    const canRec = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
-    let recUrl = null, recAudio = null;
-    if (canRec) {
-      if (!S.micNoted) recBox.appendChild(el('div', 'note', 'Beim ersten Aufnehmen fragt der Browser nach dem Mikrofon. Die Aufnahme bleibt auf dem Gerät und wird nach der Aufgabe verworfen.'));
-      const recBtn = el('button', 'btn primary', ICON.mic + ' Aufnehmen');
-      const meter = el('div', 'meter', '<i></i>');
-      meter.style.display = 'none';
-      const after = el('div', 'listen'); after.style.display = 'none';
-      const mine = el('button', 'btn', ICON.sound + ' Deine Aufnahme');
-      const info = el('div', 'note');
-      after.appendChild(mine);
-      recBox.appendChild(recBtn); recBox.appendChild(meter); recBox.appendChild(after); recBox.appendChild(info);
-      let rec = null, stream = null, chunks = [], stopTimer = null, raf = null, spoken = 0, frames = 0;
-      async function start() {
-        try {
-          if ('speechSynthesis' in window) speechSynthesis.cancel();
-          stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        } catch (e) { info.textContent = 'Kein Mikrofon verfügbar. Sprich nach und schätze dich unten selbst ein.'; recBtn.disabled = true; return; }
-        S.micNoted = true; save();
-        const firstNote = recBox.querySelector('.note'); if (firstNote && firstNote !== info) firstNote.remove();
-        chunks = []; spoken = 0; frames = 0;
-        try { rec = new MediaRecorder(stream); }
-        catch (e) { info.textContent = 'Aufnahme wird von diesem Browser nicht unterstützt. Sprich nach und schätze dich unten selbst ein.'; recBtn.disabled = true; stream.getTracks().forEach(t => t.stop()); return; }
-        rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-        rec.onstop = () => {
-          stream.getTracks().forEach(t => t.stop());
-          if (recUrl) URL.revokeObjectURL(recUrl);
-          recUrl = URL.createObjectURL(new Blob(chunks, { type: rec.mimeType || 'audio/mp4' }));
-          recAudio = new Audio(recUrl);
-          meter.style.display = 'none'; after.style.display = '';
-          recBtn.innerHTML = ICON.mic + ' Nochmal aufnehmen'; recBtn.className = 'btn';
-          const secs = (spoken / 20).toFixed(1).replace('.', ',');
-          info.textContent = spoken < 4 ? 'Es wurde kaum etwas aufgenommen. Näher ans Mikrofon?' : 'Aufgenommen, etwa ' + secs + ' Sekunden gesprochen. Vergleiche mit dem Original.';
-          if (mode === 3) fr.classList.remove('hidden');
-        };
-        // Pegelanzeige
-        try {
-          actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-          if (actx.state === 'suspended') actx.resume();
-          const src = actx.createMediaStreamSource(stream), an = actx.createAnalyser(); an.fftSize = 512; src.connect(an);
-          const buf = new Uint8Array(an.fftSize);
-          let last = 0;
-          const tick = (ts) => {
-            an.getByteTimeDomainData(buf);
-            let sum = 0; for (let i = 0; i < buf.length; i++) { const d = (buf[i] - 128) / 128; sum += d * d; }
-            const rms = Math.sqrt(sum / buf.length);
-            meter.firstChild.style.width = Math.min(100, rms * 400) + '%';
-            if (ts - last > 50) { last = ts; frames++; if (rms > 0.02) spoken++; }
-            raf = requestAnimationFrame(tick);
-          };
-          raf = requestAnimationFrame(tick);
-        } catch (e) {}
-        rec.start();
-        meter.style.display = ''; after.style.display = 'none';
-        recBtn.innerHTML = 'Stopp'; recBtn.className = 'btn dark';
-        stopTimer = setTimeout(stop, 3500);
-      }
-      function stop() {
-        clearTimeout(stopTimer); if (raf) cancelAnimationFrame(raf);
-        if (rec && rec.state !== 'inactive') rec.stop();
-      }
-      recBtn.onclick = () => { if (rec && rec.state === 'recording') stop(); else start(); };
-      mine.onclick = () => { if (recAudio) { if ('speechSynthesis' in window) speechSynthesis.cancel(); recAudio.currentTime = 0; recAudio.play().catch(() => {}); } };
-    }
-    card.appendChild(recBox);
     body.appendChild(card);
 
     if (mode !== 3) speak(s.fr);
 
     actions.className = 'actions row';
-    const again = el('button', 'btn quiet', 'Nochmal');
-    const ok = el('button', 'btn quiet', 'Sitzt');
-    const cleanup = () => { if (recUrl) URL.revokeObjectURL(recUrl); };
-    again.onclick = () => { cleanup(); fr.classList.remove('hidden'); markDone('speak', s.id, false); finish(false, 0); };
-    ok.onclick = () => { cleanup(); fr.classList.remove('hidden'); markDone('speak', s.id, true); finish(true, P()[0]); };
+    const again = el('button', 'btn', 'Nochmal');
+    const ok = el('button', 'btn ok', 'Sitzt');
+    again.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, false); finish(false, 0); };
+    ok.onclick = () => { fr.classList.remove('hidden'); markDone('speak', s.id, true); finish(true, P()[0]); };
     actions.appendChild(again); actions.appendChild(ok);
   };
 
@@ -920,6 +892,7 @@
     body.appendChild(card);
     // Nach der ersten Antwort klappt der Text zusammen, damit der Weiter-Knopf ohne Scrollen erreichbar ist
     function collapseText() { textEl.classList.add('collapsed'); listen.style.display = 'none'; toggle.style.display = ''; toggle.textContent = 'Text anzeigen'; }
+    function expandText() { textEl.classList.remove('collapsed'); listen.style.display = ''; toggle.style.display = 'none'; }
 
     const qcard = el('div', 'card');
     body.appendChild(qcard);
@@ -939,14 +912,14 @@
           if (ok) right++;
           Array.from(opts.children).forEach(c => { c.disabled = true; if (c.dataset.i == q.answer) c.classList.add('ok'); else if (c !== b) c.style.display = 'none'; });
           if (!ok) b.classList.add('err');
-          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Leider nicht.') + '</div>';
+          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Knapp daneben.') + '</div>';
           collapseText();
           sfx(ok ? 'ok' : 'err');
           qi++;
           actions.innerHTML = '';
           if (qi < t.questions.length) {
             const next = el('button', 'btn primary', 'Nächste Frage');
-            next.onclick = () => { actions.innerHTML = ''; askQuestion(); };
+            next.onclick = () => { actions.innerHTML = ''; expandText(); askQuestion(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
             actions.appendChild(next);
           } else {
             const all = right === t.questions.length;
@@ -982,7 +955,7 @@
         if (!ok) b.classList.add('err');
         sent.innerHTML = esc(parts[0]) + '<u>' + esc(z.options[z.answer]) + '</u>' + esc(parts[1] || '');
         const full = z.sentence.replace('___', z.options[z.answer]);
-        fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Leider nicht.', z);
+        fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Knapp daneben.', z);
         const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(full);
         fb.appendChild(listen);
