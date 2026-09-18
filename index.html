@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#EDE3D1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#131E2E" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#EDE3D1">
+<meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Flâner">
@@ -38,34 +38,12 @@
     --plate-line: #8C9AB0;
     --plate-mute: #C3B9A5;
     --plate-rail: #3A4A63;
+    --plate-field: #22334F;
+    --accent-on-plate: #E8836B;
+    --gold-on-plate: #D7A34A;
+    --ok-on-plate: #A8C9AE;
     --serif: "EB Garamond", "Iowan Old Style", Palatino, Georgia, serif;
     --sans: Archivo, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #131E2E;
-      --card: #1C2A3D;
-      --field: #162333;
-      --ink: #F2E8D8;
-      --muted: #A69B88;
-      --faint: #7D8CA3;
-      --line: #2E3E55;
-      --line-strong: #43556F;
-      --accent: #E07A63;
-      --accent-ink: #16253C;
-      --accent-soft: #3A2A28;
-      --gold: #D7A34A;
-      --ok: #7FA987;
-      --ok-soft: #22332A;
-      --ok-ink: #A8C9AE;
-      --err: #E07A63;
-      --err-soft: #3A2A28;
-      --plate: #E0D3BC;
-      --plate-ink: #16253C;
-      --plate-line: #A8977B;
-      --plate-mute: #57503F;
-      --plate-rail: #C2B195;
-    }
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -298,6 +276,83 @@
   textarea { width: 100%; font-family: var(--sans); font-size: 14px; padding: 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--field); color: var(--ink); min-height: 110px; word-break: break-all; }
   .code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; word-break: break-all; background: var(--field); border: 1px solid var(--line); border-radius: 4px; padding: 12px; margin-top: 10px; }
 
+  /* Inhaltsflächen: Tinte auf Sand, überall gleich */
+  .card { background: var(--plate); color: var(--plate-ink); border: 0; }
+  .card .theme, .card .de, .card .ctx, .card .prompt, .card .title, .card .note, .card label.field { color: var(--plate-mute); }
+  .card .lang, .card .text, .card .fr { color: var(--plate-ink); }
+  .card .lang.hidden, .card .text.hidden { color: transparent; text-shadow: 0 0 14px var(--plate-mute); }
+  .card .text.collapsed { color: var(--plate-mute); }
+  .card input[type=text] { background: var(--plate-field); color: var(--plate-ink); border-color: var(--plate-line); }
+  .card input[type=text].ok { border-color: var(--ok-on-plate); }
+  .card input[type=text].err { border-color: var(--accent-on-plate); }
+  .card .btn { color: var(--plate-ink); border-color: var(--plate-line); background: transparent; }
+  .card .btn.quiet { color: var(--plate-mute); }
+  .card .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .card .btn.dark { background: var(--plate-ink); color: var(--plate); border-color: var(--plate-ink); }
+  .card .opts button, .card .words button, .card .mbtn { background: var(--plate-field); color: var(--plate-ink); border-color: var(--plate-line); }
+  .card .words button { border-color: transparent; }
+  .card .mbtn.sel { border-color: var(--plate-ink); background: var(--plate-rail); }
+  .card .mbtn.done { background: transparent; border-color: var(--plate-rail); color: var(--plate-mute); }
+  .card .opts button.ok, .card .words button.ok { border-color: var(--ok-on-plate); background: rgba(127,169,135,.16); color: var(--ok-on-plate); }
+  .card .opts button.err, .card .words button.err, .card .mbtn.wrong { border-color: var(--accent-on-plate); background: rgba(232,131,107,.16); color: var(--accent-on-plate); }
+  .card .feedback.ok { background: rgba(127,169,135,.16); color: var(--ok-on-plate); }
+  .card .feedback.err { background: rgba(232,131,107,.16); color: var(--accent-on-plate); }
+  .card .feedback.hint { background: rgba(215,163,74,.16); color: var(--gold-on-plate); }
+  .card .feedback b, .card .feedback .tip { color: var(--plate-ink); }
+  .card .feedback .trap { color: var(--plate-mute); border-top-color: rgba(255,255,255,.12); }
+  .card .feedback .gain { position: static; float: right; font-size: 18px; margin-left: 10px; animation: none; opacity: 1; color: var(--gold-on-plate); }
+  .card .rule, .card .place-card .rule { background: var(--plate-rail); }
+  .card .etappen .et { border-bottom-color: var(--plate-rail); }
+  .card .et .num { border-color: var(--plate-line); color: var(--plate-mute); }
+  .card .et.next .num { border-color: var(--accent-on-plate); color: var(--accent-on-plate); }
+  .card .et.done .num { background: var(--gold-on-plate); border-color: var(--gold-on-plate); color: var(--plate); }
+  .card .et .st { color: var(--plate-mute); }
+  .card .et.next .st { color: var(--accent-on-plate); }
+  .card .modules li { border-bottom-color: var(--plate-rail); }
+  .card .modules .n small, .card .modules .pct, .card .modules .chev { color: var(--plate-mute); }
+  .card .bubble.npc { background: transparent; border: 0; padding: 0; max-width: 100%; }
+  .bubble.me { background: var(--card); color: var(--ink); }
+  .bubble.me .fr { color: var(--ink); }
+  .card .map .land { fill: var(--plate-field); stroke: var(--plate-rail); }
+  .card .map .route { stroke: var(--plate-line); }
+  .card .map .route.done { stroke: var(--accent-on-plate); }
+  .card .map .st .dot { fill: var(--plate-line); }
+  .card .map .st.done .dot, .card .map .st.cur .dot { fill: var(--accent-on-plate); }
+  .card .map .st .place { fill: var(--plate-mute); }
+  .card .map .st.done .place { fill: var(--plate-ink); }
+  .card .map .st.cur .place { fill: var(--accent-on-plate); }
+  .card .map .pulse { fill: var(--accent-on-plate); }
+  .card .code, .card textarea { background: var(--plate-field); color: var(--plate-ink); border-color: var(--plate-line); }
+  .card .btn.ok { background: var(--ok); color: #FFF8EC; border-color: var(--ok); }
+  .daily .keyline { border: 0; }
+  .daily .keyline.slim { padding: 10px 14px; }
+  .daily.slim { padding: 3px; opacity: 1; }
+  .conv .opts { margin-top: 0; }
+
+  /* Punkte-Chip und Fortschrittszeile */
+  .chip { margin-left: auto; display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); }
+  .chip b { font-family: var(--serif); font-weight: 400; font-size: 20px; color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1; }
+  .chip b.pop { animation: pop .45s ease; }
+  .chip span { font-size: 12px; color: var(--muted); }
+  .barline { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin: 6px 0 14px; font-variant-numeric: tabular-nums; }
+  .bar { margin-bottom: 0; }
+  .lvl { text-align: right; }
+  .lvl .ticks { display: flex; gap: 3px; justify-content: flex-end; }
+  .lvl .ticks i { width: 6px; height: 14px; border-radius: 2px; background: var(--plate-rail); }
+  .lvl .ticks i.on { background: var(--gold-on-plate); }
+  .lvl .t { font-size: 12px; color: var(--plate-mute); margin-top: 4px; }
+  .seg2 { display: flex; gap: 8px; margin-bottom: 14px; }
+  .seg2 button { flex: 1; height: 40px; border: 1px solid var(--line-strong); border-radius: 4px; font-size: 14px; }
+  .seg2 button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .freibtn { display: flex; align-items: center; justify-content: center; height: 50px; margin-top: auto; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); font-size: 16px; font-weight: 500; width: 100%; }
+  .homefoot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+  .homefoot .set { color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+  .homefoot .ver { width: auto; padding: 0 0 calc(env(safe-area-inset-bottom) + 4px); text-align: right; }
+  .greet { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+  .welcome { padding-top: 60px; }
+  .welcome h1 { font-family: var(--serif); font-weight: 500; font-size: 40px; margin: 0 0 8px; }
+  .welcome p { color: var(--muted); margin: 0 0 22px; }
+
   @media (prefers-reduced-motion: reduce) {
     .bar i { transition: none; }
     .gain, .counter .score.pop { animation: none; }
@@ -334,10 +389,10 @@
   let RUN = null; // Zusammenhang der laufenden Übungsreihe: { kind: 'daily'|'module'|'etappe', station, n }
   const MODULES = [
     { key: 'vocab',  name: 'Vokabeln',        sub: 'Eintippen, bei Bedarf Hilfe' },
-    { key: 'articles', name: 'Artikel',       sub: 'le, la, l\' oder les, ab Stufe 3 du und de la' },
-    { key: 'match',  name: 'Zuordnen',        sub: 'Paare finden, ab Stufe 2 nach Gehör' },
-    { key: 'errors', name: 'Fehler finden',   sub: 'Das falsche Wort antippen' },
-    { key: 'speak',  name: 'Nachsprechen',    sub: 'Anhören, nachsprechen, einschätzen' },
+    { key: 'articles', name: 'Artikel',       sub: 'le, la, l\' oder les, später du und de la' },
+    { key: 'match',  name: 'Zuordnen',        sub: 'Was gehört zusammen, später nach Gehör' },
+    { key: 'errors', name: 'Fehler finden',   sub: 'Ein Wort stimmt nicht' },
+    { key: 'speak',  name: 'Nachsprechen',    sub: 'Anhören, laut sagen, einschätzen' },
     { key: 'texts',  name: 'Text verstehen',  sub: 'Kurzer Text, drei Fragen' },
     { key: 'tenses', name: 'Zeiten und Formen', sub: 'Die passende Form wählen' },
     { key: 'dialogs', name: 'Gespräch', sub: 'Drei Antworten, eine passt' }
@@ -447,7 +502,9 @@
   // danach klappt es auch bei Antworten, die über die Tastatur abgeschickt werden.
   document.addEventListener('touchend', () => { if (S.sound) ensureAudio(); }, { passive: true });
   document.addEventListener('pointerdown', () => { if (S.sound) ensureAudio(); }, { passive: true });
+  function buzz(kind) { try { if (navigator.vibrate) navigator.vibrate(kind === 'err' ? 40 : kind === 'unlock' ? [30, 60, 30] : 15); } catch (e) {} }
   function sfx(kind) {
+    buzz(kind);
     if (!S.sound) return;
     ensureAudio().then(() => {
       if (!actx) return;
@@ -469,16 +526,16 @@
   function isDone(type, id) { return !!(S.done[type] && S.done[type][id]); }
 
   function moduleProgress(key) {
-    if (key === 'match') return { text: byLevel(C.vocab).length >= 4 ? '5 Paare je Runde' : 'noch keine Inhalte', pct: 0, empty: byLevel(C.vocab).length < 4 };
+    if (key === 'match') { const v = byLevel(C.vocab); const l = v.filter(x => vocabLevel(x.id) >= 2).length; return { text: '', pct: v.length ? l / v.length : 0, level: v.length ? Math.round(10 * l / v.length) : 0, empty: v.length < 4 }; }
     const items = byLevel(C[key]);
-    if (!items.length) return { text: 'noch keine Inhalte', pct: 0, empty: true };
+    if (!items.length) return { text: 'noch keine Inhalte', pct: 0, level: 0, empty: true };
     if (key === 'vocab') {
       const learned = items.filter(v => vocabLevel(v.id) >= 2).length;
-      return { text: learned + ' von ' + items.length + ' sitzen', pct: learned / items.length };
+      return { text: learned + ' von ' + items.length + ' sitzen', pct: learned / items.length, level: Math.round(10 * learned / items.length) };
     }
     // Zählt nur richtig gelöste Aufgaben, nicht bloß gesehene
     const done = items.filter(x => S.done[key] && S.done[key][x.id] === 2).length;
-    return { text: done + ' von ' + items.length + ' sitzen', pct: done / items.length };
+    return { text: done + ' von ' + items.length + ' sitzen', pct: done / items.length, level: Math.round(10 * done / items.length) };
   }
 
   // ---------- Auswahl der Übungen ----------
@@ -598,9 +655,12 @@
   function renderHome() {
     SCOPE = null;
     app.innerHTML = '';
+    if (!S.name) { renderWelcome(); return; }
     const top = el('div', 'top');
-    top.appendChild(el('div', '', '<h1>' + esc(C.meta.title) + '</h1>'));
-    top.appendChild(el('div', 'headpts', S.points + ' Punkte'));
+    const h = new Date().getHours();
+    const greet = h < 5 ? 'Bonne nuit' : h < 18 ? 'Bonjour' : 'Bonsoir';
+    top.appendChild(el('div', '', '<div class="greet">Flâner</div><h1>' + greet + ', ' + esc(S.name) + '</h1>'));
+    top.appendChild(el('div', 'chip', '<b>' + S.points + '</b><span>points</span>'));
     app.appendChild(top);
 
     // Tagesprogramm, schmal
@@ -628,14 +688,32 @@
     sc.onclick = () => n >= 5 ? renderStation(cur.id) : startEtappe(cur.id, n + 1);
     app.appendChild(sc);
 
-    const foot = el('div', 'foot');
-    const all = el('button', '', 'Frei üben');
+    const all = el('button', 'freibtn', 'Frei üben');
     all.onclick = () => renderModules(null);
-    const set = el('button', '', 'Einstellungen');
+    app.appendChild(all);
+    const hf = el('div', 'homefoot');
+    const set = el('button', 'set', 'Einstellungen');
     set.onclick = renderSettings;
-    foot.appendChild(all); foot.appendChild(set);
-    app.appendChild(foot);
-    app.appendChild(versionLine());
+    hf.appendChild(set); hf.appendChild(versionLine());
+    app.appendChild(hf);
+  }
+
+  // ---------- Erster Start: Vorname ----------
+  function renderWelcome() {
+    app.innerHTML = '';
+    const w = el('div', 'welcome');
+    w.innerHTML = '<h1>Bienvenue.</h1><p>Wie heißt du? Der Name bleibt auf diesem Gerät und dient nur der Begrüßung.</p>';
+    const card = el('div', 'card');
+    const lab = el('label', 'field', 'Dein Vorname'); lab.setAttribute('for', 'name'); lab.style.marginTop = '0';
+    const input = el('input'); input.type = 'text'; input.id = 'name'; input.autocomplete = 'given-name'; input.setAttribute('enterkeyhint', 'done');
+    card.appendChild(lab); card.appendChild(input);
+    const go = el('button', 'btn primary', 'Los geht’s'); go.style.marginTop = '14px';
+    const start = () => { const n = input.value.trim(); if (!n) { input.focus(); return; } S.name = n; save(); renderHome(); };
+    go.onclick = start; input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); start(); } });
+    card.appendChild(go);
+    w.appendChild(card);
+    app.appendChild(w);
+    setTimeout(() => input.focus(), 50);
   }
 
   function versionLine() {
@@ -659,25 +737,27 @@
     top.appendChild(back);
     top.appendChild(el('div', '', '<div>Einstellungen</div>'));
     app.appendChild(top);
+    const wrap = el('div', 'card'); wrap.style.padding = '4px 16px';
     const ul = el('ul', 'modules');
     function row(name, sub, val, fn) {
       const li = el('li'); const b = el('button');
       b.innerHTML = '<div class="n">' + name + '<small>' + sub + '</small></div><div class="pct">' + esc(val) + '</div><div class="chev">' + ICON.chev + '</div>';
       b.onclick = fn; li.appendChild(b); ul.appendChild(li);
     }
+    row('Vorname', 'Für die Begrüßung', S.name || '', () => { const n = prompt('Dein Vorname', S.name || ''); if (n !== null && n.trim()) { S.name = n.trim(); save(); renderSettings(); } });
     row('Vokabelrichtung', 'Welche Sprache abgefragt wird', S.direction === 'de-fr' ? 'Deutsch nach Französisch' : 'Französisch nach Deutsch', () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderSettings(); });
     row('Vorlesen', 'Lösung nach der Antwort automatisch vorlesen', S.autoRead ? 'an' : 'aus', () => { S.autoRead = !S.autoRead; save(); renderSettings(); });
     row('Töne', 'Kurzer Ton bei richtig und falsch', S.sound ? 'an' : 'aus', () => { S.sound = !S.sound; save(); if (S.sound) sfx('ok'); renderSettings(); });
     const vs = frVoices();
     if (vs.length) { pickVoice(); row('Stimme', vs.length > 1 ? 'Antippen wechselt, mit Hörprobe' : 'Nur eine französische Stimme auf diesem Gerät', voice ? voice.name.replace(/\s*\(.*\)$/, '') : '', () => { if (vs.length < 2) { speak('Bonjour'); return; } const i = vs.findIndex(v => voice && v.name === voice.name); voice = vs[(i + 1) % vs.length]; S.voiceName = voice.name; save(); speak('Bonjour'); renderSettings(); }); }
     row('Spielstand übertragen', 'Code für ein anderes Gerät', '', renderTransfer);
-    app.appendChild(ul);
+    wrap.appendChild(ul); app.appendChild(wrap);
     app.appendChild(versionLine());
   }
 
-  function startEtappe(sid, n) {
+  function startEtappe(sid, n, from) {
     SCOPE = sid;
-    runQueue(buildEtappe(sid, n), [], { kind: 'etappe', station: sid, n });
+    runQueue(buildEtappe(sid, n), [], { kind: 'etappe', station: sid, n, from: from || 'home' });
   }
 
   // ---------- Station ----------
@@ -702,7 +782,7 @@
         const state = i <= n ? 'done' : i === n + 1 ? 'next' : 'locked';
         const b = el('button', 'et ' + state);
         b.innerHTML = '<span class="num">' + i + '</span><span class="lab">Étape ' + i + (i === 5 ? ', mit Dialog' : '') + '</span><span class="st">' + (state === 'done' ? 'erledigt' : state === 'next' ? 'als Nächstes' : '') + '</span>';
-        if (state !== 'locked') b.onclick = () => startEtappe(sid, i); else b.disabled = true;
+        if (state !== 'locked') b.onclick = () => startEtappe(sid, i, 'station'); else b.disabled = true;
         list.appendChild(b);
       }
       et.appendChild(list);
@@ -720,32 +800,46 @@
 
       const fb = el('button', 'btn quiet', 'Frei üben in ' + esc(st.name));
       fb.style.marginTop = '4px';
-      fb.onclick = () => renderModules(sid);
+      fb.onclick = () => renderModules(sid, 'station');
       app.appendChild(fb);
     }
   }
 
   // ---------- Modulliste (frei üben) ----------
-  function renderModules(sid) {
+  function renderModules(sid, from) {
     SCOPE = sid;
     app.innerHTML = '';
     const top = el('div', 'top');
-    const back = el('button', 'back', ICON.back); back.onclick = () => sid ? renderStation(sid) : renderHome();
+    const back = el('button', 'back', ICON.back); back.onclick = () => from === 'station' ? renderStation(sid || currentStation().id) : renderHome();
     top.appendChild(back);
-    const st = sid ? C.stations.find(x => x.id === sid) : null;
-    top.appendChild(el('div', '', '<div>Frei üben</div><div class="sub">' + (st ? esc(st.name) : 'alle offenen Stationen') + '</div>'));
+    const open = openedStations();
+    const names = open.map(id => C.stations.find(x => x.id === id).name);
+    top.appendChild(el('div', '', '<div>Frei üben</div><div class="sub">' + esc(sid ? C.stations.find(x => x.id === sid).name : names.join(', ')) + '</div>'));
     app.appendChild(top);
+    const seg = el('div', 'seg2');
+    const cur = currentStation();
+    const bAll = el('button', sid ? '' : 'on', 'Alle Stationen');
+    const bOne = el('button', sid ? 'on' : '', 'Nur ' + esc((sid ? C.stations.find(x => x.id === sid) : cur).name));
+    bAll.onclick = () => renderModules(null, from);
+    bOne.onclick = () => renderModules(sid || cur.id, from);
+    seg.appendChild(bAll); seg.appendChild(bOne);
+    app.appendChild(seg);
+    const wrap = el('div', 'card'); wrap.style.padding = '4px 16px';
     const ul = el('ul', 'modules');
     MODULES.forEach(m => {
       const p = moduleProgress(m.key);
       const li = el('li');
       const b = el('button');
-      b.innerHTML = '<div class="n">' + m.name + '<small>' + m.sub + '</small></div><div class="pct">' + esc(p.text) + '</div><div class="chev">' + ICON.chev + '</div>';
+      const ticks = [0,1,2,3,4,5,6,7,8,9].map(i => '<i class="' + (i < p.level ? 'on' : '') + '"></i>').join('');
+      b.innerHTML = '<div class="n">' + m.name + '<small>' + m.sub + '</small></div>' +
+        (p.empty ? '<div class="pct">noch keine Inhalte</div>' : '<div class="lvl"><div class="ticks">' + ticks + '</div><div class="t">Level ' + p.level + ' von 10</div></div>');
       if (p.empty) b.disabled = true;
-      b.onclick = () => runQueue(buildQueue(m.key), [], { kind: 'module', station: sid });
+      b.onclick = () => runQueue(buildQueue(m.key), [], { kind: 'module', station: sid, from: from });
       li.appendChild(b); ul.appendChild(li);
     });
-    app.appendChild(ul);
+    wrap.appendChild(ul);
+    app.appendChild(wrap);
+    app.appendChild(el('div', 'note', 'Ein Level entspricht zehn Prozent der Aufgaben, die sitzen. Level 10 heißt: alles zweimal richtig.'));
   }
 
   // ---------- Ablauf einer Übungsreihe ----------
@@ -768,16 +862,17 @@
     const top = el('div', 'top');
     const back = el('button', 'back', ICON.back);
     back.setAttribute('aria-label', 'Zurück');
-    back.onclick = () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); RUN.kind === 'etappe' ? renderStation(RUN.station) : renderHome(); };
+    back.onclick = () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); if (RUN.from === 'station' && RUN.station) renderStation(RUN.station); else if (RUN.kind === 'module') renderModules(RUN.station || null, RUN.from); else renderHome(); };
     top.appendChild(back);
     top.appendChild(el('div', '', '<div>' + esc(headline) + '</div><div class="sub">' + esc(subline) + '</div>'));
-    const counter = el('div', 'counter');
-    counter.innerHTML = '<div class="of">' + (idx + 1) + ' / ' + queue.length + '</div>' +
-      '<div class="score">' + S.points + '</div>';
+    const counter = el('div', 'chip');
+    counter.innerHTML = '<b class="score">' + S.points + '</b><span>points</span>';
     top.appendChild(counter);
     app.appendChild(top);
     const bar = el('div', 'bar', '<i></i>');
     app.appendChild(bar);
+    const restMin = Math.max(1, Math.round((queue.length - idx) * 0.5));
+    app.appendChild(el('div', 'barline', '<span>Aufgabe ' + (idx + 1) + ' von ' + queue.length + '</span><span>noch etwa ' + restMin + (restMin === 1 ? ' Minute' : ' Minuten') + '</span>'));
     requestAnimationFrame(() => { bar.firstChild.style.width = (idx / queue.length * 100) + '%'; });
 
     const body = el('div');
@@ -811,9 +906,9 @@
   function awardPoints(counter, from, to, pts) {
     const score = counter.querySelector('.score');
     if (!score) return;
-    const gain = el('div', 'gain', '+' + pts);
-    counter.appendChild(gain);
-    setTimeout(() => gain.remove(), 1100);
+    // Zugewinn steht in der Rückmeldung, der Chip zählt hoch
+    const fbs = app.querySelectorAll('.feedback'); const fb = fbs[fbs.length - 1];
+    if (fb) fb.insertBefore(el('span', 'gain', '+' + pts), fb.firstChild);
     score.classList.add('pop');
     setTimeout(() => score.classList.remove('pop'), 500);
     const slow = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1303,10 +1398,11 @@
     }
     if (etappe && n < 5 && !stationDone) {
       const nx = el('button', 'btn', 'Étape ' + (n + 1) + ' starten');
-      nx.onclick = () => startEtappe(st.id, n + 1);
+      nx.onclick = () => startEtappe(st.id, n + 1, ctx.from);
       actions.appendChild(nx);
     }
-    const home = el('button', 'btn dark', 'Zur Karte');
+    const home = el('button', 'btn dark', ctx && ctx.from === 'station' ? 'Zur Station' : 'Zur Karte');
+    if (ctx && ctx.from === 'station' && ctx.station) { home.onclick = () => renderStation(ctx.station); actions.appendChild(home); app.appendChild(actions); return; }
     home.onclick = renderHome;
     actions.appendChild(home);
     app.appendChild(actions);
@@ -1314,7 +1410,7 @@
 
   // ---------- Spielstand übertragen ----------
   function encodeState() {
-    const compact = { p: S.points, pr: S.prog, dir: S.direction, ar: S.autoRead, so: S.sound, vn: S.voiceName || '', v: {}, d: S.done, t: today() };
+    const compact = { p: S.points, pr: S.prog, nm: S.name || '', dir: S.direction, ar: S.autoRead, so: S.sound, vn: S.voiceName || '', v: {}, d: S.done, t: today() };
     Object.keys(S.vocab).forEach(id => { compact.v[id] = [S.vocab[id].lvl, S.vocab[id].last]; });
     return btoa(unescape(encodeURIComponent(JSON.stringify(compact)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
@@ -1363,7 +1459,7 @@
       try {
         const c = decodeState(ta.value);
         if (!confirm('Spielstand mit ' + c.p + ' Punkten übernehmen? Der aktuelle Stand auf diesem Gerät wird ersetzt.')) return;
-        S.points = c.p; S.prog = c.pr || {}; S.direction = c.dir || 'de-fr'; if (c.ar !== undefined) S.autoRead = c.ar; if (c.so !== undefined) S.sound = c.so; if (c.vn) S.voiceName = c.vn; S.done = c.d || {}; S.vocab = {}; S.daily = null;
+        S.points = c.p; S.prog = c.pr || {}; if (c.nm) S.name = c.nm; S.direction = c.dir || 'de-fr'; if (c.ar !== undefined) S.autoRead = c.ar; if (c.so !== undefined) S.sound = c.so; if (c.vn) S.voiceName = c.vn; S.done = c.d || {}; S.vocab = {}; S.daily = null;
         Object.keys(c.v).forEach(id => { S.vocab[id] = { lvl: c.v[id][0], last: c.v[id][1] }; });
         save();
         renderHome();
