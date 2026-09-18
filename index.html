@@ -319,7 +319,16 @@
   .card .modules li { border-bottom-color: var(--plate-rail); }
   .card .modules .n small, .card .modules .pct, .card .modules .chev { color: var(--plate-mute); }
   .card .bubble.npc { background: transparent; border: 0; padding: 0; max-width: 100%; }
-  .bubble.me { background: var(--card); color: var(--ink); }
+  .bubble.me { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+  .bubble.npc { background: var(--plate); color: var(--plate-ink); }
+  .bubble.npc .fr { color: var(--plate-ink); }
+  .bubble.npc .de { color: var(--plate-mute); }
+  .bubble.npc .btn { color: var(--plate-ink); border-color: var(--plate-line); }
+  .bubble.npc .listen { margin-top: 8px; }
+  .bubble.npc .listen .btn { flex: 0 0 auto; }
+  .bubble.past { padding: 8px 12px; opacity: .6; }
+  .bubble.past .fr { font-size: 15px; line-height: 1.3; }
+  .bubble.past .de, .bubble.past .listen, .bubble.past .btn { display: none; }
   .bubble.me .fr { color: var(--ink); }
   .card .map .land { fill: var(--plate-field); stroke: var(--plate-rail); }
   .card .map .route { stroke: var(--plate-line); }
@@ -424,7 +433,7 @@
     try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {}
   }
   const S = load();
-  S.vocab = S.vocab || {}; S.done = S.done || {}; S.direction = S.direction || 'de-fr'; S.points = S.points || 0; S.prog = S.prog || {};
+  S.vocab = S.vocab || {}; S.done = S.done || {}; S.srs = S.srs || null; S.direction = S.direction || 'de-fr'; S.points = S.points || 0; S.prog = S.prog || {};
   if (S.autoRead === undefined) S.autoRead = true;
   if (S.sound === undefined) S.sound = true;
 
@@ -455,12 +464,21 @@
   const ofStation = (list, id) => list.filter(x => x.station === id);
   const findItem = (type, id) => C[type].find(x => x.id === id);
 
+  function lev(a, b) {
+    const m = a.length, n = b.length; if (!m) return n; if (!n) return m;
+    let prev = Array.from({ length: n + 1 }, (_, j) => j);
+    for (let i = 1; i <= m; i++) { const cur = [i]; for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = cur; }
+    return prev[n];
+  }
+  // Ein Buchstabe daneben gilt ab sechs Zeichen als Tippfehler, nicht als falsch
+  const closeEnough = (a, list) => list.some(t => t === a || (t.length >= 6 && lev(a, t) <= 1));
   function norm(s) {
     return String(s).toLowerCase()
       .replace(/[’`´]/g, "'")
       .replace(/œ/g, 'oe').replace(/æ/g, 'ae').replace(/ß/g, 'ss')
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
       .replace(/[.!?,;:]/g, '')
+      .replace(/\bgerne\b/g, 'gern')
       .replace(/\s+/g, ' ').trim();
   }
   const ART_FR = /^(le|la|les|un|une|des|l')\s*/;
@@ -530,44 +548,70 @@
   }
 
   // ---------- Fortschritt ----------
-  function vocabLevel(id) { return (S.vocab[id] && S.vocab[id].lvl) || 0; }
-  function bumpVocab(id, delta) {
-    const v = S.vocab[id] || { lvl: 0, last: 0 };
-    v.lvl = Math.max(0, Math.min(3, v.lvl + delta)); v.last = Date.now();
-    S.vocab[id] = v; save();
+  // SRS nach Leitner: jede Aufgabe liegt in einem Fach 0 bis 6 und hat ein Fälligkeitsdatum.
+  // Richtig: ein Fach höher, die Pause wächst. Mit Hilfe: Fach bleibt. Falsch: zurück in Fach 1, in zehn Minuten wieder.
+  const INTERVALS = [0, 10 * 60e3, 864e5, 3 * 864e5, 7 * 864e5, 21 * 864e5, 60 * 864e5];
+  function srsEntry(type, id) { return (S.srs[type] && S.srs[type][id]) || { box: 0, due: 0, last: 0 }; }
+  function grade(type, id, res) {
+    S.srs[type] = S.srs[type] || {};
+    const e = srsEntry(type, id);
+    if (res === 'ok') e.box = Math.min(6, e.box + 1);
+    else if (res === 'miss') e.box = 1;
+    e.last = Date.now();
+    e.due = Date.now() + INTERVALS[Math.max(1, e.box)];
+    S.srs[type][id] = e; save();
   }
-  function markDone(type, id, correct) { S.done[type] = S.done[type] || {}; S.done[type][id] = correct ? 2 : 1; save(); }
+  const isDue = (type, id) => { const e = srsEntry(type, id); return e.last > 0 && e.due <= Date.now(); };
+  const mastered = (type, id) => srsEntry(type, id).box >= 2;
+  // Alte Aufrufe bleiben gültig und laufen auf grade
+  function vocabLevel(id) { return srsEntry('vocab', id).box; }
+  function bumpVocab(id, delta) { grade('vocab', id, delta > 0 ? 'ok' : delta < 0 ? 'miss' : 'help'); }
+  function markDone(type, id, correct) { S.done[type] = S.done[type] || {}; S.done[type][id] = correct ? 2 : 1; grade(type, id, correct ? 'ok' : 'miss'); }
   function isDone(type, id) { return !!(S.done[type] && S.done[type][id]); }
+  // Einmalige Übernahme des alten Stands
+  if (!S.srs) {
+    S.srs = {};
+    Object.keys(S.vocab || {}).forEach(id => { const v = S.vocab[id]; S.srs.vocab = S.srs.vocab || {}; S.srs.vocab[id] = { box: Math.min(6, v.lvl || 0), last: v.last || 0, due: (v.last || 0) + INTERVALS[Math.max(1, Math.min(6, v.lvl || 0))] }; });
+    Object.keys(S.done || {}).forEach(type => { S.srs[type] = S.srs[type] || {}; Object.keys(S.done[type]).forEach(id => { const b = S.done[type][id] === 2 ? 2 : 1; S.srs[type][id] = { box: b, last: Date.now() - 864e5, due: Date.now() }; }); });
+    save();
+  }
 
   function moduleProgress(key) {
     // Niveau bezogen auf die offenen Stationen. Öffnet eine neue Station, wächst die Skala, das Niveau kann dann sinken.
     const all = byLevel(C[key === 'match' ? 'vocab' : key] || []);
-    const mastered = key === 'vocab' || key === 'match' ? all.filter(x => vocabLevel(x.id) >= 2).length : all.filter(x => S.done[key] && S.done[key][x.id] === 2).length;
-    const level10 = all.length ? Math.floor(20 * mastered / all.length) / 2 : 0;
+    const mCount = all.filter(x => mastered(key === 'match' ? 'vocab' : key, x.id)).length;
+    const level10 = all.length ? Math.floor(20 * mCount / all.length) / 2 : 0;
     if (key === 'match') { const v = byLevel(C.vocab); return { text: '', pct: 0, level10, empty: v.length < 4 }; }
     const items = byLevel(C[key]);
     if (!items.length) return { text: 'noch keine Inhalte', pct: 0, level10, empty: true };
     if (key === 'vocab') {
-      const learned = items.filter(v => vocabLevel(v.id) >= 2).length;
+      const learned = items.filter(v => mastered('vocab', v.id)).length;
       return { text: learned + ' von ' + items.length + ' sitzen', pct: learned / items.length, level10 };
     }
-    // Zählt nur richtig gelöste Aufgaben, nicht bloß gesehene
-    const done = items.filter(x => S.done[key] && S.done[key][x.id] === 2).length;
+    const done = items.filter(x => mastered(key, x.id)).length;
     return { text: done + ' von ' + items.length + ' sitzen', pct: done / items.length, level10 };
   }
 
   // ---------- Auswahl der Übungen ----------
-  function pickVocab(n) {
-    const items = byLevel(C.vocab).map(v => ({ v, lvl: vocabLevel(v.id), last: (S.vocab[v.id] || {}).last || 0, r: Math.random() }));
-    items.sort((a, b) => a.lvl - b.lvl || a.last - b.last || a.r - b.r);
-    return items.slice(0, n).map(x => ({ type: 'vocab', id: x.v.id }));
+  function rankForReview(type, items) {
+    // 0: fällig (älteste Fälligkeit zuerst), 1: noch nie gesehen, 2: nicht fällig (längst Zurückliegendes zuerst)
+    const now = Date.now();
+    return shuffle(items).map(x => { const e = srsEntry(type, x.id); const g = e.last === 0 ? 1 : e.due <= now ? 0 : 2; return { x, g, k: g === 2 ? -e.due : e.due }; })
+      .sort((a, b) => a.g - b.g || a.k - b.k).map(o => o.x);
   }
-  function pickOther(type, n) {
-    const items = byLevel(C[type]);
-    // Zuerst nie Gesehenes, dann das am längsten nicht Gesehene, damit sich nichts zu schnell wiederholt
-    const seen = (S.seen && S.seen[type]) || {};
-    const ranked = shuffle(items).sort((a, b) => (seen[a.id] || 0) - (seen[b.id] || 0));
-    return ranked.slice(0, n).map(x => ({ type, id: x.id }));
+  function pickVocab(n) { return rankForReview('vocab', byLevel(C.vocab)).slice(0, n).map(v => ({ type: 'vocab', id: v.id })); }
+  function pickOther(type, n) { return rankForReview(type, byLevel(C[type])).slice(0, n).map(x => ({ type, id: x.id })); }
+  function dueCount() {
+    const open = openedStations();
+    let n = 0;
+    ['vocab', 'articles', 'errors', 'speak', 'texts', 'tenses', 'dialogs'].forEach(t => (C[t] || []).forEach(x => { if (open.includes(x.station) && isDue(t, x.id)) n++; }));
+    return n;
+  }
+  // Fällige Aufgaben aus früheren Stationen für die Etappe
+  function dueFromOtherStations(sid, n) {
+    const out = [];
+    ['vocab', 'articles', 'errors', 'tenses'].forEach(t => (C[t] || []).forEach(x => { if (x.station !== sid && openedStations().includes(x.station) && isDue(t, x.id)) out.push({ type: t, id: x.id, review: true }); }));
+    return shuffle(out).slice(0, n);
   }
   function pickMatch() {
     // 5 Paare, bevorzugt aus der Stufe, gemischte Wortarten sind hier gewollt
@@ -591,13 +635,15 @@
       const start = ((n - 1) * k) % items.length;
       for (let i = 0; i < Math.min(k, items.length); i++) q.push({ type, id: items[(start + i) % items.length].id });
     });
-    // Dialog immer zum Schluss, Rest gemischt
+    // Bis zu drei fällige Wiederholungen aus früheren Stationen, dann alles gemischt, der Dialog zum Schluss
+    const rev = dueFromOtherStations(sid, 3);
     const dlg = q.filter(x => x.type === 'dialogs');
-    return shuffle(q.filter(x => x.type !== 'dialogs')).concat(dlg);
+    return shuffle(q.filter(x => x.type !== 'dialogs').concat(rev)).concat(dlg);
   }
   function buildDaily() {
+    const extra = Math.min(6, Math.max(0, dueCount() - 12)); // bei vielen fälligen Aufgaben wächst das Programm etwas
     return shuffle([]
-      .concat(pickVocab(DAILY_MIX.vocab))
+      .concat(pickVocab(DAILY_MIX.vocab + extra))
       .concat(pickOther('articles', DAILY_MIX.articles))
       .concat([pickMatch()])
       .concat(pickOther('errors', DAILY_MIX.errors))
@@ -711,7 +757,8 @@
     const doneCount = d.results.length, total = d.items.length, finished = doneCount >= total;
     const row = el('div', 'half');
     const daily = el('button', 'tile');
-    daily.innerHTML = '<span class="t">Programme du jour</span><span class="d">' + (finished ? 'terminé' : doneCount ? doneCount + ' / ' + total : total + ' exercices') + '</span>';
+    const due = dueCount();
+    daily.innerHTML = '<span class="t">Programme du jour</span><span class="d">' + (finished ? 'terminé' : doneCount ? doneCount + ' / ' + total : total + ' exercices' + (due ? ', ' + due + ' à réviser' : '')) + '</span>';
     daily.onclick = () => finished ? renderResult(d.results, { kind: 'daily' }) : runQueue(d.items, d.results, { kind: 'daily' });
     const all = el('button', 'tile');
     all.innerHTML = '<span class="t">Exercices libres</span><span class="d">Frei üben</span>';
@@ -879,15 +926,22 @@
     RUN = ctx || { kind: 'module' };
     if (!queue.length) { renderHome(); return; }
     const idx = results.length;
-    if (idx >= queue.length) { renderResult(results, RUN); return; }
+    if (idx >= queue.length) {
+      // Was danebenging, kommt einmal wieder, bevor die Runde endet
+      const misses = results.filter(r => !r.correct && !r.pts && !r.retry && r.type !== 'match' && r.type !== 'dialogs' && r.type !== 'texts');
+      if (!RUN.retried && misses.length) {
+        RUN.retried = true;
+        misses.forEach(m => queue.push({ type: m.type, id: m.id, retry: true }));
+      } else { renderResult(results, RUN); return; }
+    }
     const ref = queue[idx];
     const item = ref.type === 'match' ? ref : findItem(ref.type, ref.id);
     CUR_ITEM = item;
     const mod = MODULES.find(m => m.key === ref.type) || { name: 'Dialog' };
     const daily = RUN.kind === 'daily';
     const stName = (C.stations.find(x => x.id === (RUN.station || itemStation(item))) || {}).name || '';
-    const headline = daily ? 'Programme du jour' : RUN.kind === 'etappe' ? 'Étape ' + RUN.n + ', ' + stName : mod.name;
-    const subline = daily || RUN.kind === 'etappe' ? mod.name : stName || 'Exercices libres';
+    const headline = ref.retry ? 'Encore une fois' : daily ? 'Programme du jour' : RUN.kind === 'etappe' ? 'Étape ' + RUN.n + ', ' + stName : mod.name;
+    const subline = ref.retry ? 'Das ging vorhin daneben' : ref.review ? mod.name + ', Wiederholung aus ' + ((C.stations.find(x => x.id === itemStation(item)) || {}).name || '') : (daily || RUN.kind === 'etappe' ? mod.name : stName || 'Exercices libres');
 
     app.innerHTML = '';
     const top = el('div', 'top');
@@ -916,7 +970,7 @@
     const finish = (correct, pts, say) => {
       pts = pts || 0;
       const from = S.points;
-      results.push({ type: ref.type, id: ref.id, correct: !!correct, pts });
+      results.push({ type: ref.type, id: ref.id, correct: !!correct, pts, retry: !!ref.retry });
       S.seen = S.seen || {}; S.seen[ref.type] = S.seen[ref.type] || {}; S.seen[ref.type][ref.id] = Date.now();
       S.points += pts;
       save();
@@ -1034,7 +1088,7 @@
       if (settled) return;
       const a = norm(input.value);
       if (!a) { input.focus(); return; }
-      if (accepted.includes(a)) { reveal(true, +1); return; }
+      if (closeEnough(a, accepted)) { reveal(true, +1); return; }
       const targetHasArticle = hasArticle(target, lang);
       if (targetHasArticle && !articleHintGiven && !hasArticle(a, lang) && a === stripArticle(target, lang)) {
         articleHintGiven = true;
@@ -1182,11 +1236,14 @@
     card.appendChild(el('div', 'theme', esc(d.title)));
     if (d.intro) card.appendChild(el('div', 'de', esc(d.intro)));
     body.appendChild(card);
+    card.style.padding = '16px 22px';
     const conv = el('div', 'conv');
     body.appendChild(conv);
 
     function showTurn() {
       const t = d.turns[turn];
+      // Frühere Züge werden klein, der neue Zug rückt nach oben
+      conv.querySelectorAll('.bubble').forEach(b => b.classList.add('past'));
       const npc = el('div', 'bubble npc');
       npc.innerHTML = '<p class="fr">' + esc(t.npc) + '</p><div class="de tr" style="display:none">' + esc(t.npcDe) + '</div>';
       const row = el('div', 'listen'); row.style.marginTop = '8px';
@@ -1219,7 +1276,7 @@
           actions.innerHTML = '';
           const next = el('button', 'btn dark', turn < d.turns.length ? 'Continuer' : 'Terminer');
           next.onclick = () => {
-            opts.remove(); fb.remove(); conv.appendChild(me);
+            opts.remove(); fb.remove(); conv.appendChild(me); card.style.display = 'none';
             actions.innerHTML = '';
             if (turn < d.turns.length) showTurn();
             else { markDone('dialogs', d.id, right === d.turns.length); finish(right === d.turns.length, Math.round(right * P()[0])); }
@@ -1230,7 +1287,7 @@
         opts.appendChild(b);
       });
       conv.appendChild(opts); conv.appendChild(fb);
-      opts.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      setTimeout(() => npc.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     }
     showTurn();
   };
@@ -1303,7 +1360,7 @@
     const again = el('button', 'btn', 'Encore');
     const ok = el('button', 'btn ok', 'C’est bon');
     again.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; markDone('speak', s.id, false); finish(false, 0); };
-    ok.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; markDone('speak', s.id, !helped); finish(!helped, helped ? P()[1] : P()[0]); };
+    ok.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; S.done.speak = S.done.speak || {}; S.done.speak[s.id] = helped ? 1 : 2; grade('speak', s.id, helped ? 'help' : 'ok'); finish(!helped, helped ? P()[1] : P()[0]); };
     actions.appendChild(again); actions.appendChild(ok);
   };
 
@@ -1404,9 +1461,10 @@
   function renderResult(results, ctx) {
     screen(null);
     app.innerHTML = '';
-    const hit = results.filter(r => r.correct).length;
-    const helped = results.filter(r => !r.correct && r.pts > 0).length;
-    const miss = results.length - hit - helped;
+    const first = results.filter(r => !r.retry);
+    const hit = first.filter(r => r.correct).length;
+    const helped = first.filter(r => !r.correct && r.pts > 0).length;
+    const miss = first.length - hit - helped;
     const pts = results.reduce((a, r) => a + (r.pts || 0), 0);
     const kind = ctx ? ctx.kind : 'module';
     const r = el('div', 'result');
@@ -1424,8 +1482,8 @@
       if (stationDone) {
         setTimeout(() => sfx('unlock'), 300);
         const u = el('div', 'unlock');
-        u.innerHTML = '<div class="l" style="display:flex;align-items:center;gap:10px"><span style="color:var(--accent-on-plate);display:flex">' + ICON.hex + '</span>' + esc(st.name) + ' terminé</div>' +
-          (unlockedStation ? '<div class="n">' + esc(unlockedStation.name) + '</div><div class="s">' + esc(unlockedStation.theme) + '</div><div class="l" style="margin-top:10px">Neue Wörter und Aufgaben. Die Niveau-Skala unter Exercices libres wächst mit, die Striche können deshalb erst einmal zurückgehen.</div>' : '<div class="n">Voyage terminé</div><div class="s">Alle sieben Stationen geschafft.</div>');
+        u.innerHTML = '<div class="n" style="display:flex;align-items:center;gap:10px;margin-top:0;font-size:24px"><span style="color:var(--accent-on-plate);display:flex">' + ICON.hex + '</span>' + esc(st.name) + ' terminé</div>' +
+          (unlockedStation ? '<div class="l" style="margin-top:14px">Prochaine station</div><div class="n">' + esc(unlockedStation.name) + '</div><div class="s">' + esc(unlockedStation.theme) + '</div><div class="l" style="margin-top:12px">Die Niveau-Skala unter Exercices libres wächst mit den neuen Wörtern, die Striche können erst einmal zurückgehen.</div>' : '<div class="n">Voyage terminé</div><div class="s">Alle sieben Stationen geschafft.</div>');
         r.appendChild(u);
       }
       if (n < 5 && !stationDone) { const nx = el('button', 'btn', 'Commencer l’étape ' + (n + 1)); nx.onclick = () => startEtappe(st.id, n + 1, ctx.from); actions.appendChild(nx); }
