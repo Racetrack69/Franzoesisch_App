@@ -1124,6 +1124,7 @@
     const left = shuffle(words), right = shuffle(words);
     const btns = { fr: [], de: [] };
     let sel = null, pairs = 0, mistakes = 0, locked = false;
+    const erred = {};
 
     function make(side, v) {
       const b = el('button', 'mbtn ' + side);
@@ -1145,6 +1146,7 @@
       const a = sel; clearSel();
       if (a.v.id === v.id) {
         sfx('ok');
+        bumpVocab(v.id, erred[v.id] ? 0 : 1);
         [a.btn, b].forEach(x => { x.classList.add('done'); x.disabled = true; });
         const frBtn = a.side === 'fr' ? a.btn : b;
         if (byEar) frBtn.innerHTML = esc(v.fr);
@@ -1156,6 +1158,7 @@
         }
       } else {
         sfx('err');
+        erred[a.v.id] = true; erred[v.id] = true;
         mistakes++; locked = true;
         [a.btn, b].forEach(x => x.classList.add('wrong'));
         setTimeout(() => { [a.btn, b].forEach(x => x.classList.remove('wrong')); locked = false; }, 550);

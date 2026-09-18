@@ -10,6 +10,27 @@ window.CONTENT = {
   meta: { lang: "fr-FR", title: "Flâner" },
 
   vocab: [
+    // Station Avignon: Nach dem Weg fragen
+    { id: "d01", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Straße", fr: "la rue", tip: "Rue de la République. Die große Straße zwischen Städten ist la route." },
+    { id: "d02", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "der Platz", fr: "la place", altDe: ["der Sitzplatz"], ctxFr: "La place du marché.", ctxDe: "Der Marktplatz.", tip: "Feminin. Auch: der Sitzplatz, der Parkplatz (une place de parking)." },
+    { id: "d03", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Brücke", fr: "le pont", tip: "Maskulin. Sur le pont d'Avignon." },
+    { id: "d04", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "der Bahnhof", fr: "la gare", tip: "Feminin. Le garage ist die Werkstatt.", trap: "Stolperstein: la gare (Bahnhof) und le garage (Werkstatt, Garage) klingen ähnlich, sind aber zwei Wörter." },
+    { id: "d05", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Bushaltestelle", fr: "l'arrêt de bus", tip: "Arrêt kommt von arrêter, anhalten. Maskulin: un arrêt." },
+    { id: "d06", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Innenstadt", fr: "le centre-ville", tip: "Maskulin, mit Bindestrich. Aller en ville: in die Stadt gehen." },
+    { id: "d07", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "links", fr: "à gauche", tip: "Tournez à gauche. Ohne à heißt gauche linkisch." },
+    { id: "d08", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "rechts", fr: "à droite", tip: "Tournez à droite, mit e am Ende." },
+    { id: "d09", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "geradeaus", fr: "tout droit", tip: "Ohne e: droit. Continuez tout droit.", trap: "Stolperstein: tout droit (geradeaus) und à droite (rechts) unterscheiden sich nur im e. Wer es mitspricht, schickt Leute in die falsche Richtung." },
+    { id: "d10", pos: "adjektiv", station: "avignon", level: 2, theme: "Unterwegs", de: "weit", fr: "loin", tip: "C'est loin ? Ist das weit? Gegenteil: près." },
+    { id: "d11", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "in der Nähe von", fr: "près de", tip: "Près de la gare. Mit accent grave." },
+    { id: "d12", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "gegenüber von", fr: "en face de", tip: "En face de l'hôtel. Face heißt Gesicht, man steht Gesicht zu Gesicht." },
+    { id: "d13", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "neben", fr: "à côté de", tip: "À côté de la cathédrale. Côté heißt Seite." },
+    { id: "d14", pos: "verb", station: "avignon", level: 2, theme: "Unterwegs", de: "abbiegen", fr: "tourner", altDe: ["drehen"], ctxFr: "Tournez à gauche au feu.", ctxDe: "Biegen Sie an der Ampel links ab.", tip: "Auch: sich drehen, einen Film drehen." },
+    { id: "d15", pos: "verb", station: "avignon", level: 2, theme: "Unterwegs", de: "weitergehen", fr: "continuer", altDe: ["fortsetzen"], ctxFr: "Continuez tout droit.", ctxDe: "Gehen Sie geradeaus weiter.", tip: "Continuez jusqu'à la place: bis zum Platz." },
+    { id: "d16", pos: "verb", station: "avignon", level: 2, theme: "Unterwegs", de: "überqueren", fr: "traverser", tip: "Traverser la rue, traverser le pont." },
+    { id: "d17", pos: "verb", station: "avignon", level: 2, theme: "Unterwegs", de: "sich verirren", fr: "se perdre", tip: "Je suis perdu: Ich habe mich verlaufen. Perdre: verlieren." },
+    { id: "d18", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "der Stadtplan", fr: "le plan", tip: "Le plan de la ville. Die Landkarte ist la carte.", trap: "Stolperstein: Für den Stadtplan sagt man le plan, nicht la carte. La carte ist die Landkarte oder die Speisekarte." },
+    { id: "d19", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Ampel", fr: "le feu", altDe: ["das Feuer"], ctxFr: "Au feu rouge, tournez à droite.", ctxDe: "An der roten Ampel rechts.", tip: "Feu heißt Feuer. Die Ampel ist le feu rouge oder kurz le feu. Plural: les feux." },
+    { id: "d20", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Kreuzung", fr: "le carrefour", tip: "Wörtlich: vier Wege, quatre fours (altfranzösisch). Auch der Name der Supermarktkette." },
     // Station Bordeaux: Im Café bestellen
     { id: "c01", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Kaffee", fr: "le café", altDe: ["das Café"], ctxFr: "Un café, s'il vous plaît.", ctxDe: "Einen Kaffee, bitte.", tip: "Un café ist ein kleiner schwarzer Espresso. Wer Filterkaffee will, sagt un café allongé." },
     { id: "c02", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Milchkaffee", fr: "le café au lait", alt: ["le café crème", "le crème"], tip: "Im Café bestellt man eher un crème oder un café crème." },
@@ -114,6 +135,11 @@ window.CONTENT = {
   // Artikel: Stufe 1 und 2 bestimmter Artikel (le, la, l', les), Stufe 3 Teilungsartikel (du, de la, de l', des, und de nach Verneinung).
   // "prompt" mit ___ ist die Lücke, "answer" der Index der richtigen Option, "de" die Übersetzung für die Auflösung.
   articles: [
+    { id: "da1", station: "avignon", level: 2, prompt: "___ rue", options: ["le", "la", "l'", "les"], answer: 1, explain: "La rue ist feminin.", de: "die Straße" },
+    { id: "da2", station: "avignon", level: 2, prompt: "___ pont", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le pont ist maskulin.", de: "die Brücke" },
+    { id: "da3", station: "avignon", level: 2, prompt: "___ gare", options: ["le", "la", "l'", "les"], answer: 1, explain: "La gare ist feminin, obwohl Bahnhof im Deutschen maskulin ist.", de: "der Bahnhof" },
+    { id: "da4", station: "avignon", level: 2, prompt: "___ arrêt", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal l'. Maskulin: un arrêt.", de: "die Haltestelle" },
+    { id: "da5", station: "avignon", level: 2, prompt: "___ feux", options: ["le", "la", "l'", "les"], answer: 3, explain: "Plural von le feu: les feux, mit x statt s.", de: "die Ampeln" },
     { id: "ca1", station: "bordeaux", level: 1, prompt: "___ café", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le café ist maskulin, wie le thé, le jus.", de: "der Kaffee" },
     { id: "ca2", station: "bordeaux", level: 1, prompt: "___ carte", options: ["le", "la", "l'", "les"], answer: 1, explain: "La carte ist feminin.", de: "die Speisekarte" },
     { id: "ca3", station: "bordeaux", level: 1, prompt: "___ addition", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal: l'addition. Feminin, wie alle Wörter auf -tion.", de: "die Rechnung" },
@@ -153,6 +179,11 @@ window.CONTENT = {
   ],
 
   errors: [
+    { id: "de1", station: "avignon", level: 2, words: ["Tournez", "à la", "droite", "au feu."], wrong: 1, correct: "à", explain: "Die Wendung heißt à droite, ohne Artikel. Ebenso à gauche." },
+    { id: "de2", station: "avignon", level: 2, words: ["Allez", "tout", "droite", "jusqu'au pont."], wrong: 2, correct: "droit", explain: "Geradeaus heißt tout droit, ohne e. À droite ist rechts." },
+    { id: "de3", station: "avignon", level: 2, words: ["La gare", "est", "en face", "du", "hôtel."], wrong: 3, correct: "de l'", explain: "Vor stummem h wird de le nicht zu du: en face de l'hôtel." },
+    { id: "de4", station: "avignon", level: 2, words: ["Continuez", "jusqu'au", "la place."], wrong: 1, correct: "jusqu'à", explain: "Jusqu'à + la bleibt jusqu'à la. Nur jusqu'à + le wird zu jusqu'au." },
+    { id: "de5", station: "avignon", level: 2, words: ["Où", "est", "le", "arrêt", "de bus ?"], wrong: 2, correct: "l'", explain: "Vor Vokal: l'arrêt." },
     { id: "ce1", station: "bordeaux", level: 1, words: ["Je", "prends", "une", "croissant."], wrong: 2, correct: "un", explain: "Le croissant ist maskulin: un croissant." },
     { id: "ce2", station: "bordeaux", level: 1, words: ["L'addition,", "s'il", "te", "plaît."], wrong: 2, correct: "vous", explain: "Den Kellner siezt man: s'il vous plaît. S'il te plaît nur unter Freunden." },
     { id: "ce3", station: "bordeaux", level: 1, words: ["Je", "voudrais", "de l'eau", "gazeux."], wrong: 3, correct: "gazeuse", explain: "Eau ist feminin, das Adjektiv folgt: de l'eau gazeuse." },
@@ -183,6 +214,13 @@ window.CONTENT = {
   ],
 
   speak: [
+    { id: "ds1", station: "avignon", level: 2, fr: "Pardon, où est la gare, s'il vous plaît ?", de: "Entschuldigung, wo ist der Bahnhof, bitte?" },
+    { id: "ds2", station: "avignon", level: 2, fr: "Tournez à gauche, puis continuez tout droit.", de: "Biegen Sie links ab, dann gehen Sie geradeaus weiter." },
+    { id: "ds3", station: "avignon", level: 2, fr: "C'est loin ? Non, c'est à cinq minutes à pied.", de: "Ist das weit? Nein, fünf Minuten zu Fuß." },
+    { id: "ms1", station: "marseille", level: 1, fr: "Je voudrais un kilo de pommes, s'il vous plaît.", de: "Ich hätte gern ein Kilo Äpfel, bitte." },
+    { id: "ms2", station: "marseille", level: 1, fr: "C'est combien, le fromage ?", de: "Wie viel kostet der Käse?" },
+    { id: "ms3", station: "marseille", level: 1, fr: "Vous avez du pain frais ?", de: "Haben Sie frisches Brot?" },
+    { id: "ms4", station: "marseille", level: 1, fr: "Ça fait dix euros cinquante. Voilà, merci.", de: "Das macht zehn Euro fünfzig. Bitte sehr, danke." },
     { id: "cs1", station: "bordeaux", level: 1, fr: "Un café au lait et un croissant, s'il vous plaît.", de: "Einen Milchkaffee und ein Croissant, bitte." },
     { id: "cs2", station: "bordeaux", level: 1, fr: "Vous avez une table en terrasse ?", de: "Haben Sie einen Tisch draußen?" },
     { id: "cs3", station: "bordeaux", level: 1, fr: "Je prends un thé, sans sucre.", de: "Ich nehme einen Tee, ohne Zucker." },
@@ -209,6 +247,51 @@ window.CONTENT = {
   ],
 
   texts: [
+    {
+      id: "dt1", station: "avignon", level: 2, title: "Le chemin vers le palais",
+      text: "Pour aller au palais des Papes, prenez la rue de la République tout droit. Au feu, tournez à gauche. Continuez jusqu'à la grande place. Le palais est en face de vous, à côté de la cathédrale.",
+      questions: [
+        { q: "Wo muss man abbiegen?", options: ["An der Ampel nach links", "Am Platz nach rechts", "An der Brücke"], answer: 0 },
+        { q: "Was liegt neben dem Palast?", options: ["Die Kathedrale", "Der Bahnhof", "Das Rathaus"], answer: 0 },
+        { q: "Wie geht man die rue de la République entlang?", options: ["Geradeaus", "Nach links", "Mit dem Bus"], answer: 0 }
+      ]
+    },
+    {
+      id: "dt2", station: "avignon", level: 2, title: "Un message",
+      text: "Salut ! Je suis perdu. Je suis devant la gare, mais je ne trouve pas le pont. Tu peux m'envoyer le plan ? Je prends le bus 5 jusqu'au centre-ville. À tout de suite !",
+      questions: [
+        { q: "Wo ist die Person gerade?", options: ["Vor dem Bahnhof", "Auf der Brücke", "Im Bus"], answer: 0 },
+        { q: "Was findet sie nicht?", options: ["Die Brücke", "Den Bahnhof", "Das Café"], answer: 0 },
+        { q: "Welchen Bus nimmt sie?", options: ["Linie 5", "Linie 15", "Keinen"], answer: 0 }
+      ]
+    },
+    {
+      id: "dt3", station: "avignon", level: 2, title: "À l'office de tourisme",
+      text: "Bonjour ! Le pont Saint-Bénézet est à dix minutes à pied. Sortez à droite, traversez la place et prenez la rue à gauche, le long du fleuve. Le pont est ouvert de neuf heures à dix-neuf heures. L'entrée coûte cinq euros.",
+      questions: [
+        { q: "Wie weit ist die Brücke?", options: ["Zehn Minuten zu Fuß", "Zehn Minuten mit dem Bus", "Eine halbe Stunde"], answer: 0 },
+        { q: "Woran entlang führt der Weg?", options: ["Am Fluss", "Am Bahnhof", "Am Markt"], answer: 0 },
+        { q: "Bis wann ist die Brücke geöffnet?", options: ["Bis 19 Uhr", "Bis 9 Uhr", "Bis 17 Uhr"], answer: 0 }
+      ]
+    },
+    {
+      id: "mt1", station: "marseille", level: 1, title: "Au marché",
+      text: "Le samedi matin, il y a un grand marché près du Vieux-Port. On y trouve des fruits, des légumes, du poisson et du fromage. Marie achète un kilo de pommes et du pain. Les prix sont bons, mais il faut arriver tôt.",
+      questions: [
+        { q: "Wann ist der Markt?", options: ["Samstagmorgen", "Sonntag", "Jeden Abend"], answer: 0 },
+        { q: "Was kauft Marie?", options: ["Äpfel und Brot", "Fisch", "Käse"], answer: 0 },
+        { q: "Was sollte man tun?", options: ["Früh kommen", "Spät kommen", "Mit dem Auto kommen"], answer: 0 }
+      ]
+    },
+    {
+      id: "mt2", station: "marseille", level: 1, title: "La liste de courses",
+      text: "À acheter : un kilo de pommes, du pain, un fromage de chèvre, six œufs, deux bouteilles d'eau gazeuse. Ne pas oublier : le sac !",
+      questions: [
+        { q: "Wie viele Eier stehen auf der Liste?", options: ["Sechs", "Zwei", "Zwölf"], answer: 0 },
+        { q: "Welcher Käse?", options: ["Ziegenkäse", "Kuhmilchkäse", "Kein Käse"], answer: 0 },
+        { q: "Was darf man nicht vergessen?", options: ["Die Tasche", "Das Geld", "Den Stadtplan"], answer: 0 }
+      ]
+    },
     {
       id: "ct1", station: "bordeaux", level: 1, title: "Au café du port",
       text: "Il est dix heures. Marie et Paul sont au café du port. Marie commande un café crème et un croissant. Paul prend un thé et une tartine. Ils sont en terrasse parce qu'il fait beau. Le serveur est très gentil. Ça fait huit euros cinquante.",
@@ -322,6 +405,60 @@ window.CONTENT = {
   // Dialoge: am Ende der letzten Etappe einer Station. Pro Zug drei Antworten, "ok" markiert die passende,
   // "note" erklärt kurz, warum die anderen nicht ideal sind.
   dialogs: [
+    { id: "dd1", station: "avignon", title: "Dans la rue", intro: "Du stehst mit dem Stadtplan in Avignon. Eine Passantin spricht dich an.",
+      turns: [
+        { npc: "Bonjour, je peux vous aider ? Vous cherchez quelque chose ?", npcDe: "Guten Tag, kann ich helfen? Suchen Sie etwas?",
+          options: [
+            { fr: "Oui, je cherche la gare, s'il vous plaît.", de: "Ja, ich suche den Bahnhof, bitte.", ok: true },
+            { fr: "Où est gare ?", de: "Wo ist Bahnhof?", note: "Der Artikel fehlt: la gare. Und ein s'il vous plaît schadet nie." },
+            { fr: "Je suis la gare.", de: "Ich bin der Bahnhof.", note: "Être heißt sein. Suchen ist chercher." }
+          ] },
+        { npc: "C'est facile : vous continuez tout droit, puis vous tournez à droite après le pont.", npcDe: "Ganz einfach: geradeaus weiter, dann nach der Brücke rechts.",
+          options: [
+            { fr: "D'accord, tout droit, puis à droite après le pont. Merci !", de: "Alles klar, geradeaus, dann nach der Brücke rechts. Danke!", ok: true },
+            { fr: "À gauche après le pont ?", de: "Links nach der Brücke?", note: "Sie hat à droite gesagt. Wiederholen ist gut, aber richtig." },
+            { fr: "Je ne comprends pas l'allemand.", de: "Ich verstehe kein Deutsch.", note: "Falsches Wort: Sie sprechen Französisch. Je ne comprends pas reicht." }
+          ] },
+        { npc: "C'est à dix minutes à pied. Vous voulez prendre le bus ?", npcDe: "Zehn Minuten zu Fuß. Wollen Sie den Bus nehmen?",
+          options: [
+            { fr: "Non merci, je vais marcher, il fait beau.", de: "Nein danke, ich gehe zu Fuß, das Wetter ist schön.", ok: true },
+            { fr: "Oui, je prends la voiture.", de: "Ja, ich nehme das Auto.", note: "Gefragt war der Bus. La voiture passt nicht zur Frage." },
+            { fr: "Non, je veux le bus.", de: "Nein, ich will den Bus.", note: "Non und dann doch den Bus? Das widerspricht sich, und je veux klingt hart." }
+          ] },
+        { npc: "Très bien. Bonne route !", npcDe: "Sehr gut. Gute Reise!",
+          options: [
+            { fr: "Merci beaucoup, bonne journée !", de: "Vielen Dank, schönen Tag!", ok: true },
+            { fr: "Bon appétit !", de: "Guten Appetit!", note: "Passt nur beim Essen." },
+            { fr: "De rien.", de: "Keine Ursache.", note: "De rien antwortet man auf merci, nicht auf einen Wunsch." }
+          ] }
+      ] },
+    { id: "md1", station: "marseille", title: "Au marché", intro: "Ein Obststand auf dem Markt in Marseille. Der Verkäufer ruft dich heran.",
+      turns: [
+        { npc: "Bonjour ! Qu'est-ce qu'il vous faut ?", npcDe: "Guten Tag! Was brauchen Sie?",
+          options: [
+            { fr: "Bonjour, je voudrais un kilo de tomates.", de: "Guten Tag, ich hätte gern ein Kilo Tomaten.", ok: true },
+            { fr: "Donnez tomates.", de: "Geben Tomaten.", note: "Zu knapp und ohne Artikel. Beim Einkaufen: je voudrais plus Menge." },
+            { fr: "Je cherche le marché.", de: "Ich suche den Markt.", note: "Sie stehen schon darauf." }
+          ] },
+        { npc: "Un kilo, voilà. Et avec ceci ?", npcDe: "Ein Kilo, bitte sehr. Und dazu?",
+          options: [
+            { fr: "Du fromage, s'il vous plaît. Un morceau de celui-là.", de: "Käse, bitte. Ein Stück von dem da.", ok: true },
+            { fr: "Non.", de: "Nein.", note: "Nicht falsch, aber kurz angebunden. Non merci, ce sera tout wäre freundlich." },
+            { fr: "Je prends le fromage tout.", de: "Ich nehme den Käse alles.", note: "Wortstellung: tout le fromage. Und der ganze Laib wäre viel." }
+          ] },
+        { npc: "Ça fait huit euros cinquante.", npcDe: "Das macht acht Euro fünfzig.",
+          options: [
+            { fr: "Voilà dix euros.", de: "Hier sind zehn Euro.", ok: true },
+            { fr: "C'est cher, je paie cinq.", de: "Das ist teuer, ich zahle fünf.", note: "Auf dem Markt wird nicht gehandelt wie auf dem Basar." },
+            { fr: "Je n'ai pas d'argent, merci.", de: "Ich habe kein Geld, danke.", note: "Dann bleibt die Ware hier." }
+          ] },
+        { npc: "Et un euro cinquante pour vous. Merci, bonne journée !", npcDe: "Und ein Euro fünfzig zurück. Danke, schönen Tag!",
+          options: [
+            { fr: "Merci, à vous aussi !", de: "Danke, Ihnen auch!", ok: true },
+            { fr: "Bonne nuit !", de: "Gute Nacht!", note: "Es ist Vormittag." },
+            { fr: "Salut !", de: "Tschau!", note: "Zu locker für den Verkäufer. Au revoir." }
+          ] }
+      ] },
     { id: "cd1", station: "bordeaux", title: "Au café", intro: "Ein Café in Bordeaux, vormittags. Der Kellner kommt an den Tisch.",
       turns: [
         { npc: "Bonjour, vous désirez ?", npcDe: "Guten Tag, was darf es sein?",
@@ -379,6 +516,8 @@ window.CONTENT = {
   ],
 
   tenses: [
+    { id: "dz1", station: "avignon", level: 2, topic: "Imperativ", sentence: "___ à gauche au feu.", options: ["Tournez", "Tournes", "Tourner"], answer: 0, explain: "Höfliche Aufforderung: die vous-Form ohne vous. Tournez, continuez, traversez." },
+    { id: "mz1", station: "marseille", level: 1, topic: "Präsens: acheter", sentence: "Nous ___ des pommes.", options: ["achetons", "achetez", "achètent"], answer: 0, explain: "Acheter: j'achète, nous achetons, ils achètent. Der accent grave nur in den Formen, die auf stummes e enden." },
     { id: "cz1", station: "bordeaux", level: 1, topic: "Präsens: prendre", sentence: "Je ___ un café.", options: ["prends", "prend", "prenez"], answer: 0, explain: "Prendre: je prends, tu prends, il prend, nous prenons, vous prenez, ils prennent." },
     { id: "cz2", station: "bordeaux", level: 1, topic: "Präsens: prendre", sentence: "Vous ___ un thé ?", options: ["prenez", "prends", "prennent"], answer: 0, explain: "Vous-Form: vous prenez. Die Kellnerfrage schlechthin." },
     { id: "cz3", station: "bordeaux", level: 1, topic: "Präsens: boire", sentence: "Nous ___ de l'eau.", options: ["buvons", "boivent", "bois"], answer: 0, explain: "Boire ist unregelmäßig: je bois, nous buvons, ils boivent." },
