@@ -1,7 +1,7 @@
 // Service Worker: hält die App offline verfügbar. Die Version steht in version.js.
 importScripts('version.js');
 const VERSION = 'fr-' + self.APP_VERSION;
-const FILES = ['./', './index.html', './version.js', './content.js', './manifest.json', './icon-192.png', './icon-512.png', './icon-180.png'];
+const FILES = ['./', './index.html', './version.js', './content.js', './manifest.json', './icon-192-v2.png', './icon-512-v2.png', './icon-180-v2.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

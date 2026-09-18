@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Archivo:wght@400;500;600&display=swap">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" href="icon-180-v2.png">
 <title>Flâner</title>
 <style>
   :root {
@@ -160,6 +160,8 @@
   .feedback .tip { font-family: var(--sans); font-size: 15px; color: var(--ink); margin-top: 8px; line-height: 1.5; opacity: .9; }
   .feedback .trap { font-size: 14px; color: var(--muted); margin-top: 8px; line-height: 1.5; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.08); }
   .feedback .gain { line-height: 1; }
+  .feedback .mine { font-size: 14px; color: var(--muted); margin-top: 4px; }
+  .card .feedback .mine { color: var(--plate-mute); }
 
   .opts { display: grid; gap: 10px; margin-top: 16px; }
   .opts button { text-align: left; padding: 14px 16px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--field); font-size: 17px; }
@@ -538,8 +540,8 @@
   function isDone(type, id) { return !!(S.done[type] && S.done[type][id]); }
 
   function moduleProgress(key) {
-    // Level auf die ganze Reise bezogen: Niveau 10 heißt, alle Aufgaben aller Stationen sitzen. Steigt nur, fällt nie.
-    const all = C[key === 'match' ? 'vocab' : key] || [];
+    // Niveau bezogen auf die offenen Stationen. Öffnet eine neue Station, wächst die Skala, das Niveau kann dann sinken.
+    const all = byLevel(C[key === 'match' ? 'vocab' : key] || []);
     const mastered = key === 'vocab' || key === 'match' ? all.filter(x => vocabLevel(x.id) >= 2).length : all.filter(x => S.done[key] && S.done[key][x.id] === 2).length;
     const level10 = all.length ? Math.floor(20 * mastered / all.length) / 2 : 0;
     if (key === 'match') { const v = byLevel(C.vocab); return { text: '', pct: 0, level10, empty: v.length < 4 }; }
@@ -1021,7 +1023,8 @@
       input.disabled = true;
       input.className = ok ? 'ok' : 'err';
       showSolution();
-      fb.innerHTML = explainBox(ok, ok ? 'Exact.' : 'Presque.', v);
+      const mine = ok ? '' : '<div class="mine">Deine Antwort: <s>' + esc(input.value.trim()) + '</s></div>';
+      fb.innerHTML = explainBox(ok, (ok ? 'Exact.' : 'Presque.') + '<b>' + esc(target) + '</b>' + mine, v);
       bumpVocab(v.id, delta);
       row.remove();
       finish(ok, ok ? P()[0] : 0, v.fr);
@@ -1064,7 +1067,8 @@
           Array.from(opts.children).forEach(c => { c.disabled = true; if (norm(c.textContent) === norm(target)) c.classList.add('ok'); });
           if (!ok) b.classList.add('err');
           showSolution();
-          fb.innerHTML = explainBox(ok, ok ? 'Exact, avec de l’aide.' : 'Presque.', v);
+          const mine = ok ? '' : '<div class="mine">Deine Wahl: <s>' + esc(o) + '</s></div>';
+          fb.innerHTML = explainBox(ok, (ok ? 'Exact, avec de l’aide.' : 'Presque.') + '<b>' + esc(target) + '</b>' + mine, v);
           bumpVocab(v.id, ok ? 0 : -1);
           row.remove();
           finish(false, ok ? P()[1] : 0, v.fr);
@@ -1421,7 +1425,7 @@
         setTimeout(() => sfx('unlock'), 300);
         const u = el('div', 'unlock');
         u.innerHTML = '<div class="l" style="display:flex;align-items:center;gap:10px"><span style="color:var(--accent-on-plate);display:flex">' + ICON.hex + '</span>' + esc(st.name) + ' terminé</div>' +
-          (unlockedStation ? '<div class="n">' + esc(unlockedStation.name) + '</div><div class="s">' + esc(unlockedStation.theme) + '</div>' : '<div class="n">Voyage terminé</div><div class="s">Alle sieben Stationen geschafft.</div>');
+          (unlockedStation ? '<div class="n">' + esc(unlockedStation.name) + '</div><div class="s">' + esc(unlockedStation.theme) + '</div><div class="l" style="margin-top:10px">Neue Wörter und Aufgaben. Die Niveau-Skala unter Exercices libres wächst mit, die Striche können deshalb erst einmal zurückgehen.</div>' : '<div class="n">Voyage terminé</div><div class="s">Alle sieben Stationen geschafft.</div>');
         r.appendChild(u);
       }
       if (n < 5 && !stationDone) { const nx = el('button', 'btn', 'Commencer l’étape ' + (n + 1)); nx.onclick = () => startEtappe(st.id, n + 1, ctx.from); actions.appendChild(nx); }
