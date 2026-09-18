@@ -10,6 +10,57 @@ window.CONTENT = {
   meta: { lang: "fr-FR", title: "Flâner" },
 
   vocab: [
+    // Station Lyon: Essen und Restaurant
+    { id: "l01", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "die Vorspeise", fr: "l'entrée", altDe: ["der Eingang"], ctxFr: "En entrée, une salade.", ctxDe: "Als Vorspeise einen Salat.", tip: "Feminin. Heißt auch der Eingang, im Restaurant aber der erste Gang." },
+    { id: "l02", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "das Hauptgericht", fr: "le plat", altDe: ["der Teller"], ctxFr: "Comme plat, du poisson.", ctxDe: "Als Hauptgericht Fisch.", tip: "Le plat ist der Teller und der Gang. Le plat du jour: das Tagesgericht." },
+    { id: "l03", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "der Nachtisch", fr: "le dessert", tip: "Ein s klingt wie z zwischen Vokalen, daher zwei s." },
+    { id: "l04", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "das Fleisch", fr: "la viande", tip: "Feminin. Von vivenda, was zum Leben dient." },
+    { id: "l05", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "der Fisch", fr: "le poisson", tip: "Mit zwei s, sonst wäre es le poison, das Gift.", trap: "Stolperstein: le poisson (Fisch) und le poison (Gift) unterscheiden sich nur im s. Das doppelte s klingt scharf." },
+    { id: "l06", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "das Gemüse", fr: "les légumes", tip: "Steht meist im Plural, maskulin: des légumes verts." },
+    { id: "l07", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "die Vorspeisenplatte", fr: "les hors-d’œuvre", alt: ["les hors-d'oeuvre"], tip: "Wörtlich: außerhalb des Werks, also außerhalb des eigentlichen Menüs. Unveränderlich." },
+    { id: "l08", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "die Rechnung", fr: "l’addition", alt: ["l'addition"], tip: "Im Restaurant immer l'addition, nicht la facture." },
+    { id: "l09", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "das Trinkgeld", fr: "le pourboire", tip: "Wörtlich: zum Trinken. In Frankreich ist der Service meist enthalten." },
+    { id: "l10", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "der Tisch", fr: "la table", tip: "Une table pour deux, s'il vous plaît." },
+    { id: "l11", pos: "verb", station: "lyon", level: 2, theme: "Restaurant", de: "reservieren", fr: "réserver", tip: "J'ai réservé une table au nom de Schmidt." },
+    { id: "l12", pos: "verb", station: "lyon", level: 2, theme: "Restaurant", de: "empfehlen", fr: "recommander", alt: ["conseiller"], tip: "Qu'est-ce que vous recommandez ? Was empfehlen Sie?" },
+    { id: "l13", pos: "verb", station: "lyon", level: 2, theme: "Restaurant", de: "wählen", fr: "choisir", tip: "Auf -ir: je choisis, nous choisissons." },
+    { id: "l14", pos: "verb", station: "lyon", level: 2, theme: "Restaurant", de: "probieren", fr: "goûter", tip: "Von le goût, der Geschmack. Mit Zirkumflex." },
+    { id: "l15", pos: "adjektiv", station: "lyon", level: 2, theme: "Restaurant", de: "lecker", fr: "délicieux", alt: ["délicieuse", "bon", "bonne"], tip: "C'était délicieux. Feminin: délicieuse." },
+    { id: "l16", pos: "adjektiv", station: "lyon", level: 2, theme: "Restaurant", de: "satt", fr: "rassasié", alt: ["rassasiée"], altDe: ["gesättigt"], ctxFr: "Merci, je suis rassasié.", ctxDe: "Danke, ich bin satt.", tip: "Auch: Je n'ai plus faim, ich habe keinen Hunger mehr.", trap: "Stolperstein: Je suis plein heißt nicht ich bin satt, sondern eher ich bin voll wie ein Fass." },
+    { id: "l17", pos: "adjektiv", station: "lyon", level: 2, theme: "Restaurant", de: "scharf", fr: "épicé", alt: ["épicée", "piquant"], tip: "Von l'épice, das Gewürz. Ein scharfes Messer wäre coupant." },
+    { id: "l18", pos: "wendung", station: "lyon", level: 2, theme: "Restaurant", de: "zum Wohl", fr: "Santé", alt: ["À votre santé", "Tchin-tchin"], tip: "Beim Anstoßen. Wörtlich: Gesundheit." },
+    { id: "l19", pos: "wendung", station: "lyon", level: 2, theme: "Restaurant", de: "Ich bin allergisch gegen", fr: "Je suis allergique à", tip: "Mit à: allergique aux noix, allergique au lait." },
+    { id: "l20", pos: "wendung", station: "lyon", level: 2, theme: "Restaurant", de: "Ich nehme dasselbe", fr: "Je prends la même chose", tip: "La même chose: dasselbe. Chose ist feminin." },
+
+    // Station Strasbourg: Wohnen, Uhrzeit, Verabredungen
+    { id: "t01s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "die Uhrzeit", fr: "l’heure", alt: ["l'heure"], altDe: ["die Stunde"], ctxFr: "Vous avez l'heure ?", ctxDe: "Haben Sie die Uhrzeit?", tip: "Feminin, mit stummem h. Quelle heure est-il ?" },
+    { id: "t02s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "die Minute", fr: "la minute", tip: "Wie im Deutschen, feminin." },
+    { id: "t03s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "der Morgen", fr: "le matin", tip: "Le matin: morgens. Demain matin: morgen früh." },
+    { id: "t04s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "der Nachmittag", fr: "l’après-midi", alt: ["l'après-midi"], tip: "Nach dem Mittag. Meist maskulin." },
+    { id: "t05s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "der Abend", fr: "le soir", altDe: ["abends"], ctxFr: "Ce soir, on sort.", ctxDe: "Heute Abend gehen wir aus.", tip: "La soirée ist der Abend als Verlauf, wie journée und jour." },
+    { id: "t06s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "die Woche", fr: "la semaine", tip: "Von sept, sieben. Sieben Tage." },
+    { id: "t07s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "die Wohnung", fr: "l’appartement", alt: ["l'appartement"], tip: "Maskulin, mit zwei p und einem t." },
+    { id: "t08s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "das Zimmer", fr: "la chambre", altDe: ["das Schlafzimmer"], ctxFr: "Une chambre pour deux nuits.", ctxDe: "Ein Zimmer für zwei Nächte.", tip: "La chambre ist das Schlafzimmer oder Hotelzimmer. Ein Raum allgemein: la pièce.", trap: "Stolperstein: Das Wohnzimmer ist le salon, nicht la chambre." },
+    { id: "t09s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "die Küche", fr: "la cuisine", altDe: ["die Kochkunst"], ctxFr: "La cuisine est petite mais claire.", ctxDe: "Die Küche ist klein, aber hell.", tip: "Auch: die Küche als Kochkunst, la cuisine française." },
+    { id: "t10s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "der Schlüssel", fr: "la clé", alt: ["la clef"], tip: "Feminin. Zwei Schreibweisen, clé ist die heutige." },
+    { id: "t11s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "der Aufzug", fr: "l’ascenseur", alt: ["l'ascenseur"], tip: "Maskulin. Sans ascenseur steht in vielen Anzeigen." },
+    { id: "t12s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "der Stock", fr: "l’étage", alt: ["l'étage"], tip: "Maskulin, wie alle -age. Le rez-de-chaussée ist das Erdgeschoss.", trap: "Stolperstein: Le premier étage ist der erste Stock über dem Erdgeschoss, also das deutsche erste Obergeschoss." },
+    { id: "t13s", pos: "verb", station: "strasbourg", level: 2, theme: "Verabredung", de: "sich treffen", fr: "se retrouver", alt: ["se voir"], tip: "On se retrouve à huit heures ? Treffen wir uns um acht?" },
+    { id: "t14s", pos: "verb", station: "strasbourg", level: 2, theme: "Verabredung", de: "anrufen", fr: "appeler", alt: ["téléphoner"], tip: "Je t'appelle ce soir. Doppel-l in den betonten Formen." },
+    { id: "t15s", pos: "verb", station: "strasbourg", level: 2, theme: "Verabredung", de: "warten auf", fr: "attendre", tip: "Ohne Präposition: je t'attends devant le cinéma." },
+    { id: "t16s", pos: "verb", station: "strasbourg", level: 2, theme: "Verabredung", de: "absagen", fr: "annuler", tip: "Je dois annuler, désolé." },
+    { id: "t17s", pos: "adjektiv", station: "strasbourg", level: 2, theme: "Verabredung", de: "früh", fr: "tôt", tip: "Mit Zirkumflex. Gegenteil: tard." },
+    { id: "t18s", pos: "adjektiv", station: "strasbourg", level: 2, theme: "Verabredung", de: "spät", fr: "tard", altDe: ["spät dran"], ctxFr: "Il est déjà tard.", ctxDe: "Es ist schon spät.", tip: "En retard heißt verspätet, tard einfach spät." },
+    { id: "t19s", pos: "wendung", station: "strasbourg", level: 2, theme: "Zeit", de: "Viertel nach", fr: "et quart", tip: "Il est huit heures et quart: Viertel nach acht." },
+    { id: "t20s", pos: "wendung", station: "strasbourg", level: 2, theme: "Zeit", de: "halb", fr: "et demie", tip: "Huit heures et demie ist halb neun, nicht halb acht.", trap: "Stolperstein: Deutsch halb neun heißt acht Uhr dreißig. Französisch zählt von der vollen Stunde aus: huit heures et demie." },
+
+    // Station Paris: Arbeit, Telefon, Alltag
+    { id: "p01", pos: "nomen", station: "paris", level: 3, theme: "Alltag", de: "das Handy", fr: "le portable", altDe: ["der Laptop"], ctxFr: "Mon portable est éteint.", ctxDe: "Mein Handy ist aus.", tip: "Le portable ist Handy und Laptop. Eindeutig: le téléphone portable." },
+    { id: "p02", pos: "nomen", station: "paris", level: 3, theme: "Alltag", de: "die Nachricht", fr: "le message", tip: "Maskulin, wie alle -age. Laisser un message: eine Nachricht hinterlassen." },
+    { id: "p03", pos: "nomen", station: "paris", level: 3, theme: "Alltag", de: "der Termin", fr: "le rendez-vous", tip: "Auch beim Arzt. Prendre rendez-vous: einen Termin machen." },
+    { id: "p04", pos: "verb", station: "paris", level: 3, theme: "Alltag", de: "zurückrufen", fr: "rappeler", tip: "Je vous rappelle demain." },
+    { id: "p05", pos: "verb", station: "paris", level: 3, theme: "Alltag", de: "hinterlassen", fr: "laisser", tip: "Laisser un message, laisser la clé." },
+    { id: "p06", pos: "wendung", station: "paris", level: 3, theme: "Alltag", de: "Am Apparat", fr: "À l’appareil", alt: ["à l'appareil"], tip: "Bonjour, Claire à l'appareil. So meldet man sich am Telefon." },
     // Station Avignon: Nach dem Weg fragen
     { id: "d01", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Straße", fr: "la rue", tip: "Rue de la République. Die große Straße zwischen Städten ist la route." },
     { id: "d02", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "der Platz", fr: "la place", altDe: ["der Sitzplatz"], ctxFr: "La place du marché.", ctxDe: "Der Marktplatz.", tip: "Feminin. Auch: der Sitzplatz, der Parkplatz (une place de parking)." },
@@ -135,6 +186,16 @@ window.CONTENT = {
   // Artikel: Stufe 1 und 2 bestimmter Artikel (le, la, l', les), Stufe 3 Teilungsartikel (du, de la, de l', des, und de nach Verneinung).
   // "prompt" mit ___ ist die Lücke, "answer" der Index der richtigen Option, "de" die Übersetzung für die Auflösung.
   articles: [
+    { id: "la1", station: "lyon", level: 2, prompt: "___ addition", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal l'. Feminin, wie alle Wörter auf -tion.", de: "die Rechnung" },
+    { id: "la2", station: "lyon", level: 2, prompt: "___ viande", options: ["le", "la", "l'", "les"], answer: 1, explain: "La viande ist feminin.", de: "das Fleisch" },
+    { id: "la3", station: "lyon", level: 2, prompt: "___ poisson", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le poisson ist maskulin.", de: "der Fisch" },
+    { id: "la4", station: "lyon", level: 2, prompt: "___ légumes", options: ["le", "la", "l'", "les"], answer: 3, explain: "Steht meist im Plural: les légumes.", de: "das Gemüse" },
+    { id: "la5", station: "lyon", level: 2, prompt: "___ dessert", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le dessert ist maskulin, wie le plat.", de: "der Nachtisch" },
+    { id: "pa1", station: "paris", level: 3, prompt: "___ heure", options: ["le", "la", "l'", "les"], answer: 2, explain: "Stummes h zählt wie ein Vokal: l'heure. Feminin.", de: "die Uhrzeit" },
+    { id: "pa2", station: "paris", level: 3, prompt: "___ message", options: ["le", "la", "l'", "les"], answer: 0, explain: "Wörter auf -age sind maskulin: le message.", de: "die Nachricht" },
+    { id: "pa3", station: "paris", level: 3, prompt: "___ travail", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le travail ist maskulin. Plural: les travaux.", de: "die Arbeit" },
+    { id: "pa4", station: "paris", level: 3, prompt: "Je bois ___ eau.", options: ["du", "de la", "de l'", "des"], answer: 2, explain: "Vor Vokal: de l'eau.", de: "Ich trinke Wasser." },
+    { id: "pa5", station: "paris", level: 3, prompt: "Il n’y a pas ___ places.", options: ["du", "de la", "de", "des"], answer: 2, explain: "Nach Verneinung wird des zu de: pas de places.", de: "Es gibt keine Plätze." },
     { id: "da1", station: "avignon", level: 2, prompt: "___ rue", options: ["le", "la", "l'", "les"], answer: 1, explain: "La rue ist feminin.", de: "die Straße" },
     { id: "da2", station: "avignon", level: 2, prompt: "___ pont", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le pont ist maskulin.", de: "die Brücke" },
     { id: "da3", station: "avignon", level: 2, prompt: "___ gare", options: ["le", "la", "l'", "les"], answer: 1, explain: "La gare ist feminin, obwohl Bahnhof im Deutschen maskulin ist.", de: "der Bahnhof" },
@@ -179,6 +240,16 @@ window.CONTENT = {
   ],
 
   errors: [
+    { id: "le1", station: "lyon", level: 2, words: ["Je", "voudrais", "le", "poisson,", "s'il vous plaît."], wrong: 2, correct: "du", explain: "Unbestimmte Menge: du poisson. Le poisson wäre ein bestimmter, schon erwähnter Fisch." },
+    { id: "le2", station: "lyon", level: 2, words: ["C'était", "très", "délicieuse."], wrong: 2, correct: "délicieux", explain: "Ce ist maskulin, also délicieux. Délicieuse nur bei einem femininen Bezug." },
+    { id: "le3", station: "lyon", level: 2, words: ["Je", "suis", "allergique", "de", "noix."], wrong: 3, correct: "aux", explain: "Allergique à: à + les wird zu aux. Allergique aux noix." },
+    { id: "le4", station: "lyon", level: 2, words: ["J'ai", "réservé", "une", "table", "pour", "deux", "personne."], wrong: 6, correct: "personnes", explain: "Deux verlangt den Plural: deux personnes." },
+    { id: "le5", station: "lyon", level: 2, words: ["Qu'est-ce que", "vous", "recommande", "?"], wrong: 2, correct: "recommandez", explain: "Vous-Form auf -ez: vous recommandez." },
+    { id: "se1", station: "strasbourg", level: 2, words: ["Il", "est", "huit", "heure", "et demie."], wrong: 3, correct: "heures", explain: "Ab zwei steht heures im Plural: deux heures, huit heures." },
+    { id: "se2", station: "strasbourg", level: 2, words: ["On", "se", "retrouve", "à", "le", "cinéma ?"], wrong: 4, correct: "au", explain: "à + le wird zu au: au cinéma." },
+    { id: "se3", station: "strasbourg", level: 2, words: ["Je", "t'attends", "devant", "la", "appartement."], wrong: 3, correct: "l'", explain: "Vor Vokal: l'appartement. Und es ist maskulin." },
+    { id: "se4", station: "strasbourg", level: 2, words: ["Je", "suis", "en", "retard", "pour", "dix", "minutes."], wrong: 4, correct: "de", explain: "En retard de dix minutes. Pour passt hier nicht." },
+    { id: "se5", station: "strasbourg", level: 2, words: ["Nous", "habitons", "à le", "troisième", "étage."], wrong: 2, correct: "au", explain: "à + le wird zu au: au troisième étage." },
     { id: "de1", station: "avignon", level: 2, words: ["Tournez", "à la", "droite", "au feu."], wrong: 1, correct: "à", explain: "Die Wendung heißt à droite, ohne Artikel. Ebenso à gauche." },
     { id: "de2", station: "avignon", level: 2, words: ["Allez", "tout", "droite", "jusqu'au pont."], wrong: 2, correct: "droit", explain: "Geradeaus heißt tout droit, ohne e. À droite ist rechts." },
     { id: "de3", station: "avignon", level: 2, words: ["La gare", "est", "en face", "du", "hôtel."], wrong: 3, correct: "de l'", explain: "Vor stummem h wird de le nicht zu du: en face de l'hôtel." },
@@ -214,6 +285,14 @@ window.CONTENT = {
   ],
 
   speak: [
+    { id: "ls1", station: "lyon", level: 2, fr: "J'ai réservé une table pour deux, au nom de Schmidt.", de: "Ich habe einen Tisch für zwei reserviert, auf den Namen Schmidt." },
+    { id: "ls2", station: "lyon", level: 2, fr: "Qu'est-ce que vous recommandez ?", de: "Was empfehlen Sie?" },
+    { id: "ls3", station: "lyon", level: 2, fr: "Je prends le plat du jour et un verre de vin rouge.", de: "Ich nehme das Tagesgericht und ein Glas Rotwein." },
+    { id: "ls4", station: "lyon", level: 2, fr: "C'était délicieux, merci beaucoup.", de: "Das war köstlich, vielen Dank." },
+    { id: "ss1", station: "strasbourg", level: 2, fr: "Il est huit heures et quart.", de: "Es ist Viertel nach acht." },
+    { id: "ss2", station: "strasbourg", level: 2, fr: "On se retrouve demain à midi devant la cathédrale ?", de: "Treffen wir uns morgen um zwölf vor der Kathedrale?" },
+    { id: "ps1", station: "paris", level: 3, fr: "Bonjour, Claire à l'appareil. Je vous rappelle plus tard.", de: "Guten Tag, Claire am Apparat. Ich rufe Sie später zurück." },
+    { id: "ps2", station: "paris", level: 3, fr: "Je voudrais prendre rendez-vous pour la semaine prochaine.", de: "Ich möchte einen Termin für nächste Woche vereinbaren." },
     { id: "ds1", station: "avignon", level: 2, fr: "Pardon, où est la gare, s'il vous plaît ?", de: "Entschuldigung, wo ist der Bahnhof, bitte?" },
     { id: "ds2", station: "avignon", level: 2, fr: "Tournez à gauche, puis continuez tout droit.", de: "Biegen Sie links ab, dann gehen Sie geradeaus weiter." },
     { id: "ds3", station: "avignon", level: 2, fr: "C'est loin ? Non, c'est à cinq minutes à pied.", de: "Ist das weit? Nein, fünf Minuten zu Fuß." },
@@ -247,6 +326,42 @@ window.CONTENT = {
   ],
 
   texts: [
+    {
+      id: "lt1", station: "lyon", level: 2, title: "Le bouchon lyonnais",
+      text: "À Lyon, les petits restaurants traditionnels s'appellent des bouchons. On y mange des plats simples et copieux. Le midi, il y a souvent un menu à prix fixe : entrée, plat et dessert. Il vaut mieux réserver, surtout le week-end.",
+      questions: [
+        { q: "Wie heißen die traditionellen Restaurants in Lyon?", options: ["Bouchons", "Bistros", "Brasseries"], answer: 0 },
+        { q: "Was gehört mittags zum festen Menü?", options: ["Vorspeise, Hauptgang, Nachtisch", "Nur ein Hauptgang", "Käse und Wein"], answer: 0 },
+        { q: "Was wird empfohlen?", options: ["Zu reservieren", "Früh zu kommen", "Bar zu zahlen"], answer: 0 }
+      ]
+    },
+    {
+      id: "lt2", station: "lyon", level: 2, title: "Au restaurant",
+      text: "Bonsoir. Nous avons une table près de la fenêtre. Ce soir, le plat du jour est un poisson avec des légumes. Comme dessert, il y a une tarte aux pommes. Le service est compris, mais le pourboire fait toujours plaisir.",
+      questions: [
+        { q: "Was ist das Tagesgericht?", options: ["Fisch mit Gemüse", "Fleisch mit Kartoffeln", "Eine Suppe"], answer: 0 },
+        { q: "Was gibt es als Nachtisch?", options: ["Apfelkuchen", "Eis", "Käse"], answer: 0 },
+        { q: "Was gilt für das Trinkgeld?", options: ["Es ist freiwillig", "Es ist Pflicht", "Es ist verboten"], answer: 0 }
+      ]
+    },
+    {
+      id: "st1", station: "strasbourg", level: 2, title: "Un rendez-vous",
+      text: "Salut Anna ! On se retrouve demain ? Je finis le travail à dix-sept heures. On peut se voir à dix-huit heures devant la cathédrale. Si tu es en retard, envoie-moi un message. À demain !",
+      questions: [
+        { q: "Wann endet die Arbeit?", options: ["Um 17 Uhr", "Um 18 Uhr", "Um 15 Uhr"], answer: 0 },
+        { q: "Wo treffen sie sich?", options: ["Vor der Kathedrale", "Im Café", "Am Bahnhof"], answer: 0 },
+        { q: "Was soll Anna bei Verspätung tun?", options: ["Eine Nachricht schicken", "Anrufen", "Warten"], answer: 0 }
+      ]
+    },
+    {
+      id: "pt1", station: "paris", level: 3, title: "Un message sur le répondeur",
+      text: "Bonjour, ici Monsieur Leroy. Je vous appelle au sujet du rendez-vous de jeudi. Malheureusement, je dois l'annuler. Est-ce que vendredi matin serait possible ? Rappelez-moi au zéro six, douze, trente-quatre. Merci et bonne journée.",
+      questions: [
+        { q: "Warum ruft Herr Leroy an?", options: ["Er sagt einen Termin ab", "Er bestätigt einen Termin", "Er sucht eine Wohnung"], answer: 0 },
+        { q: "Welchen neuen Termin schlägt er vor?", options: ["Freitagvormittag", "Donnerstagabend", "Montag"], answer: 0 },
+        { q: "Worum bittet er?", options: ["Um einen Rückruf", "Um eine E-Mail", "Um einen Besuch"], answer: 0 }
+      ]
+    },
     {
       id: "dt1", station: "avignon", level: 2, title: "Le chemin vers le palais",
       text: "Pour aller au palais des Papes, prenez la rue de la République tout droit. Au feu, tournez à gauche. Continuez jusqu'à la grande place. Le palais est en face de vous, à côté de la cathédrale.",
@@ -405,6 +520,87 @@ window.CONTENT = {
   // Dialoge: am Ende der letzten Etappe einer Station. Pro Zug drei Antworten, "ok" markiert die passende,
   // "note" erklärt kurz, warum die anderen nicht ideal sind.
   dialogs: [
+    { id: "ld1", station: "lyon", title: "Au bouchon", intro: "Ein Bouchon in Lyon, abends. Die Kellnerin kommt an den Tisch.",
+      turns: [
+        { npc: "Bonsoir ! Vous avez réservé ?", npcDe: "Guten Abend! Haben Sie reserviert?",
+          options: [
+            { fr: "Oui, une table pour deux au nom de Schmidt.", de: "Ja, ein Tisch für zwei auf den Namen Schmidt.", ok: true },
+            { fr: "Non, je veux manger.", de: "Nein, ich will essen.", note: "Ein einfaches Non, mais avez-vous une table ? wäre höflicher. Und je veux klingt fordernd." },
+            { fr: "Oui, j'ai réservé un hôtel.", de: "Ja, ich habe ein Hotel reserviert.", note: "Falscher Ort: gefragt war nach der Tischreservierung." }
+          ] },
+        { npc: "Très bien. Voici la carte. Le plat du jour est un poisson avec des légumes.", npcDe: "Sehr gut. Hier ist die Karte. Das Tagesgericht ist Fisch mit Gemüse.",
+          options: [
+            { fr: "Qu’est-ce que vous recommandez comme entrée ?", de: "Was empfehlen Sie als Vorspeise?", ok: true },
+            { fr: "Je prends le poison.", de: "Ich nehme das Gift.", note: "Ein s fehlt: le poisson. Mit einem s wird daraus Gift." },
+            { fr: "Je suis rassasié, merci.", de: "Ich bin satt, danke.", note: "Vor dem Essen ergibt das wenig Sinn." }
+          ] },
+        { npc: "La salade lyonnaise, c’est notre spécialité. Et à boire ?", npcDe: "Der Salat nach Lyoner Art ist unsere Spezialität. Und zu trinken?",
+          options: [
+            { fr: "Un verre de vin rouge et une carafe d’eau, s’il vous plaît.", de: "Ein Glas Rotwein und eine Karaffe Wasser, bitte.", ok: true },
+            { fr: "De l’eau du robinet gratuite.", de: "Kostenloses Leitungswasser.", note: "Verständlich, aber man sagt schlicht une carafe d'eau. Gratuite muss man nicht betonen." },
+            { fr: "Rien, je n’ai pas soif.", de: "Nichts, ich habe keinen Durst.", note: "Geht, wirkt im Restaurant aber knapp. Wasser nimmt man fast immer." }
+          ] },
+        { npc: "Parfait. Bon appétit !", npcDe: "Perfekt. Guten Appetit!",
+          options: [
+            { fr: "Merci ! Et l’addition à la fin, s’il vous plaît.", de: "Danke! Und die Rechnung am Ende, bitte.", ok: true },
+            { fr: "Vous aussi, bon appétit.", de: "Ihnen auch, guten Appetit.", note: "Die Kellnerin isst nicht mit. Ein einfaches merci genügt." },
+            { fr: "Santé !", de: "Zum Wohl!", note: "Santé sagt man beim Anstoßen, nicht als Antwort auf bon appétit." }
+          ] }
+      ] },
+    { id: "sd1", station: "strasbourg", title: "Au téléphone", intro: "Du rufst wegen einer Wohnungsbesichtigung an.",
+      turns: [
+        { npc: "Allô, oui ?", npcDe: "Hallo, ja?",
+          options: [
+            { fr: "Bonjour, Thomas Schmidt à l’appareil. Je vous appelle pour l’appartement.", de: "Guten Tag, Thomas Schmidt am Apparat. Ich rufe wegen der Wohnung an.", ok: true },
+            { fr: "Salut, c’est moi.", de: "Hi, ich bin's.", note: "Am Telefon mit Fremden immer bonjour und den eigenen Namen." },
+            { fr: "Je suis l’appartement.", de: "Ich bin die Wohnung.", note: "Être passt hier nicht. Man ruft wegen etwas an: appeler pour." }
+          ] },
+        { npc: "Ah oui, l’annonce. Vous voulez le visiter quand ?", npcDe: "Ach ja, die Anzeige. Wann wollen Sie sie besichtigen?",
+          options: [
+            { fr: "Demain après-midi, si c’est possible.", de: "Morgen Nachmittag, wenn es möglich ist.", ok: true },
+            { fr: "Maintenant tout de suite.", de: "Jetzt sofort.", note: "Grammatisch richtig, aber sehr fordernd. Ein si c'est possible macht viel aus." },
+            { fr: "Je ne sais pas, peut-être.", de: "Ich weiß nicht, vielleicht.", note: "Wer besichtigen will, sollte einen Vorschlag machen." }
+          ] },
+        { npc: "Disons quinze heures. C’est au troisième étage, sans ascenseur.", npcDe: "Sagen wir fünfzehn Uhr. Es ist im dritten Stock, ohne Aufzug.",
+          options: [
+            { fr: "D’accord, quinze heures, troisième étage. Merci.", de: "In Ordnung, fünfzehn Uhr, dritter Stock. Danke.", ok: true },
+            { fr: "Trois heures du matin ?", de: "Drei Uhr nachts?", note: "Quinze heures ist fünfzehn Uhr. Die Vierundzwanzig-Stunden-Zählung ist bei Terminen üblich." },
+            { fr: "Il y a un ascenseur ?", de: "Gibt es einen Aufzug?", note: "Sie hat gerade gesagt, dass es keinen gibt." }
+          ] },
+        { npc: "Très bien, à demain alors.", npcDe: "Sehr gut, dann bis morgen.",
+          options: [
+            { fr: "À demain, bonne journée !", de: "Bis morgen, schönen Tag!", ok: true },
+            { fr: "À bientôt, bonne nuit.", de: "Bis bald, gute Nacht.", note: "Bonne nuit passt nur zum Schlafengehen." },
+            { fr: "De rien.", de: "Keine Ursache.", note: "Das antwortet man auf merci, nicht auf einen Abschied." }
+          ] }
+      ] },
+    { id: "pd1", station: "paris", title: "Au bureau", intro: "Eine Kollegin spricht dich im Büro an.",
+      turns: [
+        { npc: "Bonjour ! Tu as deux minutes ?", npcDe: "Guten Morgen! Hast du zwei Minuten?",
+          options: [
+            { fr: "Bien sûr, qu’est-ce qu’il y a ?", de: "Klar, worum geht es?", ok: true },
+            { fr: "Non, je suis occupé.", de: "Nein, ich bin beschäftigt.", note: "Nicht falsch, aber schroff. Ein Pas tout de suite, dans dix minutes ? wäre freundlicher." },
+            { fr: "J’ai deux minutes.", de: "Ich habe zwei Minuten.", note: "Wörtlich richtig, klingt aber wie eine Stoppuhr." }
+          ] },
+        { npc: "La réunion de jeudi est reportée à vendredi. Ça te va ?", npcDe: "Die Besprechung am Donnerstag wird auf Freitag verschoben. Passt dir das?",
+          options: [
+            { fr: "Oui, vendredi me va très bien.", de: "Ja, Freitag passt mir sehr gut.", ok: true },
+            { fr: "Oui, jeudi est bien.", de: "Ja, Donnerstag ist gut.", note: "Der Termin wurde gerade auf Freitag verschoben." },
+            { fr: "Je suis reporté.", de: "Ich bin verschoben.", note: "Verschoben wird die Besprechung, nicht du." }
+          ] },
+        { npc: "Super. Tu peux prévenir Marc ? Il ne répond pas au téléphone.", npcDe: "Prima. Kannst du Marc Bescheid sagen? Er geht nicht ans Telefon.",
+          options: [
+            { fr: "Je lui laisse un message.", de: "Ich hinterlasse ihm eine Nachricht.", ok: true },
+            { fr: "Je le laisse un message.", de: "Ich hinterlasse ihn eine Nachricht.", note: "Wem? Das verlangt lui: je lui laisse un message." },
+            { fr: "Marc est au téléphone.", de: "Marc telefoniert.", note: "Sie hat gerade gesagt, dass er nicht rangeht." }
+          ] },
+        { npc: "Merci beaucoup, tu me sauves !", npcDe: "Vielen Dank, du rettest mich!",
+          options: [
+            { fr: "De rien, c’est normal.", de: "Keine Ursache, gern geschehen.", ok: true },
+            { fr: "S’il vous plaît.", de: "Bitte.", note: "S'il vous plaît heißt bitte im Sinne einer Bitte, nicht als Antwort auf danke." },
+            { fr: "Merci à toi.", de: "Danke dir.", note: "Sie hat sich bedankt. Ein Dank zurück wirkt hier verdreht." }
+          ] }
+      ] },
     { id: "dd1", station: "avignon", title: "Dans la rue", intro: "Du stehst mit dem Stadtplan in Avignon. Eine Passantin spricht dich an.",
       turns: [
         { npc: "Bonjour, je peux vous aider ? Vous cherchez quelque chose ?", npcDe: "Guten Tag, kann ich helfen? Suchen Sie etwas?",
@@ -516,6 +712,16 @@ window.CONTENT = {
   ],
 
   tenses: [
+    { id: "lz1", station: "lyon", level: 2, topic: "Teilungsartikel", sentence: "Je voudrais ___ viande, s’il vous plaît.", options: ["de la", "du", "des"], answer: 0, explain: "La viande ist feminin: de la viande." },
+    { id: "lz2", station: "lyon", level: 2, topic: "Präsens: choisir", sentence: "Nous ___ le menu.", options: ["choisissons", "choisons", "choisissez"], answer: 0, explain: "Verben auf -ir: nous choisissons, vous choisissez, ils choisissent." },
+    { id: "lz3", station: "lyon", level: 2, topic: "Passé composé", sentence: "Hier soir, nous ___ au restaurant.", options: ["avons mangé", "sommes mangés", "mangeons"], answer: 0, explain: "Manger mit avoir: nous avons mangé." },
+    { id: "lz4", station: "lyon", level: 2, topic: "Höflichkeitsform", sentence: "___ -vous nous recommander un plat ?", options: ["Pourriez", "Pouvez", "Pouvoir"], answer: 0, explain: "Konditional für die höfliche Frage: pourriez-vous. Pouvez-vous ist richtig, aber direkter." },
+    { id: "lz5", station: "lyon", level: 2, topic: "Passé composé", sentence: "J’___ une table pour vingt heures.", options: ["ai réservé", "suis réservé", "réserve"], answer: 0, explain: "Réserver mit avoir: j'ai réservé." },
+    { id: "sz1", station: "strasbourg", level: 2, topic: "Uhrzeit", sentence: "Il est huit heures ___.", options: ["et demie", "et demi", "de demie"], answer: 0, explain: "Nach heures (feminin) steht demie mit e: huit heures et demie. Nach midi: midi et demi." },
+    { id: "sz2", station: "strasbourg", level: 2, topic: "Futur proche", sentence: "Demain, je ___ appeler le propriétaire.", options: ["vais", "va", "vas"], answer: 0, explain: "Futur proche: je vais appeler." },
+    { id: "sz3", station: "strasbourg", level: 2, topic: "Präsens: attendre", sentence: "Nous t’___ devant la gare.", options: ["attendons", "attendez", "attendent"], answer: 0, explain: "Attendre: j'attends, nous attendons, vous attendez." },
+    { id: "sz4", station: "strasbourg", level: 2, topic: "Imperativ", sentence: "___ -moi un message si tu es en retard.", options: ["Envoie", "Envoies", "Envoyer"], answer: 0, explain: "Imperativ der tu-Form bei -er-Verben ohne s: envoie, regarde, écoute." },
+    { id: "pz1", station: "paris", level: 3, topic: "Indirekte Rede", sentence: "Il a dit qu’il ___ plus tard.", options: ["rappellerait", "rappellera", "rappelle"], answer: 0, explain: "Nach einem Verb der Vergangenheit steht das Konditional: il a dit qu'il rappellerait." },
     { id: "dz1", station: "avignon", level: 2, topic: "Imperativ", sentence: "___ à gauche au feu.", options: ["Tournez", "Tournes", "Tourner"], answer: 0, explain: "Höfliche Aufforderung: die vous-Form ohne vous. Tournez, continuez, traversez." },
     { id: "mz1", station: "marseille", level: 1, topic: "Präsens: acheter", sentence: "Nous ___ des pommes.", options: ["achetons", "achetez", "achètent"], answer: 0, explain: "Acheter: j'achète, nous achetons, ils achètent. Der accent grave nur in den Formen, die auf stummes e enden." },
     { id: "cz1", station: "bordeaux", level: 1, topic: "Präsens: prendre", sentence: "Je ___ un café.", options: ["prends", "prend", "prenez"], answer: 0, explain: "Prendre: je prends, tu prends, il prend, nous prenons, vous prenez, ils prennent." },

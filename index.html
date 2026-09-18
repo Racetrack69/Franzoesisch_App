@@ -370,14 +370,15 @@
   .seg2 button { flex: 1; height: 40px; border: 1px solid var(--line-strong); border-radius: 4px; font-size: 14px; }
   .seg2 button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
   .freibtn { display: flex; align-items: center; justify-content: center; height: 50px; margin-top: auto; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); font-size: 16px; font-weight: 500; width: 100%; }
-  .homefoot { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 10px; margin-top: auto; }
+  .homefoot { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 0 calc(env(safe-area-inset-bottom) + 10px); margin-top: auto; }
   .half { display: flex; gap: 10px; margin-bottom: 10px; }
   .tile { flex: 1; text-align: left; background: var(--plate); color: var(--plate-ink); border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
   .tile .t { font-family: var(--serif); font-size: 18px; line-height: 1.15; }
   .tile .d { font-size: 12px; color: var(--plate-mute); }
   .stcard { margin-bottom: 0; }
   .homefoot .set { color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
-  .homefoot .ver { width: auto; padding: 0 0 calc(env(safe-area-inset-bottom) + 4px); text-align: right; }
+  .homefoot .ver { width: auto; padding: 0; text-align: center; }
+  .homefoot .by { font-family: var(--serif); font-size: 12px; color: var(--faint); }
   .greet { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
   .welcome { padding-top: 60px; }
   .welcome h1 { font-family: var(--serif); font-weight: 500; font-size: 40px; margin: 0 0 8px; }
@@ -438,13 +439,13 @@
       const s = JSON.parse(localStorage.getItem(STORE_KEY));
       if (s && typeof s === 'object') return s;
     } catch (e) {}
-    return { direction: 'de-fr', vocab: {}, done: {}, daily: null, points: 0, prog: {} };
+    return { direction: 'de-fr', daily: null, points: 0, prog: {}, srs: {} };
   }
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {}
   }
   const S = load();
-  S.vocab = S.vocab || {}; S.done = S.done || {}; S.srs = S.srs || null; S.direction = S.direction || 'de-fr'; S.points = S.points || 0; S.prog = S.prog || {};
+  S.srs = S.srs || null; S.direction = S.direction || 'de-fr'; S.points = S.points || 0; S.prog = S.prog || {};
   if (S.autoRead === undefined) S.autoRead = true;
   if (S.sound === undefined) S.sound = true;
 
@@ -561,36 +562,40 @@
   // ---------- Fortschritt ----------
   // SRS nach Leitner: jede Aufgabe liegt in einem Fach 0 bis 6 und hat ein Fälligkeitsdatum.
   // Richtig: ein Fach höher, die Pause wächst. Mit Hilfe: Fach bleibt. Falsch: zurück in Fach 1, in zehn Minuten wieder.
-  const INTERVALS = [0, 10 * 60e3, 864e5, 3 * 864e5, 7 * 864e5, 21 * 864e5, 60 * 864e5];
+  // Fach 0 bis 5. Fach 0 ist neu oder falsch und kommt in zehn Minuten wieder, danach wachsen die Pausen.
+  const INTERVALS = [10 * 60e3, 864e5, 3 * 864e5, 7 * 864e5, 21 * 864e5, 60 * 864e5];
   function srsEntry(type, id) { return (S.srs[type] && S.srs[type][id]) || { box: 0, due: 0, last: 0 }; }
   function grade(type, id, res) {
     S.srs[type] = S.srs[type] || {};
     const e = srsEntry(type, id);
-    if (res === 'ok') e.box = Math.min(6, e.box + 1);
-    else if (res === 'miss') e.box = 1;
+    if (res === 'ok') e.box = Math.min(5, e.box + 1);
+    else if (res === 'miss') e.box = 0;
     e.last = Date.now();
-    e.due = Date.now() + INTERVALS[Math.max(1, e.box)];
+    e.due = Date.now() + INTERVALS[e.box];
     S.srs[type][id] = e; save();
   }
   const isDue = (type, id) => { const e = srsEntry(type, id); return e.last > 0 && e.due <= Date.now(); };
   const mastered = (type, id) => srsEntry(type, id).box >= 2;
+  // Fortschritt in halben Schritten: einmal richtig ist ein halbes Wort, zweimal ein ganzes
+  const strength = (type, id) => Math.min(1, srsEntry(type, id).box / 2);
   // Alte Aufrufe bleiben gültig und laufen auf grade
-  function vocabLevel(id) { return srsEntry('vocab', id).box; }
   function bumpVocab(id, delta) { grade('vocab', id, delta > 0 ? 'ok' : delta < 0 ? 'miss' : 'help'); }
-  function markDone(type, id, correct) { S.done[type] = S.done[type] || {}; S.done[type][id] = correct ? 2 : 1; grade(type, id, correct ? 'ok' : 'miss'); }
-  function isDone(type, id) { return !!(S.done[type] && S.done[type][id]); }
+  function markDone(type, id, correct) { grade(type, id, correct ? 'ok' : 'miss'); }
   // Einmalige Übernahme des alten Stands
+  if (S.srs) Object.keys(S.srs).forEach(t => Object.keys(S.srs[t]).forEach(id => { if (S.srs[t][id].box > 5) S.srs[t][id].box = 5; }));
   if (!S.srs) {
     S.srs = {};
-    Object.keys(S.vocab || {}).forEach(id => { const v = S.vocab[id]; S.srs.vocab = S.srs.vocab || {}; S.srs.vocab[id] = { box: Math.min(6, v.lvl || 0), last: v.last || 0, due: (v.last || 0) + INTERVALS[Math.max(1, Math.min(6, v.lvl || 0))] }; });
+    Object.keys(S.vocab || {}).forEach(id => { const v = S.vocab[id]; S.srs.vocab = S.srs.vocab || {}; S.srs.vocab[id] = { box: Math.min(5, v.lvl || 0), last: v.last || 0, due: (v.last || 0) + INTERVALS[Math.min(5, v.lvl || 0)] }; });
     Object.keys(S.done || {}).forEach(type => { S.srs[type] = S.srs[type] || {}; Object.keys(S.done[type]).forEach(id => { const b = S.done[type][id] === 2 ? 2 : 1; S.srs[type][id] = { box: b, last: Date.now() - 864e5, due: Date.now() }; }); });
     save();
   }
+  // Alte Felder einmal wegräumen, alles steckt jetzt im SRS
+  if (S.vocab || S.done || S.seen) { delete S.vocab; delete S.done; delete S.seen; save(); }
 
   function moduleProgress(key) {
     // Niveau bezogen auf die offenen Stationen. Öffnet eine neue Station, wächst die Skala, das Niveau kann dann sinken.
     const all = byLevel(key === 'match' ? C.vocab : src(key));
-    const mCount = all.filter(x => mastered(key === 'match' ? 'vocab' : key, x.id)).length;
+    const mCount = all.reduce((a, x) => a + strength(key === 'match' ? 'vocab' : key, x.id), 0);
     const level10 = all.length ? Math.floor(20 * mCount / all.length) / 2 : 0;
     if (key === 'match') { const v = byLevel(C.vocab); return { text: '', pct: 0, level10, empty: v.length < 4 }; }
     const items = byLevel(src(key));
@@ -626,7 +631,8 @@
   }
   function pickMatch() {
     // 5 Paare, bevorzugt aus der Stufe, gemischte Wortarten sind hier gewollt
-    const pool = shuffle(byLevel(C.vocab).length >= 5 ? byLevel(C.vocab) : C.vocab).slice(0, 5);
+    const open = byLevel(C.vocab);
+    const pool = shuffle(open.length >= 4 ? open : C.vocab).slice(0, 5);
     return { type: 'match', id: 'm' + Date.now().toString(36), ids: pool.map(v => v.id) };
   }
   function buildQueue(type) {
@@ -791,7 +797,7 @@
     const hf = el('div', 'homefoot');
     const set = el('button', 'set', 'Réglages');
     set.onclick = renderSettings;
-    hf.appendChild(set); hf.appendChild(versionLine());
+    hf.appendChild(set); hf.appendChild(versionLine()); hf.appendChild(el('div', 'by', 'Made by Chris'));
     app.appendChild(hf);
   }
 
@@ -942,6 +948,8 @@
       const misses = results.filter(r => !r.correct && !r.pts && !r.retry && r.type !== 'match' && r.type !== 'dialogs' && r.type !== 'texts');
       if (!RUN.retried && misses.length) {
         RUN.retried = true;
+        // in einer eigenen Liste, damit das gespeicherte Tagesprogramm nicht wächst
+        if (queue === (S.daily && S.daily.items)) { queue = queue.slice(); RUN.queue = queue; }
         misses.forEach(m => queue.push({ type: m.type, id: m.id, retry: true }));
       } else { renderResult(results, RUN); return; }
     }
@@ -982,7 +990,6 @@
       pts = pts || 0;
       const from = S.points;
       results.push({ type: ref.type, id: ref.id, correct: !!correct, pts, retry: !!ref.retry });
-      S.seen = S.seen || {}; S.seen[ref.type] = S.seen[ref.type] || {}; S.seen[ref.type][ref.id] = Date.now();
       S.points += pts;
       save();
       if (ref.type !== 'match' && ref.type !== 'texts' && ref.type !== 'dialogs') sfx(correct ? 'ok' : 'err');
@@ -1447,7 +1454,7 @@
     const again = el('button', 'btn', 'Encore');
     const ok = el('button', 'btn ok', 'C’est bon');
     again.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; markDone('speak', s.id, false); finish(false, 0); };
-    ok.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; S.done.speak = S.done.speak || {}; S.done.speak[s.id] = helped ? 1 : 2; grade('speak', s.id, helped ? 'help' : 'ok'); finish(!helped, helped ? P()[1] : P()[0]); };
+    ok.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; grade('speak', s.id, helped ? 'help' : 'ok'); finish(!helped, helped ? P()[1] : P()[0]); };
     actions.appendChild(again); actions.appendChild(ok);
   };
 
@@ -1606,15 +1613,17 @@
 
   // ---------- Spielstand übertragen ----------
   function encodeState() {
-    const compact = { p: S.points, pr: S.prog, nm: S.name || '', dir: S.direction, ar: S.autoRead, so: S.sound, vn: S.voiceName || '', v: {}, d: S.done, t: today() };
-    Object.keys(S.vocab).forEach(id => { compact.v[id] = [S.vocab[id].lvl, S.vocab[id].last]; });
+    // Kompakt: pro Aufgabe nur Fach und Fälligkeit, gerundet auf Minuten
+    const srs = {};
+    Object.keys(S.srs || {}).forEach(t => { srs[t] = {}; Object.keys(S.srs[t]).forEach(id => { const e = S.srs[t][id]; srs[t][id] = [e.box, Math.round(e.due / 60000)]; }); });
+    const compact = { p: S.points, pr: S.prog, nm: S.name || '', dir: S.direction, ar: S.autoRead, so: S.sound, vn: S.voiceName || '', s: srs, t: today() };
     return btoa(unescape(encodeURIComponent(JSON.stringify(compact)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
   function decodeState(code) {
     code = code.trim().replace(/-/g, '+').replace(/_/g, '/');
     while (code.length % 4) code += '=';
     const c = JSON.parse(decodeURIComponent(escape(atob(code))));
-    if (typeof c.p !== 'number' || typeof c.v !== 'object') throw new Error('bad');
+    if (typeof c.p !== 'number' || (typeof c.s !== 'object' && typeof c.v !== 'object')) throw new Error('bad');
     return c;
   }
   function renderTransfer() {
@@ -1656,8 +1665,14 @@
       try {
         const c = decodeState(ta.value);
         if (!confirm('Spielstand mit ' + c.p + ' Punkten übernehmen? Der aktuelle Stand auf diesem Gerät wird ersetzt.')) return;
-        S.points = c.p; S.prog = c.pr || {}; if (c.nm) S.name = c.nm; S.direction = c.dir || 'de-fr'; if (c.ar !== undefined) S.autoRead = c.ar; if (c.so !== undefined) S.sound = c.so; if (c.vn) S.voiceName = c.vn; S.done = c.d || {}; S.vocab = {}; S.daily = null;
-        Object.keys(c.v).forEach(id => { S.vocab[id] = { lvl: c.v[id][0], last: c.v[id][1] }; });
+        S.vocab = {}; S.done = {};
+        S.points = c.p; S.prog = c.pr || {}; if (c.nm) S.name = c.nm; S.direction = c.dir || 'de-fr'; if (c.ar !== undefined) S.autoRead = c.ar; if (c.so !== undefined) S.sound = c.so; if (c.vn) S.voiceName = c.vn; S.daily = null;
+        S.srs = {};
+        if (c.s) Object.keys(c.s).forEach(t => { S.srs[t] = {}; Object.keys(c.s[t]).forEach(id => { const a = c.s[t][id]; S.srs[t][id] = { box: a[0], due: a[1] * 60000, last: a[1] * 60000 - INTERVALS[Math.min(5, a[0])] }; }); });
+        else { // alter Code ohne SRS
+          if (c.v) { S.srs.vocab = {}; Object.keys(c.v).forEach(id => { S.srs.vocab[id] = { box: Math.min(5, c.v[id][0]), last: c.v[id][1], due: c.v[id][1] }; }); }
+          if (c.d) Object.keys(c.d).forEach(t => { S.srs[t] = {}; Object.keys(c.d[t]).forEach(id => { S.srs[t][id] = { box: c.d[t][id] === 2 ? 2 : 1, last: Date.now() - 864e5, due: Date.now() }; }); });
+        }
         save();
         renderHome();
       } catch (e) {
