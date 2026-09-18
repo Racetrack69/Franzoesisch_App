@@ -10,6 +10,85 @@ window.CONTENT = {
   meta: { lang: "fr-FR", title: "Flâner" },
 
   vocab: [
+    // Aufstockung: je zehn weitere Wörter pro Station
+    // Brest
+    { id: "b21", pos: "nomen", station: "brest", level: 1, theme: "Vorstellen", de: "der Beruf", fr: "le métier", tip: "Quel est votre métier ? Auch: la profession." },
+    { id: "b22", pos: "nomen", station: "brest", level: 1, theme: "Vorstellen", de: "das Land", fr: "le pays", altDe: ["die Gegend"], ctxFr: "De quel pays venez-vous ?", ctxDe: "Aus welchem Land kommen Sie?", tip: "Das s am Ende ist stumm. Le paysage ist die Landschaft." },
+    { id: "b23", pos: "nomen", station: "brest", level: 1, theme: "Vorstellen", de: "die Sprache", fr: "la langue", altDe: ["die Zunge"], ctxFr: "Je parle trois langues.", ctxDe: "Ich spreche drei Sprachen.", tip: "La langue ist Sprache und Zunge, wie im Deutschen Muttersprache." },
+    { id: "b24", pos: "nomen", station: "brest", level: 1, theme: "Vorstellen", de: "der Freund", fr: "l’ami", alt: ["l'ami", "l'amie"], tip: "Mon ami kann auch der Partner sein. Un ami ist neutraler.", trap: "Stolperstein: mon ami und mon petit ami sind nicht dasselbe. Petit ami heißt eindeutig Freund im Sinne von Partner." },
+    { id: "b25", pos: "nomen", station: "brest", level: 1, theme: "Begrüßen", de: "die Frage", fr: "la question", tip: "Wörter auf -tion sind feminin." },
+    { id: "b26", pos: "verb", station: "brest", level: 1, theme: "Vorstellen", de: "kommen", fr: "venir", tip: "Je viens, tu viens, il vient, nous venons, ils viennent." },
+    { id: "b27", pos: "verb", station: "brest", level: 1, theme: "Vorstellen", de: "arbeiten", fr: "travailler", tip: "Je travaille chez Sigma. Le travail ist die Arbeit." },
+    { id: "b28", pos: "verb", station: "brest", level: 1, theme: "Begrüßen", de: "wiederholen", fr: "répéter", ctxFr: "Vous pouvez répéter ?", ctxDe: "Können Sie das wiederholen?", tip: "Mit accent aigu: je répète, mit accent grave." },
+    { id: "b29", pos: "adjektiv", station: "brest", level: 1, theme: "Vorstellen", de: "verheiratet", fr: "marié", alt: ["mariée"], tip: "Je suis marié. Feminin: mariée, klingt gleich." },
+    { id: "b30", pos: "wendung", station: "brest", level: 1, theme: "Begrüßen", de: "Wie geht es dir?", fr: "Ça va ?", alt: ["Comment ça va ?", "Comment vas-tu ?"], tip: "Ça va ? ist Frage und Antwort zugleich: Ça va, merci." },
+    // Bordeaux
+    { id: "c21", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Zucker", fr: "le sucre", tip: "Sans sucre: ohne Zucker." },
+    { id: "c22", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "die Milch", fr: "le lait", tip: "Maskulin, anders als im Deutschen.", trap: "Stolperstein: le lait ist maskulin, obwohl Milch im Deutschen feminin ist. Un peu de lait." },
+    { id: "c23", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "das Glas", fr: "le verre", tip: "Un verre d’eau. Klingt wie vert (grün) und vers (zu)." },
+    { id: "c24", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "die Tasse", fr: "la tasse", tip: "Une tasse de café. Die Untertasse: la soucoupe." },
+    { id: "c25", pos: "nomen", station: "bordeaux", level: 1, theme: "Im Café", de: "der Kuchen", fr: "le gâteau", tip: "Plural: les gâteaux, mit x. Ein Stück Kuchen: une part de gâteau." },
+    { id: "c26", pos: "verb", station: "bordeaux", level: 1, theme: "Im Café", de: "möchten", fr: "vouloir", tip: "Je veux, vous voulez. Höflich immer je voudrais." },
+    { id: "c27", pos: "verb", station: "bordeaux", level: 1, theme: "Im Café", de: "hinzufügen", fr: "ajouter", tip: "Ajouter du sucre. Von jouter, dazutun." },
+    { id: "c28", pos: "adjektiv", station: "bordeaux", level: 1, theme: "Im Café", de: "stark", fr: "fort", alt: ["forte"], altDe: ["laut"], ctxFr: "Un café bien fort.", ctxDe: "Einen starken Kaffee.", tip: "Fort heißt stark und laut. Parler fort: laut sprechen." },
+    { id: "c29", pos: "adjektiv", station: "bordeaux", level: 1, theme: "Im Café", de: "besetzt", fr: "occupé", alt: ["occupée"], tip: "Cette table est occupée. Auch: beschäftigt." },
+    { id: "c30", pos: "wendung", station: "bordeaux", level: 1, theme: "Im Café", de: "Das war’s", fr: "Ce sera tout", tip: "Am Ende der Bestellung. Wörtlich: das wird alles sein." },
+    // Marseille
+    { id: "m21", pos: "nomen", station: "marseille", level: 1, theme: "Einkaufen", de: "das Kilo", fr: "le kilo", tip: "Un kilo de pommes, mit de ohne Artikel." },
+    { id: "m22", pos: "nomen", station: "marseille", level: 1, theme: "Einkaufen", de: "die Tomate", fr: "la tomate", tip: "Feminin, wie im Deutschen." },
+    { id: "m23", pos: "nomen", station: "marseille", level: 1, theme: "Einkaufen", de: "das Ei", fr: "l’œuf", alt: ["l'oeuf"], tip: "Maskulin. Im Singular hört man das f, im Plural les œufs nicht.", trap: "Stolperstein: un œuf spricht man mit f, des œufs ohne. Zwei verschiedene Laute." },
+    { id: "m24", pos: "nomen", station: "marseille", level: 1, theme: "Einkaufen", de: "die Zwiebel", fr: "l’oignon", alt: ["l'oignon"], tip: "Maskulin. Das i wird nicht gesprochen: onion." },
+    { id: "m25", pos: "nomen", station: "marseille", level: 1, theme: "Einkaufen", de: "die Scheibe", fr: "la tranche", tip: "Une tranche de jambon: eine Scheibe Schinken." },
+    { id: "m26", pos: "verb", station: "marseille", level: 1, theme: "Einkaufen", de: "wiegen", fr: "peser", tip: "Vous pouvez le peser ? Je pèse, mit accent grave." },
+    { id: "m27", pos: "verb", station: "marseille", level: 1, theme: "Einkaufen", de: "brauchen", fr: "avoir besoin de", tip: "J’ai besoin de pain. Immer mit de." },
+    { id: "m28", pos: "adjektiv", station: "marseille", level: 1, theme: "Einkaufen", de: "reif", fr: "mûr", alt: ["mûre"], tip: "Mit Zirkumflex. Une pêche bien mûre." },
+    { id: "m29", pos: "adjektiv", station: "marseille", level: 1, theme: "Einkaufen", de: "günstig", fr: "abordable", alt: ["pas cher"], tip: "Von aborder, herangehen. Ein Preis, an den man herankommt." },
+    { id: "m30", pos: "wendung", station: "marseille", level: 1, theme: "Einkaufen", de: "Sonst noch etwas?", fr: "Et avec ceci ?", alt: ["Et avec ça ?"], tip: "Der Standardsatz jedes Verkäufers." },
+    // Avignon
+    { id: "d21", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "der Kreisverkehr", fr: "le rond-point", tip: "Wörtlich: runder Punkt. Au deuxième rond-point." },
+    { id: "d22", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Richtung", fr: "la direction", tip: "Feminin, auf -tion. En direction de Lyon." },
+    { id: "d23", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "der Fußgänger", fr: "le piéton", tip: "Von pied, Fuß. Une rue piétonne: Fußgängerzone." },
+    { id: "d24", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "die Fahrkarte", fr: "le billet", altDe: ["der Geldschein"], ctxFr: "Un billet pour Lyon, s’il vous plaît.", ctxDe: "Eine Fahrkarte nach Lyon, bitte.", tip: "Le billet ist Fahrkarte und Geldschein. Im Bus eher le ticket." },
+    { id: "d25", pos: "nomen", station: "avignon", level: 2, theme: "Unterwegs", de: "der Ausgang", fr: "la sortie", tip: "Feminin, von sortir. Die Autobahnausfahrt ebenso." },
+    { id: "d26", pos: "verb", station: "avignon", level: 2, theme: "Unterwegs", de: "aussteigen", fr: "descendre", altDe: ["hinuntergehen"], ctxFr: "Je descends au prochain arrêt.", ctxDe: "Ich steige an der nächsten Haltestelle aus.", tip: "Descendre heißt hinuntergehen und aussteigen. Einsteigen: monter." },
+    { id: "d27", pos: "verb", station: "avignon", level: 2, theme: "Unterwegs", de: "zeigen", fr: "montrer", tip: "Vous pouvez me montrer sur le plan ?" },
+    { id: "d28", pos: "adjektiv", station: "avignon", level: 2, theme: "Unterwegs", de: "nächster", fr: "prochain", alt: ["prochaine"], tip: "Le prochain arrêt, la semaine prochaine." },
+    { id: "d29", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "zu Fuß", fr: "à pied", tip: "C’est à dix minutes à pied." },
+    { id: "d30", pos: "wendung", station: "avignon", level: 2, theme: "Unterwegs", de: "Ich habe mich verlaufen", fr: "Je me suis perdu", alt: ["je me suis perdue"], tip: "Se perdre im Passé composé, mit être." },
+    // Lyon
+    { id: "l21", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "die Speisekarte des Tages", fr: "le menu", altDe: ["das Menü"], ctxFr: "Je prends le menu à vingt euros.", ctxDe: "Ich nehme das Menü für zwanzig Euro.", tip: "Le menu ist das feste Angebot, la carte die Auswahl.", trap: "Stolperstein: Wer la carte will und le menu sagt, bekommt das Tagesmenü." },
+    { id: "l22", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "der Wein", fr: "le vin", tip: "Nasal, wie pain. Un verre de vin rouge." },
+    { id: "l23", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "der Käseteller", fr: "le plateau de fromages", tip: "In Frankreich zwischen Hauptgang und Nachtisch." },
+    { id: "l24", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "der Löffel", fr: "la cuillère", alt: ["la cuiller"], tip: "Feminin. Une cuillère à café: ein Teelöffel." },
+    { id: "l25", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "das Messer", fr: "le couteau", tip: "Plural: les couteaux, mit x. Von couper, schneiden." },
+    { id: "l26", pos: "verb", station: "lyon", level: 2, theme: "Restaurant", de: "teilen", fr: "partager", tip: "On peut partager ? Nous partageons, mit e." },
+    { id: "l27", pos: "verb", station: "lyon", level: 2, theme: "Restaurant", de: "bezahlen", fr: "régler", alt: ["payer"], tip: "Régler l’addition klingt im Restaurant natürlicher als payer." },
+    { id: "l28", pos: "adjektiv", station: "lyon", level: 2, theme: "Restaurant", de: "durchgebraten", fr: "bien cuit", tip: "Beim Steak: bleu, saignant, à point, bien cuit.", trap: "Stolperstein: à point heißt nicht durchgebraten, sondern rosa. Wer es durch will, sagt bien cuit." },
+    { id: "l29", pos: "adjektiv", station: "lyon", level: 2, theme: "Restaurant", de: "hausgemacht", fr: "fait maison", tip: "Unveränderlich. Steht als Siegel auf vielen Karten." },
+    { id: "l30", pos: "wendung", station: "lyon", level: 2, theme: "Restaurant", de: "Es hat sehr gut geschmeckt", fr: "C’était très bon", tip: "Imparfait von être: c’était." },
+    // Strasbourg
+    { id: "t21s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "die Miete", fr: "le loyer", tip: "Maskulin. Von louer, mieten." },
+    { id: "t22s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "der Nachbar", fr: "le voisin", alt: ["la voisine"], tip: "Von voisiner, benachbart sein." },
+    { id: "t23s", pos: "nomen", station: "strasbourg", level: 2, theme: "Wohnen", de: "das Fenster", fr: "la fenêtre", tip: "Mit Zirkumflex, früher fenestre." },
+    { id: "t24s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "der Monat", fr: "le mois", tip: "Das s ist stumm. Ce mois-ci: diesen Monat." },
+    { id: "t25s", pos: "nomen", station: "strasbourg", level: 2, theme: "Zeit", de: "das Wochenende", fr: "le week-end", tip: "Aus dem Englischen, mit Bindestrich, maskulin." },
+    { id: "t26s", pos: "verb", station: "strasbourg", level: 2, theme: "Wohnen", de: "mieten", fr: "louer", altDe: ["vermieten"], ctxFr: "Je voudrais louer un appartement.", ctxDe: "Ich möchte eine Wohnung mieten.", tip: "Louer heißt mieten und vermieten. À louer steht an den Fenstern." },
+    { id: "t27s", pos: "verb", station: "strasbourg", level: 2, theme: "Verabredung", de: "verschieben", fr: "déplacer", alt: ["reporter"], tip: "Déplacer un rendez-vous. Wörtlich: den Platz wechseln." },
+    { id: "t28s", pos: "adjektiv", station: "strasbourg", level: 2, theme: "Wohnen", de: "hell", fr: "lumineux", alt: ["lumineuse"], tip: "Von la lumière, das Licht. Un appartement lumineux." },
+    { id: "t29s", pos: "adjektiv", station: "strasbourg", level: 2, theme: "Wohnen", de: "möbliert", fr: "meublé", alt: ["meublée"], tip: "Von les meubles, die Möbel." },
+    { id: "t30s", pos: "wendung", station: "strasbourg", level: 2, theme: "Zeit", de: "Es ist Punkt zwölf", fr: "Il est midi pile", tip: "Pile heißt genau. Auch: à huit heures pile." },
+    // Paris
+    { id: "p17", pos: "nomen", station: "paris", level: 3, theme: "Arbeit", de: "die Unterlage", fr: "le document", tip: "Auch: le dossier für die ganze Akte." },
+    { id: "p18", pos: "nomen", station: "paris", level: 3, theme: "Arbeit", de: "der Kunde", fr: "le client", alt: ["la cliente"], tip: "Le client a toujours raison." },
+    { id: "p19", pos: "verb", station: "paris", level: 3, theme: "Arbeit", de: "unterschreiben", fr: "signer", tip: "Signer un contrat. La signature: die Unterschrift." },
+    { id: "p07", pos: "nomen", station: "paris", level: 3, theme: "Arbeit", de: "die Arbeit", fr: "le travail", tip: "Plural: les travaux. Auch die Baustelle heißt les travaux." },
+    { id: "p10", pos: "nomen", station: "paris", level: 3, theme: "Arbeit", de: "der Chef", fr: "le patron", alt: ["la patronne", "le chef"], tip: "Le chef ist auch der Küchenchef, le patron eindeutig der Vorgesetzte." },
+    { id: "p11", pos: "nomen", station: "paris", level: 3, theme: "Alltag", de: "die Verspätung", fr: "le retard", tip: "Être en retard: zu spät sein." },
+    { id: "p12", pos: "verb", station: "paris", level: 3, theme: "Arbeit", de: "sich kümmern um", fr: "s’occuper de", alt: ["s'occuper de"], tip: "Je m’en occupe: ich kümmere mich darum." },
+    { id: "p13", pos: "verb", station: "paris", level: 3, theme: "Arbeit", de: "Bescheid sagen", fr: "prévenir", tip: "Tu peux prévenir Marc ? Wie venir gebeugt." },
+    { id: "p14", pos: "verb", station: "paris", level: 3, theme: "Arbeit", de: "schicken", fr: "envoyer", tip: "J’envoie, nous envoyons. Im Futur: j’enverrai." },
+    { id: "p15", pos: "adjektiv", station: "paris", level: 3, theme: "Arbeit", de: "dringend", fr: "urgent", alt: ["urgente"], tip: "Ce n’est pas urgent." },
+    { id: "p16", pos: "wendung", station: "paris", level: 3, theme: "Alltag", de: "Es eilt nicht", fr: "Rien ne presse", tip: "Von presser, drängen. Auch: ça ne presse pas." },
     // Station Lyon: Essen und Restaurant
     { id: "l01", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "die Vorspeise", fr: "l'entrée", altDe: ["der Eingang"], ctxFr: "En entrée, une salade.", ctxDe: "Als Vorspeise einen Salat.", tip: "Feminin. Heißt auch der Eingang, im Restaurant aber der erste Gang." },
     { id: "l02", pos: "nomen", station: "lyon", level: 2, theme: "Restaurant", de: "das Hauptgericht", fr: "le plat", altDe: ["der Teller"], ctxFr: "Comme plat, du poisson.", ctxDe: "Als Hauptgericht Fisch.", tip: "Le plat ist der Teller und der Gang. Le plat du jour: das Tagesgericht." },
@@ -57,7 +136,6 @@ window.CONTENT = {
     // Station Paris: Arbeit, Telefon, Alltag
     { id: "p01", pos: "nomen", station: "paris", level: 3, theme: "Alltag", de: "das Handy", fr: "le portable", altDe: ["der Laptop"], ctxFr: "Mon portable est éteint.", ctxDe: "Mein Handy ist aus.", tip: "Le portable ist Handy und Laptop. Eindeutig: le téléphone portable." },
     { id: "p02", pos: "nomen", station: "paris", level: 3, theme: "Alltag", de: "die Nachricht", fr: "le message", tip: "Maskulin, wie alle -age. Laisser un message: eine Nachricht hinterlassen." },
-    { id: "p03", pos: "nomen", station: "paris", level: 3, theme: "Alltag", de: "der Termin", fr: "le rendez-vous", tip: "Auch beim Arzt. Prendre rendez-vous: einen Termin machen." },
     { id: "p04", pos: "verb", station: "paris", level: 3, theme: "Alltag", de: "zurückrufen", fr: "rappeler", tip: "Je vous rappelle demain." },
     { id: "p05", pos: "verb", station: "paris", level: 3, theme: "Alltag", de: "hinterlassen", fr: "laisser", tip: "Laisser un message, laisser la clé." },
     { id: "p06", pos: "wendung", station: "paris", level: 3, theme: "Alltag", de: "Am Apparat", fr: "À l’appareil", alt: ["à l'appareil"], tip: "Bonjour, Claire à l'appareil. So meldet man sich am Telefon." },
@@ -186,6 +264,27 @@ window.CONTENT = {
   // Artikel: Stufe 1 und 2 bestimmter Artikel (le, la, l', les), Stufe 3 Teilungsartikel (du, de la, de l', des, und de nach Verneinung).
   // "prompt" mit ___ ist die Lücke, "answer" der Index der richtigen Option, "de" die Übersetzung für die Auflösung.
   articles: [
+    { id: "b2a1", station: "brest", level: 1, prompt: "___ question", options: ["le", "la", "l'", "les"], answer: 1, explain: "Wörter auf -tion sind feminin: la question.", de: "die Frage" },
+    { id: "b2a2", station: "brest", level: 1, prompt: "___ ami", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal: l’ami. Maskulin, feminin l’amie.", de: "der Freund" },
+    { id: "b2a3", station: "brest", level: 1, prompt: "___ langue", options: ["le", "la", "l'", "les"], answer: 1, explain: "La langue ist feminin.", de: "die Sprache" },
+    { id: "c2a1", station: "bordeaux", level: 1, prompt: "___ lait", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le lait ist maskulin, anders als im Deutschen.", de: "die Milch" },
+    { id: "c2a2", station: "bordeaux", level: 1, prompt: "___ tasse", options: ["le", "la", "l'", "les"], answer: 1, explain: "La tasse ist feminin.", de: "die Tasse" },
+    { id: "c2a3", station: "bordeaux", level: 1, prompt: "Je voudrais ___ sucre.", options: ["du", "de la", "de l'", "des"], answer: 0, explain: "Unbestimmte Menge, maskulin: du sucre.", de: "Ich hätte gern Zucker." },
+    { id: "m2a1", station: "marseille", level: 1, prompt: "___ œuf", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal: l’œuf. Maskulin.", de: "das Ei" },
+    { id: "m2a2", station: "marseille", level: 1, prompt: "___ tomate", options: ["le", "la", "l'", "les"], answer: 1, explain: "La tomate ist feminin.", de: "die Tomate" },
+    { id: "m2a3", station: "marseille", level: 1, prompt: "Il achète ___ oignons.", options: ["du", "de la", "de l'", "des"], answer: 3, explain: "Plural, unbestimmt: des oignons.", de: "Er kauft Zwiebeln." },
+    { id: "d2a1", station: "avignon", level: 2, prompt: "___ sortie", options: ["le", "la", "l'", "les"], answer: 1, explain: "La sortie ist feminin, von sortir.", de: "der Ausgang" },
+    { id: "d2a2", station: "avignon", level: 2, prompt: "___ billet", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le billet ist maskulin.", de: "die Fahrkarte" },
+    { id: "d2a3", station: "avignon", level: 2, prompt: "___ direction", options: ["le", "la", "l'", "les"], answer: 1, explain: "Auf -tion, also feminin.", de: "die Richtung" },
+    { id: "l2a1", station: "lyon", level: 2, prompt: "___ vin", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le vin ist maskulin.", de: "der Wein" },
+    { id: "l2a2", station: "lyon", level: 2, prompt: "___ cuillère", options: ["le", "la", "l'", "les"], answer: 1, explain: "La cuillère ist feminin.", de: "der Löffel" },
+    { id: "l2a3", station: "lyon", level: 2, prompt: "Je prends ___ vin rouge.", options: ["du", "de la", "de l'", "des"], answer: 0, explain: "Unbestimmte Menge, maskulin: du vin.", de: "Ich nehme Rotwein." },
+    { id: "s2a1", station: "strasbourg", level: 2, prompt: "___ fenêtre", options: ["le", "la", "l'", "les"], answer: 1, explain: "La fenêtre ist feminin.", de: "das Fenster" },
+    { id: "s2a2", station: "strasbourg", level: 2, prompt: "___ loyer", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le loyer ist maskulin.", de: "die Miete" },
+    { id: "s2a3", station: "strasbourg", level: 2, prompt: "___ week-end", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le week-end ist maskulin.", de: "das Wochenende" },
+    { id: "p2a1", station: "paris", level: 3, prompt: "___ client", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le client ist maskulin, la cliente feminin.", de: "der Kunde" },
+    { id: "p2a2", station: "paris", level: 3, prompt: "Il n’a pas ___ temps.", options: ["du", "de la", "de", "des"], answer: 2, explain: "Nach Verneinung: pas de temps.", de: "Er hat keine Zeit." },
+    { id: "p2a3", station: "paris", level: 3, prompt: "___ document", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le document ist maskulin.", de: "die Unterlage" },
     { id: "la1", station: "lyon", level: 2, prompt: "___ addition", options: ["le", "la", "l'", "les"], answer: 2, explain: "Vor Vokal l'. Feminin, wie alle Wörter auf -tion.", de: "die Rechnung" },
     { id: "la2", station: "lyon", level: 2, prompt: "___ viande", options: ["le", "la", "l'", "les"], answer: 1, explain: "La viande ist feminin.", de: "das Fleisch" },
     { id: "la3", station: "lyon", level: 2, prompt: "___ poisson", options: ["le", "la", "l'", "les"], answer: 0, explain: "Le poisson ist maskulin.", de: "der Fisch" },
@@ -240,6 +339,27 @@ window.CONTENT = {
   ],
 
   errors: [
+    { id: "b2e1", station: "brest", level: 1, words: ["Je", "suis", "dans le marketing", "depuis 2019."], wrong: 1, correct: "travaille", explain: "Hier passt travaille besser: je travaille dans le marketing depuis 2019." },
+    { id: "b2e2", station: "brest", level: 1, words: ["Quelle", "est", "votre", "métier", "?"], wrong: 0, correct: "Quel", explain: "Le métier ist maskulin: quel est votre métier ?" },
+    { id: "b2e3", station: "brest", level: 1, words: ["Je", "parle", "trois", "langue."], wrong: 3, correct: "langues", explain: "Nach trois steht der Plural: trois langues." },
+    { id: "c2e1", station: "bordeaux", level: 1, words: ["Je", "voudrais", "un", "lait", "chaude."], wrong: 4, correct: "chaud", explain: "Le lait ist maskulin, also chaud ohne e." },
+    { id: "c2e2", station: "bordeaux", level: 1, words: ["Cette", "table", "est", "occupé", "?"], wrong: 3, correct: "occupée", explain: "La table ist feminin: occupée mit e." },
+    { id: "c2e3", station: "bordeaux", level: 1, words: ["Je", "veux", "un", "café,", "s’il vous plaît."], wrong: 1, correct: "voudrais", explain: "Je veux klingt fordernd. Beim Bestellen: je voudrais." },
+    { id: "m2e1", station: "marseille", level: 1, words: ["Je", "voudrais", "un", "kilo", "des", "pommes."], wrong: 4, correct: "de", explain: "Nach einer Mengenangabe steht de ohne Artikel: un kilo de pommes." },
+    { id: "m2e2", station: "marseille", level: 1, words: ["J’ai", "besoin", "du", "pain."], wrong: 2, correct: "de", explain: "Avoir besoin de, ohne Artikel: j’ai besoin de pain." },
+    { id: "m2e3", station: "marseille", level: 1, words: ["Les", "œufs", "est", "frais."], wrong: 2, correct: "sont", explain: "Plural: les œufs sont frais." },
+    { id: "d2e1", station: "avignon", level: 2, words: ["Je", "descends", "au", "prochaine", "arrêt."], wrong: 3, correct: "prochain", explain: "L’arrêt ist maskulin: le prochain arrêt." },
+    { id: "d2e2", station: "avignon", level: 2, words: ["C’est", "à", "dix", "minutes", "de", "pied."], wrong: 4, correct: "à", explain: "Die Wendung heißt à pied." },
+    { id: "d2e3", station: "avignon", level: 2, words: ["Je", "me", "suis", "perdu", "dans", "le", "ville."], wrong: 5, correct: "la", explain: "La ville ist feminin." },
+    { id: "l2e1", station: "lyon", level: 2, words: ["On", "peut", "partager", "le", "plateau", "de", "fromage", "?"], wrong: 6, correct: "fromages", explain: "Ein Käseteller hat mehrere Sorten: un plateau de fromages." },
+    { id: "l2e2", station: "lyon", level: 2, words: ["Je", "voudrais", "mon", "steak", "bien", "cuite."], wrong: 5, correct: "cuit", explain: "Le steak ist maskulin: bien cuit." },
+    { id: "l2e3", station: "lyon", level: 2, words: ["C’est", "était", "très", "bon."], wrong: 0, correct: "C’", explain: "C’était, ein Wort. C’est était doppelt sich." },
+    { id: "s2e1", station: "strasbourg", level: 2, words: ["Le", "loyer", "est", "six", "cents", "euros."], wrong: 2, correct: "est de", explain: "Bei Beträgen: le loyer est de six cents euros." },
+    { id: "s2e2", station: "strasbourg", level: 2, words: ["On", "se", "retrouve", "lundi", "prochaine", "?"], wrong: 4, correct: "prochain", explain: "Lundi ist maskulin: lundi prochain." },
+    { id: "s2e3", station: "strasbourg", level: 2, words: ["Il", "est", "midi", "et", "demie."], wrong: 4, correct: "demi", explain: "Nach midi ohne e: midi et demi. Nach heures mit e." },
+    { id: "p2e1", station: "paris", level: 3, words: ["Je", "m’occupe", "le", "dossier."], wrong: 2, correct: "du", explain: "S’occuper de: je m’occupe du dossier." },
+    { id: "p2e2", station: "paris", level: 3, words: ["Je", "vous", "envoie", "le document", "avant de", "ce soir."], wrong: 4, correct: "avant", explain: "Avant ce soir, ohne de. Avant de steht nur vor einem Infinitiv: avant de partir." },
+    { id: "p2e3", station: "paris", level: 3, words: ["Elle", "a", "dit", "qu’elle", "viendra", "demain."], wrong: 4, correct: "viendrait", explain: "Nach einem Verb der Vergangenheit steht das Konditional." },
     { id: "le1", station: "lyon", level: 2, words: ["Je", "voudrais", "le", "poisson,", "s'il vous plaît."], wrong: 2, correct: "du", explain: "Unbestimmte Menge: du poisson. Le poisson wäre ein bestimmter, schon erwähnter Fisch." },
     { id: "le2", station: "lyon", level: 2, words: ["C'était", "très", "délicieuse."], wrong: 2, correct: "délicieux", explain: "Ce ist maskulin, also délicieux. Délicieuse nur bei einem femininen Bezug." },
     { id: "le3", station: "lyon", level: 2, words: ["Je", "suis", "allergique", "de", "noix."], wrong: 3, correct: "aux", explain: "Allergique à: à + les wird zu aux. Allergique aux noix." },
@@ -285,6 +405,29 @@ window.CONTENT = {
   ],
 
   speak: [
+    // Aufstockung: mehr Sätze, sie speisen auch Dictée und Construire
+    { id: "b2s1", station: "brest", level: 1, fr: "Vous pouvez répéter, s’il vous plaît ?", de: "Können Sie das bitte wiederholen?" },
+    { id: "b2s2", station: "brest", level: 1, fr: "Je travaille dans le marketing.", de: "Ich arbeite im Marketing." },
+    { id: "b2s3", station: "brest", level: 1, fr: "Ça va bien, merci, et vous ?", de: "Mir geht es gut, danke, und Ihnen?" },
+    { id: "b2s4", station: "brest", level: 1, fr: "Je viens d’Allemagne, mais j’habite en France.", de: "Ich komme aus Deutschland, aber ich wohne in Frankreich." },
+    { id: "c2s1", station: "bordeaux", level: 1, fr: "Un café sans sucre, s’il vous plaît.", de: "Einen Kaffee ohne Zucker, bitte." },
+    { id: "c2s2", station: "bordeaux", level: 1, fr: "Cette table est libre ?", de: "Ist dieser Tisch frei?" },
+    { id: "c2s3", station: "bordeaux", level: 1, fr: "Ce sera tout, merci beaucoup.", de: "Das wäre alles, vielen Dank." },
+    { id: "m2s1", station: "marseille", level: 1, fr: "Vous pouvez me donner une tranche de jambon ?", de: "Können Sie mir eine Scheibe Schinken geben?" },
+    { id: "m2s2", station: "marseille", level: 1, fr: "J’ai besoin de deux oignons et d’un kilo de tomates.", de: "Ich brauche zwei Zwiebeln und ein Kilo Tomaten." },
+    { id: "m2s3", station: "marseille", level: 1, fr: "Les pêches sont bien mûres ?", de: "Sind die Pfirsiche reif?" },
+    { id: "d2s1", station: "avignon", level: 2, fr: "Je descends au prochain arrêt.", de: "Ich steige an der nächsten Haltestelle aus." },
+    { id: "d2s2", station: "avignon", level: 2, fr: "Vous pouvez me montrer sur le plan ?", de: "Können Sie es mir auf dem Stadtplan zeigen?" },
+    { id: "d2s3", station: "avignon", level: 2, fr: "Excusez-moi, je me suis perdu.", de: "Entschuldigung, ich habe mich verlaufen." },
+    { id: "l2s1", station: "lyon", level: 2, fr: "On peut partager le plateau de fromages ?", de: "Können wir den Käseteller teilen?" },
+    { id: "l2s2", station: "lyon", level: 2, fr: "Je voudrais mon steak bien cuit.", de: "Ich hätte mein Steak gern durchgebraten." },
+    { id: "l2s3", station: "lyon", level: 2, fr: "On peut régler l’addition séparément ?", de: "Können wir getrennt bezahlen?" },
+    { id: "s2s1", station: "strasbourg", level: 2, fr: "L’appartement est lumineux et meublé.", de: "Die Wohnung ist hell und möbliert." },
+    { id: "s2s2", station: "strasbourg", level: 2, fr: "Le loyer est de six cents euros par mois.", de: "Die Miete beträgt sechshundert Euro im Monat." },
+    { id: "s2s3", station: "strasbourg", level: 2, fr: "On peut déplacer le rendez-vous à lundi ?", de: "Können wir den Termin auf Montag verschieben?" },
+    { id: "p2s1", station: "paris", level: 3, fr: "Je m’en occupe cet après-midi.", de: "Ich kümmere mich heute Nachmittag darum." },
+    { id: "p2s2", station: "paris", level: 3, fr: "Ce n’est pas urgent, rien ne presse.", de: "Das ist nicht dringend, es eilt nicht." },
+    { id: "p2s3", station: "paris", level: 3, fr: "Je vous envoie le document avant ce soir.", de: "Ich schicke Ihnen die Unterlage vor heute Abend." },
     { id: "ls1", station: "lyon", level: 2, fr: "J'ai réservé une table pour deux, au nom de Schmidt.", de: "Ich habe einen Tisch für zwei reserviert, auf den Namen Schmidt." },
     { id: "ls2", station: "lyon", level: 2, fr: "Qu'est-ce que vous recommandez ?", de: "Was empfehlen Sie?" },
     { id: "ls3", station: "lyon", level: 2, fr: "Je prends le plat du jour et un verre de vin rouge.", de: "Ich nehme das Tagesgericht und ein Glas Rotwein." },
@@ -326,6 +469,60 @@ window.CONTENT = {
   ],
 
   texts: [
+    {
+      id: "b2t1", station: "brest", level: 1, title: "Une carte postale",
+      text: "Chère Anna, je suis à Brest depuis trois jours. Il pleut souvent, mais la mer est magnifique. Le matin, je vais au marché, l’après-midi je marche le long du port. Les gens sont très gentils. Je rentre dimanche. Bises, Thomas.",
+      questions: [
+        { q: "Wie lange ist Thomas schon in Brest?", options: ["Drei Tage", "Eine Woche", "Seit Sonntag"], answer: 0 },
+        { q: "Was macht er nachmittags?", options: ["Am Hafen spazieren", "Auf den Markt gehen", "Arbeiten"], answer: 0 },
+        { q: "Wann fährt er zurück?", options: ["Am Sonntag", "Am Samstag", "Morgen"], answer: 0 }
+      ]
+    },
+    {
+      id: "c2t1", station: "bordeaux", level: 1, title: "Le petit-déjeuner français",
+      text: "En France, le petit-déjeuner est simple : une boisson chaude, du pain ou un croissant. Beaucoup de gens boivent du café noir. Les enfants prennent souvent du chocolat chaud. On mange rarement du fromage ou de la charcuterie le matin.",
+      questions: [
+        { q: "Was trinken viele Franzosen morgens?", options: ["Schwarzen Kaffee", "Tee mit Milch", "Orangensaft"], answer: 0 },
+        { q: "Was bekommen Kinder oft?", options: ["Heiße Schokolade", "Kaffee", "Wasser"], answer: 0 },
+        { q: "Was isst man morgens selten?", options: ["Käse und Wurst", "Brot", "Croissants"], answer: 0 }
+      ]
+    },
+    {
+      id: "m2t1", station: "marseille", level: 1, title: "Au stand de fruits",
+      text: "Les pêches sont à trois euros le kilo, les tomates à deux euros cinquante. Le vendeur dit que les pêches sont bien mûres et qu’il faut les manger aujourd’hui. Marie prend un kilo de chaque et paie avec un billet de dix euros.",
+      questions: [
+        { q: "Was kostet ein Kilo Tomaten?", options: ["2,50 Euro", "3 Euro", "10 Euro"], answer: 0 },
+        { q: "Was sagt der Verkäufer über die Pfirsiche?", options: ["Sie sind reif", "Sie sind zu teuer", "Sie sind sauer"], answer: 0 },
+        { q: "Womit bezahlt Marie?", options: ["Mit einem Zehn-Euro-Schein", "Mit Karte", "Sie bezahlt nicht"], answer: 0 }
+      ]
+    },
+    {
+      id: "l2t1", station: "lyon", level: 2, title: "Une réservation",
+      text: "Bonjour, je voudrais réserver une table pour quatre personnes, samedi soir vers vingt heures. Une personne est allergique aux noix. Est-ce que vous avez une table en terrasse ? Si c’est complet, dimanche midi nous irait aussi.",
+      questions: [
+        { q: "Für wie viele Personen?", options: ["Vier", "Zwei", "Acht"], answer: 0 },
+        { q: "Worauf ist jemand allergisch?", options: ["Auf Nüsse", "Auf Milch", "Auf Fisch"], answer: 0 },
+        { q: "Welche Alternative wird vorgeschlagen?", options: ["Sonntagmittag", "Freitagabend", "Keine"], answer: 0 }
+      ]
+    },
+    {
+      id: "s2t1", station: "strasbourg", level: 2, title: "Une annonce",
+      text: "À louer : deux pièces meublé, quarante mètres carrés, quatrième étage avec ascenseur. Cuisine équipée, très lumineux, calme. Loyer : sept cents euros par mois, charges comprises. Libre à partir du premier mars. Visites le samedi entre dix et douze heures.",
+      questions: [
+        { q: "In welchem Stock liegt die Wohnung?", options: ["Im vierten", "Im ersten", "Im Erdgeschoss"], answer: 0 },
+        { q: "Ab wann ist sie frei?", options: ["Ab 1. März", "Ab sofort", "Ab Juni"], answer: 0 },
+        { q: "Wann kann man sie ansehen?", options: ["Samstags zwischen 10 und 12", "Jeden Tag", "Nach Absprache"], answer: 0 }
+      ]
+    },
+    {
+      id: "p2t1", station: "paris", level: 3, title: "Un courriel",
+      text: "Bonjour Madame Weber, je vous confirme notre réunion de jeudi à quatorze heures, dans nos bureaux. Je vous envoie le document en pièce jointe. Si vous avez des questions avant, n’hésitez pas à m’appeler. Cordialement, Julien Lambert.",
+      questions: [
+        { q: "Wann ist die Besprechung?", options: ["Donnerstag um 14 Uhr", "Freitag um 4 Uhr", "Mittwoch"], answer: 0 },
+        { q: "Was schickt Herr Lambert mit?", options: ["Eine Unterlage im Anhang", "Eine Rechnung", "Nichts"], answer: 0 },
+        { q: "Was soll Frau Weber bei Fragen tun?", options: ["Anrufen", "Schreiben", "Warten"], answer: 0 }
+      ]
+    },
     {
       id: "lt1", station: "lyon", level: 2, title: "Le bouchon lyonnais",
       text: "À Lyon, les petits restaurants traditionnels s'appellent des bouchons. On y mange des plats simples et copieux. Le midi, il y a souvent un menu à prix fixe : entrée, plat et dessert. Il vaut mieux réserver, surtout le week-end.",
@@ -495,26 +692,26 @@ window.CONTENT = {
   // Die Sätze zu den Orten sind Allgemeinwissen, Zahlen gerundet; Fakten werden noch nachgeschlagen.
   stations: [
     { id: "brest", name: "Brest", theme: "Begrüßen und sich vorstellen", lon: -4.49, lat: 48.39, title: "Le bout de la Bretagne",
-      fr: ["Brest est un grand port tout à l'ouest de la Bretagne.", "La ville a été reconstruite après la Seconde Guerre mondiale."],
-      de: ["Brest ist ein großer Hafen ganz im Westen der Bretagne.", "Die Stadt wurde nach dem Zweiten Weltkrieg wieder aufgebaut."] },
+      fr: ["Brest est un grand port tout à l'ouest de la Bretagne.", "Pendant la guerre, la ville a été presque entièrement détruite par les bombardements.", "Le château et la tour Tanguy ont résisté ; le reste a été reconstruit après 1945."],
+      de: ["Brest ist ein großer Hafen ganz im Westen der Bretagne.", "Im Krieg wurde die Stadt durch Bombardierungen fast völlig zerstört.", "Das Schloss und der Tour Tanguy blieben stehen, der Rest wurde nach 1945 neu gebaut."] },
     { id: "bordeaux", name: "Bordeaux", theme: "Im Café bestellen", lon: -0.58, lat: 44.84, title: "Les vins de Bordeaux",
-      fr: ["Bordeaux est célèbre pour ses vins rouges.", "Le centre-ville est inscrit au patrimoine mondial de l'UNESCO."],
-      de: ["Bordeaux ist berühmt für seine Rotweine.", "Die Innenstadt gehört zum UNESCO-Welterbe."] },
+      fr: ["Bordeaux est célèbre pour ses vins.", "Le centre, appelé le Port de la Lune, est inscrit au patrimoine mondial de l'UNESCO depuis 2007.", "Devant la place de la Bourse, le miroir d'eau reflète les façades depuis 2006."],
+      de: ["Bordeaux ist berühmt für seine Weine.", "Das Zentrum, Port de la Lune genannt, gehört seit 2007 zum UNESCO-Welterbe.", "Vor der Place de la Bourse spiegelt der Miroir d'eau seit 2006 die Fassaden."] },
     { id: "marseille", name: "Marseille", theme: "Auf dem Markt einkaufen", lon: 5.37, lat: 43.3, title: "Marseille et la pétanque",
-      fr: ["Marseille est la plus vieille ville de France.", "On y joue à la pétanque sur les places, à l'ombre."],
-      de: ["Marseille ist die älteste Stadt Frankreichs.", "Auf den Plätzen spielt man im Schatten Pétanque."] },
+      fr: ["Marseille a été fondée vers 600 avant Jésus-Christ par des Grecs venus de Phocée.", "C'est pourquoi on l'appelle la cité phocéenne.", "Le Vieux-Port est le cœur de la ville depuis vingt-six siècles."],
+      de: ["Marseille wurde um 600 vor Christus von Griechen aus Phokaia gegründet.", "Deshalb nennt man sie die phokäische Stadt.", "Der Alte Hafen ist seit sechsundzwanzig Jahrhunderten das Herz der Stadt."] },
     { id: "avignon", name: "Avignon", theme: "Nach dem Weg fragen", lon: 4.81, lat: 43.95, title: "Le palais des Papes",
-      fr: ["Au XIVe siècle, les papes ont vécu à Avignon.", "Le pont Saint-Bénézet est connu grâce à une vieille chanson."],
-      de: ["Im 14. Jahrhundert lebten die Päpste in Avignon.", "Die Brücke Saint-Bénézet ist durch ein altes Lied bekannt."] },
+      fr: ["À partir de 1309, les papes ont quitté Rome pour Avignon.", "Le palais des Papes est le plus grand palais gothique d'Europe.", "Du pont Saint-Bénézet, il ne reste que quatre arches sur vingt-deux."],
+      de: ["Ab 1309 verließen die Päpste Rom und gingen nach Avignon.", "Der Papstpalast ist der größte gotische Palast Europas.", "Von der Brücke Saint-Bénézet sind nur vier der zweiundzwanzig Bögen übrig."] },
     { id: "lyon", name: "Lyon", theme: "Essen und Restaurant", lon: 4.84, lat: 45.76, title: "La cuisine de Lyon",
-      fr: ["Lyon est connue pour sa cuisine.", "Les petits restaurants traditionnels s'appellent des bouchons."],
-      de: ["Lyon ist bekannt für seine Küche.", "Die kleinen traditionellen Restaurants heißen Bouchons."] },
+      fr: ["Lyon est connue pour sa cuisine et ses bouchons, les petits restaurants traditionnels.", "La ville se trouve au confluent du Rhône et de la Saône.", "Chaque 8 décembre, les Lyonnais posent des bougies à leurs fenêtres : c'est la Fête des Lumières."],
+      de: ["Lyon ist bekannt für seine Küche und die Bouchons, die kleinen traditionellen Restaurants.", "Die Stadt liegt am Zusammenfluss von Rhône und Saône.", "Jeden 8. Dezember stellen die Einwohner Kerzen ins Fenster: das Lichterfest."] },
     { id: "strasbourg", name: "Strasbourg", theme: "Wohnen, Uhrzeit, Verabredungen", lon: 7.75, lat: 48.57, title: "La cathédrale de Strasbourg",
-      fr: ["La cathédrale de Strasbourg est en grès rose.", "En décembre, la ville accueille un grand marché de Noël."],
-      de: ["Das Straßburger Münster ist aus rosa Sandstein.", "Im Dezember gibt es in der Stadt einen großen Weihnachtsmarkt."] },
+      fr: ["La cathédrale de Strasbourg est en grès rose des Vosges.", "Sa flèche, achevée en 1439, monte à 142 mètres.", "Le marché de Noël existe depuis 1570, c'est le plus ancien de France."],
+      de: ["Das Straßburger Münster ist aus rosa Sandstein der Vogesen.", "Sein Turm, 1439 vollendet, ist 142 Meter hoch.", "Den Weihnachtsmarkt gibt es seit 1570, er ist der älteste Frankreichs."] },
     { id: "paris", name: "Paris", theme: "Arbeit, Telefon, Alltag", lon: 2.35, lat: 48.86, title: "La tour Eiffel",
-      fr: ["La tour Eiffel a été construite pour l'Exposition universelle de 1889.", "Elle mesure environ 330 mètres."],
-      de: ["Der Eiffelturm wurde für die Weltausstellung 1889 gebaut.", "Er ist etwa 330 Meter hoch."] }
+      fr: ["La tour Eiffel a été inaugurée en 1889, pour l'Exposition universelle.", "Elle mesure environ 330 mètres avec ses antennes.", "Elle devait être démontée après vingt ans, mais elle est restée."],
+      de: ["Der Eiffelturm wurde 1889 zur Weltausstellung eingeweiht.", "Mit seinen Antennen ist er etwa 330 Meter hoch.", "Nach zwanzig Jahren sollte er abgebaut werden, aber er blieb stehen."] }
   ],
 
   // Dialoge: am Ende der letzten Etappe einer Station. Pro Zug drei Antworten, "ok" markiert die passende,
@@ -712,6 +909,27 @@ window.CONTENT = {
   ],
 
   tenses: [
+    { id: "b2z1", station: "brest", level: 1, topic: "Präsens: venir", sentence: "Ils ___ de Berlin.", options: ["viennent", "venons", "vient"], answer: 0, explain: "Venir: je viens, nous venons, ils viennent." },
+    { id: "b2z2", station: "brest", level: 1, topic: "Präsens: -er", sentence: "Je ___ dans une agence.", options: ["travaille", "travailles", "travaillez"], answer: 0, explain: "Die je-Form endet auf -e: je travaille." },
+    { id: "b2z3", station: "brest", level: 1, topic: "Verneinung", sentence: "Je ___ comprends ___.", options: ["ne … pas", "pas … ne", "non … pas"], answer: 0, explain: "Die Verneinung klammert das Verb ein: je ne comprends pas." },
+    { id: "c2z1", station: "bordeaux", level: 1, topic: "Präsens: vouloir", sentence: "Ils ___ deux cafés.", options: ["veulent", "voulons", "veux"], answer: 0, explain: "Vouloir: je veux, nous voulons, ils veulent." },
+    { id: "c2z2", station: "bordeaux", level: 1, topic: "Teilungsartikel", sentence: "Tu prends ___ lait dans ton café ?", options: ["du", "de la", "des"], answer: 0, explain: "Le lait ist maskulin: du lait." },
+    { id: "c2z3", station: "bordeaux", level: 1, topic: "Futur proche", sentence: "Je ___ prendre un thé.", options: ["vais", "va", "allons"], answer: 0, explain: "Futur proche: je vais prendre." },
+    { id: "m2z1", station: "marseille", level: 1, topic: "Mengenangabe", sentence: "Un kilo ___ tomates, s’il vous plaît.", options: ["de", "des", "du"], answer: 0, explain: "Nach Mengenangaben steht de ohne Artikel." },
+    { id: "m2z2", station: "marseille", level: 1, topic: "Präsens: peser", sentence: "Vous ___ le pouvez ?", options: ["peser", "pesez", "pèse"], answer: 1, explain: "Vous pesez. Die Wortstellung wäre: vous pouvez le peser ?" },
+    { id: "m2z3", station: "marseille", level: 1, topic: "Verneinung", sentence: "Il n’y a plus ___ pain.", options: ["de", "du", "des"], answer: 0, explain: "Nach ne … plus wird du zu de." },
+    { id: "d2z1", station: "avignon", level: 2, topic: "Imperativ", sentence: "___ la rue et tournez à droite.", options: ["Traversez", "Traverses", "Traverser"], answer: 0, explain: "Höflicher Imperativ: die vous-Form ohne vous." },
+    { id: "d2z2", station: "avignon", level: 2, topic: "Präsens: descendre", sentence: "Je ___ au prochain arrêt.", options: ["descends", "descend", "descendez"], answer: 0, explain: "Descendre: je descends, il descend, vous descendez." },
+    { id: "d2z3", station: "avignon", level: 2, topic: "Passé composé", sentence: "Je ___ dans les petites rues.", options: ["me suis perdu", "m’ai perdu", "me perds"], answer: 0, explain: "Reflexive Verben bilden das Passé composé mit être." },
+    { id: "l2z1", station: "lyon", level: 2, topic: "Präsens: partager", sentence: "Nous ___ le dessert.", options: ["partageons", "partagons", "partagez"], answer: 0, explain: "Vor o schiebt sich ein e ein, damit das g weich bleibt: nous partageons." },
+    { id: "l2z2", station: "lyon", level: 2, topic: "Imparfait", sentence: "C’___ vraiment très bon.", options: ["était", "est", "a été"], answer: 0, explain: "Für einen Zustand in der Vergangenheit: c’était." },
+    { id: "l2z3", station: "lyon", level: 2, topic: "Höflichkeitsform", sentence: "Nous ___ régler, s’il vous plaît.", options: ["aimerions", "aimons", "aimerons"], answer: 0, explain: "Konditional: nous aimerions. Mit r vor den Endungen." },
+    { id: "s2z1", station: "strasbourg", level: 2, topic: "Uhrzeit", sentence: "Il est midi ___.", options: ["et demi", "et demie", "et quart de"], answer: 0, explain: "Nach midi und minuit steht demi ohne e." },
+    { id: "s2z2", station: "strasbourg", level: 2, topic: "Passé composé", sentence: "Nous ___ un appartement en juin.", options: ["avons loué", "sommes loués", "louons"], answer: 0, explain: "Louer mit avoir: nous avons loué." },
+    { id: "s2z3", station: "strasbourg", level: 2, topic: "Futur proche", sentence: "Ils ___ déménager la semaine prochaine.", options: ["vont", "va", "allez"], answer: 0, explain: "Ils vont déménager." },
+    { id: "p2z1", station: "paris", level: 3, topic: "Pronomen", sentence: "Je ___ envoie le document.", options: ["vous", "vous en", "le vous"], answer: 0, explain: "Je vous envoie le document. Das indirekte Objekt steht vor dem Verb." },
+    { id: "p2z2", station: "paris", level: 3, topic: "Futur simple", sentence: "Je vous ___ demain matin.", options: ["rappellerai", "rappelle", "rappellerais"], answer: 0, explain: "Futur simple: je rappellerai. Mit s wäre es das Konditional." },
+    { id: "p2z3", station: "paris", level: 3, topic: "Pronomen en", sentence: "Ne t’inquiète pas, je ___ occupe.", options: ["m’en", "me le", "m’y"], answer: 0, explain: "S’occuper de wird zu s’en occuper: je m’en occupe." },
     { id: "lz1", station: "lyon", level: 2, topic: "Teilungsartikel", sentence: "Je voudrais ___ viande, s’il vous plaît.", options: ["de la", "du", "des"], answer: 0, explain: "La viande ist feminin: de la viande." },
     { id: "lz2", station: "lyon", level: 2, topic: "Präsens: choisir", sentence: "Nous ___ le menu.", options: ["choisissons", "choisons", "choisissez"], answer: 0, explain: "Verben auf -ir: nous choisissons, vous choisissez, ils choisissent." },
     { id: "lz3", station: "lyon", level: 2, topic: "Passé composé", sentence: "Hier soir, nous ___ au restaurant.", options: ["avons mangé", "sommes mangés", "mangeons"], answer: 0, explain: "Manger mit avoir: nous avons mangé." },
