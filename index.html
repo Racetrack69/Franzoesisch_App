@@ -264,6 +264,13 @@
   .et.next .st { color: var(--accent); }
   .et:disabled { opacity: .45; cursor: default; }
   .conv { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+  .built { min-height: 58px; display: flex; flex-wrap: wrap; gap: 8px 6px; align-items: center; padding: 10px 0; margin-top: 12px; border-bottom: 1px solid var(--plate-rail); }
+  .built .ghost { color: var(--plate-mute); font-size: 14px; }
+  .tiles { display: flex; flex-wrap: wrap; gap: 8px 6px; margin-top: 14px; }
+  .tile2 { font-family: var(--serif); font-size: 21px; line-height: 1.2; padding: 7px 11px; border-radius: 4px; border: 1px solid var(--plate-line); background: var(--plate-field); color: var(--plate-ink); }
+  .tile2.in { border-color: var(--plate-ink); }
+  .tile2.ok { border-color: var(--ok-on-plate); color: var(--ok-on-plate); }
+  .tile2.err { border-color: var(--accent-on-plate); color: var(--accent-on-plate); }
   .bubble { border-radius: 6px; padding: 14px 16px; max-width: 92%; }
   .bubble.npc { background: var(--card); border: 1px solid var(--line); align-self: flex-start; }
   .bubble.me { background: var(--plate); color: var(--plate-ink); align-self: flex-end; }
@@ -404,10 +411,10 @@
   // Etappen: fünf je Station, jede ein Querschnitt durch alle Übungsarten derselben Situation
   const ETAPPE = [
     { vocab: 4, articles: 1, match: 1, errors: 1, speak: 1, tenses: 1 },
-    { vocab: 4, articles: 1, errors: 1, speak: 1, tenses: 1, match: 1 },
-    { vocab: 4, articles: 1, errors: 1, speak: 1, tenses: 1, texts: 1, match: 1 },
-    { vocab: 4, articles: 1, errors: 1, speak: 1, tenses: 1, match: 1 },
-    { vocab: 4, errors: 1, speak: 1, tenses: 1, texts: 1, match: 1, dialogs: 1 }
+    { vocab: 4, articles: 1, errors: 1, speak: 1, tenses: 1, match: 1, construire: 1 },
+    { vocab: 4, articles: 1, errors: 1, speak: 1, tenses: 1, texts: 1, dictee: 1 },
+    { vocab: 3, articles: 1, errors: 1, tenses: 1, match: 1, construire: 1, dictee: 1 },
+    { vocab: 3, errors: 1, speak: 1, tenses: 1, texts: 1, construire: 1, dialogs: 1 }
   ];
   let RUN = null; // Zusammenhang der laufenden Übungsreihe: { kind: 'daily'|'module'|'etappe', station, n }
   const MODULES = [
@@ -418,8 +425,12 @@
     { key: 'speak',  name: 'Répéter',         sub: 'Hören und nachsprechen' },
     { key: 'texts',  name: 'Comprendre',      sub: 'Kurzer Text, drei Fragen' },
     { key: 'tenses', name: 'Conjugaison',     sub: 'Die passende Form' },
+    { key: 'dictee', name: 'Dictée',          sub: 'Hören und schreiben' },
+    { key: 'construire', name: 'Construire',  sub: 'Sätze bauen' },
     { key: 'dialogs', name: 'Dialogue',       sub: 'Drei Antworten, eine passt' }
   ];
+  const SRC = { dictee: 'speak', construire: 'speak' }; // Übungsarten, die auf den Nachsprech-Sätzen aufsetzen
+  const src = type => C[SRC[type] || type] || [];
 
   // ---------- Speicher ----------
   function load() {
@@ -462,7 +473,7 @@
   const currentStation = () => C.stations.find(st => progOf(st.id) < 5) || C.stations[C.stations.length - 1];
   const byLevel = (list) => { const open = SCOPE ? [SCOPE] : openedStations(); return list.filter(x => open.includes(x.station)); };
   const ofStation = (list, id) => list.filter(x => x.station === id);
-  const findItem = (type, id) => C[type].find(x => x.id === id);
+  const findItem = (type, id) => src(type).find(x => x.id === id);
 
   function lev(a, b) {
     const m = a.length, n = b.length; if (!m) return n; if (!n) return m;
@@ -578,11 +589,11 @@
 
   function moduleProgress(key) {
     // Niveau bezogen auf die offenen Stationen. Öffnet eine neue Station, wächst die Skala, das Niveau kann dann sinken.
-    const all = byLevel(C[key === 'match' ? 'vocab' : key] || []);
+    const all = byLevel(key === 'match' ? C.vocab : src(key));
     const mCount = all.filter(x => mastered(key === 'match' ? 'vocab' : key, x.id)).length;
     const level10 = all.length ? Math.floor(20 * mCount / all.length) / 2 : 0;
     if (key === 'match') { const v = byLevel(C.vocab); return { text: '', pct: 0, level10, empty: v.length < 4 }; }
-    const items = byLevel(C[key]);
+    const items = byLevel(src(key));
     if (!items.length) return { text: 'noch keine Inhalte', pct: 0, level10, empty: true };
     if (key === 'vocab') {
       const learned = items.filter(v => mastered('vocab', v.id)).length;
@@ -600,7 +611,7 @@
       .sort((a, b) => a.g - b.g || a.k - b.k).map(o => o.x);
   }
   function pickVocab(n) { return rankForReview('vocab', byLevel(C.vocab)).slice(0, n).map(v => ({ type: 'vocab', id: v.id })); }
-  function pickOther(type, n) { return rankForReview(type, byLevel(C[type])).slice(0, n).map(x => ({ type, id: x.id })); }
+  function pickOther(type, n) { return rankForReview(type, byLevel(src(type))).slice(0, n).map(x => ({ type, id: x.id })); }
   function dueCount() {
     const open = openedStations();
     let n = 0;
@@ -621,7 +632,7 @@
   function buildQueue(type) {
     if (type === 'vocab') return pickVocab(10);
     if (type === 'match') return [pickMatch()];
-    const counts = { errors: 5, speak: 4, texts: 1, tenses: 5, articles: 6, dialogs: 1 };
+    const counts = { errors: 5, speak: 4, texts: 1, tenses: 5, articles: 6, dialogs: 1, dictee: 4, construire: 4 };
     return pickOther(type, counts[type]);
   }
   function buildEtappe(sid, n) {
@@ -630,7 +641,7 @@
     Object.keys(recipe).forEach(type => {
       const k = recipe[type];
       if (type === 'match') { const pool = ofStation(C.vocab, sid); if (pool.length >= 4) q.push({ type: 'match', id: 'm' + sid + n, ids: shuffle(pool).slice(0, 5).map(v => v.id) }); return; }
-      const items = ofStation(C[type] || [], sid);
+      const items = ofStation(src(type), sid);
       if (!items.length) return;
       const start = ((n - 1) * k) % items.length;
       for (let i = 0; i < Math.min(k, items.length); i++) q.push({ type, id: items[(start + i) % items.length].id });
@@ -1290,6 +1301,82 @@
       setTimeout(() => npc.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     }
     showTurn();
+  };
+
+  // Diktat: Satz hören, tippen
+  RENDER.dictee = function (d, body, actions, finish) {
+    const card = el('div', 'card');
+    card.appendChild(el('div', 'prompt', 'Hör den Satz und schreib ihn auf.'));
+    const listen = el('div', 'listen'); listen.style.marginTop = '4px';
+    const play = el('button', 'btn', ICON.sound + ' Écouter'); play.onclick = () => speak(d.fr);
+    const slow = el('button', 'btn', 'Lentement'); slow.onclick = () => speak(d.fr, 0.7);
+    listen.appendChild(play); listen.appendChild(slow);
+    card.appendChild(listen);
+    const input = el('input'); input.type = 'text'; input.autocapitalize = 'sentences'; input.autocomplete = 'off'; input.spellcheck = false; input.setAttribute('lang', 'fr'); input.setAttribute('enterkeyhint', 'done');
+    input.style.marginTop = '18px'; input.style.fontSize = '22px';
+    card.appendChild(input);
+    const row = el('div', 'inrow');
+    const check = el('button', 'btn primary', 'Vérifier');
+    row.appendChild(check);
+    card.appendChild(row);
+    const fb = el('div'); card.appendChild(fb);
+    body.appendChild(card);
+    let settled = false;
+    function doCheck() {
+      if (settled) return;
+      const a = norm(input.value); if (!a) { input.focus(); return; }
+      settled = true; input.disabled = true; row.remove();
+      const t = norm(d.fr);
+      const dist = lev(a, t);
+      const res = a === t ? 'ok' : dist <= 2 ? 'help' : 'miss';
+      input.className = res === 'miss' ? 'err' : 'ok';
+      const head = res === 'ok' ? 'Exact.' : res === 'help' ? 'Presque, ein paar Buchstaben.' : 'Presque.';
+      const mine = res === 'ok' ? '' : '<div class="mine">Deine Antwort: <s>' + esc(input.value.trim()) + '</s></div>';
+      fb.innerHTML = '<div class="feedback ' + (res === 'miss' ? 'err' : 'ok') + '">' + head + '<b>' + esc(d.fr) + '</b><div class="de">' + esc(d.de) + '</div>' + mine + '</div>';
+      grade('dictee', d.id, res);
+      finish(res === 'ok', res === 'ok' ? P()[0] : res === 'help' ? P()[1] : 0, d.fr);
+    }
+    check.onclick = doCheck;
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); doCheck(); } });
+    speak(d.fr);
+    setTimeout(() => input.focus(), 50);
+  };
+
+  // Sätze bauen: Wörter in die richtige Reihenfolge tippen
+  RENDER.construire = function (d, body, actions, finish) {
+    const words = d.fr.split(/\s+/).filter(Boolean);
+    const card = el('div', 'card');
+    card.appendChild(el('div', 'prompt', 'Bau den Satz.'));
+    card.appendChild(el('div', 'lang small', esc(d.de)));
+    const built = el('div', 'built'); built.setAttribute('aria-label', 'Dein Satz');
+    const pool = el('div', 'tiles');
+    card.appendChild(built); card.appendChild(pool);
+    const fb = el('div'); card.appendChild(fb);
+    body.appendChild(card);
+    const order = shuffle(words.map((w, i) => i));
+    const chosen = [];
+    let settled = false;
+    function render() {
+      built.innerHTML = ''; pool.innerHTML = '';
+      chosen.forEach((idx, pos) => { const b = el('button', 'tile2 in', esc(words[idx])); b.onclick = () => { if (settled) return; chosen.splice(pos, 1); render(); }; built.appendChild(b); });
+      if (!chosen.length) built.appendChild(el('span', 'ghost', 'Tippe die Wörter an'));
+      order.forEach(idx => { if (chosen.includes(idx)) return; const b = el('button', 'tile2', esc(words[idx])); b.onclick = () => { if (settled) return; chosen.push(idx); render(); }; pool.appendChild(b); });
+      check.disabled = chosen.length !== words.length;
+    }
+    const row = el('div', 'inrow');
+    const check = el('button', 'btn primary', 'Vérifier');
+    row.appendChild(check); card.insertBefore(row, fb);
+    check.onclick = () => {
+      if (settled) return; settled = true; row.remove();
+      const ok = chosen.every((idx, pos) => idx === pos);
+      built.querySelectorAll('.tile2').forEach((b, pos) => b.classList.add(chosen[pos] === pos ? 'ok' : 'err'));
+      fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Exact.' : 'Presque.') + '<b>' + esc(d.fr) + '</b></div>';
+      const listen = el('button', 'btn quiet', ICON.sound + ' Écouter'); listen.style.marginTop = '10px'; listen.onclick = () => speak(d.fr);
+      fb.appendChild(listen);
+      grade('construire', d.id, ok ? 'ok' : 'miss');
+      finish(ok, ok ? P()[0] : 0, d.fr);
+    };
+    render();
   };
 
   // Fehler finden
