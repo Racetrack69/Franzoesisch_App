@@ -217,6 +217,10 @@
   .result .goal .track { height: 5px; background: var(--line); border-radius: 3px; overflow: hidden; }
   .result .goal .track i { display: block; height: 100%; background: var(--gold); }
   .result .goal .g { font-size: 14px; color: var(--muted); margin-top: 8px; text-align: center; }
+  .result .lvl .ticks { justify-content: center; }
+  .result .lvl .ticks i { width: 10px; height: 18px; background: var(--line); }
+  .result .lvl .ticks i.on { background: var(--gold); }
+  .result .lvl .ticks i.half { background: linear-gradient(to top, var(--gold) 50%, var(--line) 50%); }
 
   /* Karte */
   .mapcard { padding: 4px 4px 0; margin-bottom: 10px; }
@@ -340,12 +344,18 @@
   .lvl .ticks { display: flex; gap: 3px; justify-content: flex-end; }
   .lvl .ticks i { width: 6px; height: 14px; border-radius: 2px; background: var(--plate-rail); }
   .lvl .ticks i.on { background: var(--gold-on-plate); }
+  .lvl .ticks i.half { background: linear-gradient(to top, var(--gold-on-plate) 50%, var(--plate-rail) 50%); }
   .lvl .t { font-size: 12px; color: var(--plate-mute); margin-top: 4px; }
   .seg2 { display: flex; gap: 8px; margin-bottom: 14px; }
   .seg2 button { flex: 1; height: 40px; border: 1px solid var(--line-strong); border-radius: 4px; font-size: 14px; }
   .seg2 button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
   .freibtn { display: flex; align-items: center; justify-content: center; height: 50px; margin-top: auto; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); font-size: 16px; font-weight: 500; width: 100%; }
-  .homefoot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+  .homefoot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 10px; margin-top: auto; }
+  .half { display: flex; gap: 10px; margin-bottom: 10px; }
+  .tile { flex: 1; text-align: left; background: var(--plate); color: var(--plate-ink); border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+  .tile .t { font-family: var(--serif); font-size: 18px; line-height: 1.15; }
+  .tile .d { font-size: 12px; color: var(--plate-mute); }
+  .stcard { margin-bottom: 0; }
   .homefoot .set { color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
   .homefoot .ver { width: auto; padding: 0 0 calc(env(safe-area-inset-bottom) + 4px); text-align: right; }
   .greet { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
@@ -388,14 +398,14 @@
   ];
   let RUN = null; // Zusammenhang der laufenden Übungsreihe: { kind: 'daily'|'module'|'etappe', station, n }
   const MODULES = [
-    { key: 'vocab',  name: 'Vokabeln',        sub: 'Eintippen, bei Bedarf Hilfe' },
-    { key: 'articles', name: 'Artikel',       sub: 'le, la, l\' oder les, später du und de la' },
-    { key: 'match',  name: 'Zuordnen',        sub: 'Was gehört zusammen, später nach Gehör' },
-    { key: 'errors', name: 'Fehler finden',   sub: 'Ein Wort stimmt nicht' },
-    { key: 'speak',  name: 'Nachsprechen',    sub: 'Anhören, laut sagen, einschätzen' },
-    { key: 'texts',  name: 'Text verstehen',  sub: 'Kurzer Text, drei Fragen' },
-    { key: 'tenses', name: 'Zeiten und Formen', sub: 'Die passende Form wählen' },
-    { key: 'dialogs', name: 'Gespräch', sub: 'Drei Antworten, eine passt' }
+    { key: 'vocab',  name: 'Vocabulaire',     sub: 'Vokabeln eintippen, bei Bedarf Hilfe' },
+    { key: 'articles', name: 'Articles',      sub: 'Artikel: le, la, l\' oder les, später du und de la' },
+    { key: 'match',  name: 'Associer',        sub: 'Paare zuordnen, später nach Gehör' },
+    { key: 'errors', name: 'Trouver l\'erreur', sub: 'Ein Wort stimmt nicht' },
+    { key: 'speak',  name: 'Répéter',         sub: 'Nachsprechen: anhören, laut sagen' },
+    { key: 'texts',  name: 'Comprendre',      sub: 'Kurzer Text, drei Fragen' },
+    { key: 'tenses', name: 'Conjugaison',     sub: 'Zeiten und Formen' },
+    { key: 'dialogs', name: 'Dialogue',       sub: 'Gespräch: drei Antworten, eine passt' }
   ];
 
   // ---------- Speicher ----------
@@ -526,16 +536,20 @@
   function isDone(type, id) { return !!(S.done[type] && S.done[type][id]); }
 
   function moduleProgress(key) {
-    if (key === 'match') { const v = byLevel(C.vocab); const l = v.filter(x => vocabLevel(x.id) >= 2).length; return { text: '', pct: v.length ? l / v.length : 0, level: v.length ? Math.round(10 * l / v.length) : 0, empty: v.length < 4 }; }
+    // Level auf die ganze Reise bezogen: Niveau 10 heißt, alle Aufgaben aller Stationen sitzen. Steigt nur, fällt nie.
+    const all = C[key === 'match' ? 'vocab' : key] || [];
+    const mastered = key === 'vocab' || key === 'match' ? all.filter(x => vocabLevel(x.id) >= 2).length : all.filter(x => S.done[key] && S.done[key][x.id] === 2).length;
+    const level10 = all.length ? Math.floor(20 * mastered / all.length) / 2 : 0;
+    if (key === 'match') { const v = byLevel(C.vocab); return { text: '', pct: 0, level10, empty: v.length < 4 }; }
     const items = byLevel(C[key]);
-    if (!items.length) return { text: 'noch keine Inhalte', pct: 0, level: 0, empty: true };
+    if (!items.length) return { text: 'noch keine Inhalte', pct: 0, level10, empty: true };
     if (key === 'vocab') {
       const learned = items.filter(v => vocabLevel(v.id) >= 2).length;
-      return { text: learned + ' von ' + items.length + ' sitzen', pct: learned / items.length, level: Math.round(10 * learned / items.length) };
+      return { text: learned + ' von ' + items.length + ' sitzen', pct: learned / items.length, level10 };
     }
     // Zählt nur richtig gelöste Aufgaben, nicht bloß gesehene
     const done = items.filter(x => S.done[key] && S.done[key][x.id] === 2).length;
-    return { text: done + ' von ' + items.length + ' sitzen', pct: done / items.length, level: Math.round(10 * done / items.length) };
+    return { text: done + ' von ' + items.length + ' sitzen', pct: done / items.length, level10 };
   }
 
   // ---------- Auswahl der Übungen ----------
@@ -651,48 +665,69 @@
     return svg;
   }
 
+  // ---------- Verlauf und Wischen ----------
+  // Jeder Bildschirm meldet, was Zurück bedeutet. Browserverlauf und Wischgeste vom linken Rand nutzen dasselbe.
+  let BACK = null, POPPING = false;
+  function screen(backFn) {
+    BACK = backFn;
+    if (backFn && !POPPING) { try { history.pushState({ f: 1 }, ''); } catch (e) {} }
+    POPPING = false;
+  }
+  window.addEventListener('popstate', () => { if (BACK) { POPPING = true; if ('speechSynthesis' in window) speechSynthesis.cancel(); BACK(); } });
+  let tx = 0, ty = 0, tEdge = false;
+  document.addEventListener('touchstart', e => { const t = e.touches[0]; tx = t.clientX; ty = t.clientY; tEdge = tx < 28; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const t = e.changedTouches[0]; const dx = t.clientX - tx, dy = t.clientY - ty;
+    if (Math.abs(dy) > 60) return;
+    if (tEdge && dx > 70 && BACK) { if ('speechSynthesis' in window) speechSynthesis.cancel(); BACK(); return; }
+    // nach links wischen = Continuer, nur wenn der Knopf gerade da ist
+    if (!tEdge && dx < -80) { const b = app.querySelector('.actions .btn.dark'); if (b && !b.disabled) b.click(); }
+  }, { passive: true });
+
   // ---------- Startseite ----------
   function renderHome() {
     SCOPE = null;
+    screen(null);
     app.innerHTML = '';
     if (!S.name) { renderWelcome(); return; }
     const top = el('div', 'top');
     const h = new Date().getHours();
     const greet = h < 5 ? 'Bonne nuit' : h < 18 ? 'Bonjour' : 'Bonsoir';
-    top.appendChild(el('div', '', '<div class="greet">Flâner</div><h1>' + greet + ', ' + esc(S.name) + '</h1>'));
+    top.appendChild(el('div', '', '<h1>' + greet + ', ' + esc(S.name) + '</h1>'));
     top.appendChild(el('div', 'chip', '<b>' + S.points + '</b><span>points</span>'));
     app.appendChild(top);
 
-    // Tagesprogramm, schmal
-    const d = dailyState();
-    const doneCount = d.results.length, total = d.items.length, finished = doneCount >= total;
-    const daily = el('button', 'daily slim');
-    daily.innerHTML = '<div class="keyline slim"><span class="t">Le programme du jour</span>' +
-      (finished ? '<span class="d">Heute erledigt</span>' : '<span class="d">' + (doneCount ? doneCount + ' / ' + total : total + ' Übungen') + '</span>') + '</div>';
-    daily.onclick = () => finished ? renderResult(d.results, { kind: 'daily' }) : runQueue(d.items, d.results, { kind: 'daily' });
-    app.appendChild(daily);
-
-    // Karte
+    // Karte zuerst
     const card = el('div', 'card mapcard');
     card.appendChild(buildMap(st => renderStation(st.id)));
     app.appendChild(card);
+
+    // Tagesprogramm und freies Üben nebeneinander
+    const d = dailyState();
+    const doneCount = d.results.length, total = d.items.length, finished = doneCount >= total;
+    const row = el('div', 'half');
+    const daily = el('button', 'tile');
+    daily.innerHTML = '<span class="t">Programme du jour</span><span class="d">' + (finished ? 'terminé' : doneCount ? doneCount + ' / ' + total : total + ' exercices') + '</span>';
+    daily.onclick = () => finished ? renderResult(d.results, { kind: 'daily' }) : runQueue(d.items, d.results, { kind: 'daily' });
+    const all = el('button', 'tile');
+    all.innerHTML = '<span class="t">Exercices libres</span><span class="d">Frei üben</span>';
+    all.onclick = () => renderModules();
+    row.appendChild(daily); row.appendChild(all);
+    app.appendChild(row);
 
     // Aktuelle Station mit Etappen
     const cur = currentStation();
     const n = progOf(cur.id);
     const sc = el('button', 'stcard');
-    sc.innerHTML = '<div class="l">' + (n >= 5 ? 'Reise abgeschlossen' : 'Nächste Etappe in') + '</div>' +
+    sc.innerHTML = '<div class="l">' + (n >= 5 ? 'Voyage terminé' : 'Prochaine étape') + '</div>' +
       '<div class="n">' + esc(cur.name) + '</div><div class="th">' + esc(cur.theme) + '</div>' +
       '<div class="pills">' + [1, 2, 3, 4, 5].map(i => '<i class="' + (i <= n ? 'done' : i === n + 1 ? 'next' : '') + '"></i>').join('') + '</div>' +
-      '<div class="cta">' + (n >= 5 ? 'Station ansehen' : 'Étape ' + (n + 1) + ' starten') + '</div>';
+      '<div class="cta">' + (n >= 5 ? 'Voir la station' : 'Commencer l’étape ' + (n + 1)) + '</div>';
     sc.onclick = () => n >= 5 ? renderStation(cur.id) : startEtappe(cur.id, n + 1);
     app.appendChild(sc);
 
-    const all = el('button', 'freibtn', 'Frei üben');
-    all.onclick = () => renderModules(null);
-    app.appendChild(all);
     const hf = el('div', 'homefoot');
-    const set = el('button', 'set', 'Einstellungen');
+    const set = el('button', 'set', 'Réglages');
     set.onclick = renderSettings;
     hf.appendChild(set); hf.appendChild(versionLine());
     app.appendChild(hf);
@@ -700,14 +735,15 @@
 
   // ---------- Erster Start: Vorname ----------
   function renderWelcome() {
+    screen(null);
     app.innerHTML = '';
     const w = el('div', 'welcome');
-    w.innerHTML = '<h1>Bienvenue.</h1><p>Wie heißt du? Der Name bleibt auf diesem Gerät und dient nur der Begrüßung.</p>';
+    w.innerHTML = '<h1>Bienvenue.</h1><p><span style="font-family:var(--serif);font-size:20px;color:var(--ink)">Bienvenue dans ton application de français. Comment tu t’appelles ?</span><br><span style="font-size:14px">Willkommen in deiner Französisch-App. Wie heißt du?</span></p>';
     const card = el('div', 'card');
-    const lab = el('label', 'field', 'Dein Vorname'); lab.setAttribute('for', 'name'); lab.style.marginTop = '0';
+    const lab = el('label', 'field', 'Ton prénom'); lab.setAttribute('for', 'name'); lab.style.marginTop = '0';
     const input = el('input'); input.type = 'text'; input.id = 'name'; input.autocomplete = 'given-name'; input.setAttribute('enterkeyhint', 'done');
     card.appendChild(lab); card.appendChild(input);
-    const go = el('button', 'btn primary', 'Los geht’s'); go.style.marginTop = '14px';
+    const go = el('button', 'btn primary', 'C’est parti'); go.style.marginTop = '14px';
     const start = () => { const n = input.value.trim(); if (!n) { input.focus(); return; } S.name = n; save(); renderHome(); };
     go.onclick = start; input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); start(); } });
     card.appendChild(go);
@@ -731,11 +767,12 @@
 
   // ---------- Einstellungen ----------
   function renderSettings() {
+    screen(renderHome);
     app.innerHTML = '';
     const top = el('div', 'top');
     const back = el('button', 'back', ICON.back); back.onclick = renderHome;
     top.appendChild(back);
-    top.appendChild(el('div', '', '<div>Einstellungen</div>'));
+    top.appendChild(el('div', '', '<div>Réglages</div>'));
     app.appendChild(top);
     const wrap = el('div', 'card'); wrap.style.padding = '4px 16px';
     const ul = el('ul', 'modules');
@@ -744,13 +781,13 @@
       b.innerHTML = '<div class="n">' + name + '<small>' + sub + '</small></div><div class="pct">' + esc(val) + '</div><div class="chev">' + ICON.chev + '</div>';
       b.onclick = fn; li.appendChild(b); ul.appendChild(li);
     }
-    row('Vorname', 'Für die Begrüßung', S.name || '', () => { const n = prompt('Dein Vorname', S.name || ''); if (n !== null && n.trim()) { S.name = n.trim(); save(); renderSettings(); } });
-    row('Vokabelrichtung', 'Welche Sprache abgefragt wird', S.direction === 'de-fr' ? 'Deutsch nach Französisch' : 'Französisch nach Deutsch', () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderSettings(); });
-    row('Vorlesen', 'Lösung nach der Antwort automatisch vorlesen', S.autoRead ? 'an' : 'aus', () => { S.autoRead = !S.autoRead; save(); renderSettings(); });
-    row('Töne', 'Kurzer Ton bei richtig und falsch', S.sound ? 'an' : 'aus', () => { S.sound = !S.sound; save(); if (S.sound) sfx('ok'); renderSettings(); });
+    row('Prénom', 'Vorname für die Begrüßung', S.name || '', () => { const n = prompt('Dein Vorname', S.name || ''); if (n !== null && n.trim()) { S.name = n.trim(); save(); renderSettings(); } });
+    row('Sens', 'Vokabelrichtung: welche Sprache abgefragt wird', S.direction === 'de-fr' ? 'Deutsch → Französisch' : 'Französisch → Deutsch', () => { S.direction = S.direction === 'de-fr' ? 'fr-de' : 'de-fr'; save(); renderSettings(); });
+    row('Lecture', 'Lösung nach der Antwort automatisch vorlesen', S.autoRead ? 'an' : 'aus', () => { S.autoRead = !S.autoRead; save(); renderSettings(); });
+    row('Sons', 'Kurzer Ton bei richtig und falsch', S.sound ? 'an' : 'aus', () => { S.sound = !S.sound; save(); if (S.sound) sfx('ok'); renderSettings(); });
     const vs = frVoices();
-    if (vs.length) { pickVoice(); row('Stimme', vs.length > 1 ? 'Antippen wechselt, mit Hörprobe' : 'Nur eine französische Stimme auf diesem Gerät', voice ? voice.name.replace(/\s*\(.*\)$/, '') : '', () => { if (vs.length < 2) { speak('Bonjour'); return; } const i = vs.findIndex(v => voice && v.name === voice.name); voice = vs[(i + 1) % vs.length]; S.voiceName = voice.name; save(); speak('Bonjour'); renderSettings(); }); }
-    row('Spielstand übertragen', 'Code für ein anderes Gerät', '', renderTransfer);
+    if (vs.length) { pickVoice(); row('Voix', vs.length > 1 ? 'Stimme: Antippen wechselt, mit Hörprobe' : 'Nur eine französische Stimme auf diesem Gerät', voice ? voice.name.replace(/\s*\(.*\)$/, '') : '', () => { if (vs.length < 2) { speak('Bonjour'); return; } const i = vs.findIndex(v => voice && v.name === voice.name); voice = vs[(i + 1) % vs.length]; S.voiceName = voice.name; save(); speak('Bonjour'); renderSettings(); }); }
+    row('Transfert', 'Spielstand-Code für ein anderes Gerät', '', renderTransfer);
     wrap.appendChild(ul); app.appendChild(wrap);
     app.appendChild(versionLine());
   }
@@ -764,6 +801,7 @@
   function renderStation(sid) {
     const st = C.stations.find(x => x.id === sid);
     const open = openedStations().includes(sid), n = progOf(sid);
+    screen(renderHome);
     app.innerHTML = '';
     const top = el('div', 'top');
     const back = el('button', 'back', ICON.back); back.onclick = renderHome;
@@ -776,7 +814,7 @@
       app.appendChild(el('div', 'card', '<div class="theme">Noch nicht erreicht</div><p class="lang small" style="margin-top:8px">' + esc(st.name) + '</p><div class="de">Öffnet sich, sobald ' + esc(prev ? prev.name : '') + ' abgeschlossen ist.</div>'));
     } else {
       const et = el('div', 'card');
-      et.appendChild(el('div', 'theme', 'Fünf Etappen, je etwa fünf Minuten'));
+      et.appendChild(el('div', 'theme', 'Cinq étapes, je etwa fünf Minuten'));
       const list = el('div', 'etappen');
       for (let i = 1; i <= 5; i++) {
         const state = i <= n ? 'done' : i === n + 1 ? 'next' : 'locked';
@@ -789,57 +827,46 @@
       app.appendChild(et);
 
       const pc = el('div', 'card place-card');
-      pc.appendChild(el('div', 'theme', 'Über ' + esc(st.name)));
+      pc.appendChild(el('div', 'theme', 'À propos de ' + esc(st.name)));
       pc.appendChild(el('p', 'lang small', esc(st.title)));
       pc.appendChild(el('div', 'rule'));
       st.fr.forEach((f, i) => { pc.appendChild(el('p', 'fr', esc(f))); pc.appendChild(el('div', 'de', esc(st.de[i]))); });
-      const listen = el('button', 'btn', ICON.sound + ' Anhören'); listen.style.marginTop = '4px';
+      const listen = el('button', 'btn', ICON.sound + ' Écouter'); listen.style.marginTop = '4px';
       listen.onclick = () => speak(st.fr.join(' '));
       pc.appendChild(listen);
       app.appendChild(pc);
 
-      const fb = el('button', 'btn quiet', 'Frei üben in ' + esc(st.name));
-      fb.style.marginTop = '4px';
-      fb.onclick = () => renderModules(sid, 'station');
-      app.appendChild(fb);
     }
   }
 
   // ---------- Modulliste (frei üben) ----------
-  function renderModules(sid, from) {
-    SCOPE = sid;
+  function renderModules() {
+    SCOPE = null;
+    screen(renderHome);
     app.innerHTML = '';
     const top = el('div', 'top');
-    const back = el('button', 'back', ICON.back); back.onclick = () => from === 'station' ? renderStation(sid || currentStation().id) : renderHome();
+    const back = el('button', 'back', ICON.back); back.onclick = renderHome;
     top.appendChild(back);
-    const open = openedStations();
-    const names = open.map(id => C.stations.find(x => x.id === id).name);
-    top.appendChild(el('div', '', '<div>Frei üben</div><div class="sub">' + esc(sid ? C.stations.find(x => x.id === sid).name : names.join(', ')) + '</div>'));
+    top.appendChild(el('div', '', '<div>Exercices libres</div><div class="sub">Frei üben, alle offenen Stationen</div>'));
     app.appendChild(top);
-    const seg = el('div', 'seg2');
-    const cur = currentStation();
-    const bAll = el('button', sid ? '' : 'on', 'Alle Stationen');
-    const bOne = el('button', sid ? 'on' : '', 'Nur ' + esc((sid ? C.stations.find(x => x.id === sid) : cur).name));
-    bAll.onclick = () => renderModules(null, from);
-    bOne.onclick = () => renderModules(sid || cur.id, from);
-    seg.appendChild(bAll); seg.appendChild(bOne);
-    app.appendChild(seg);
     const wrap = el('div', 'card'); wrap.style.padding = '4px 16px';
     const ul = el('ul', 'modules');
     MODULES.forEach(m => {
       const p = moduleProgress(m.key);
       const li = el('li');
       const b = el('button');
-      const ticks = [0,1,2,3,4,5,6,7,8,9].map(i => '<i class="' + (i < p.level ? 'on' : '') + '"></i>').join('');
       b.innerHTML = '<div class="n">' + m.name + '<small>' + m.sub + '</small></div>' +
-        (p.empty ? '<div class="pct">noch keine Inhalte</div>' : '<div class="lvl"><div class="ticks">' + ticks + '</div><div class="t">Level ' + p.level + ' von 10</div></div>');
+        (p.empty ? '<div class="pct">noch keine Inhalte</div>' : '<div class="lvl">' + ticksHtml(p.level10) + '<div class="t">Niveau ' + Math.floor(p.level10) + ' sur 10</div></div>');
       if (p.empty) b.disabled = true;
-      b.onclick = () => runQueue(buildQueue(m.key), [], { kind: 'module', station: sid, from: from });
+      b.onclick = () => runQueue(buildQueue(m.key), [], { kind: 'module', module: m.key, levelBefore: p.level10 });
       li.appendChild(b); ul.appendChild(li);
     });
     wrap.appendChild(ul);
     app.appendChild(wrap);
-    app.appendChild(el('div', 'note', 'Ein Level entspricht zehn Prozent der Aufgaben, die sitzen. Level 10 heißt: alles zweimal richtig.'));
+  }
+  // Zehn Striche, halbe Striche für angefangene Level
+  function ticksHtml(level10) {
+    return '<div class="ticks">' + [0,1,2,3,4,5,6,7,8,9].map(i => '<i class="' + (level10 >= i + 1 ? 'on' : level10 >= i + 0.5 ? 'half' : '') + '"></i>').join('') + '</div>';
   }
 
   // ---------- Ablauf einer Übungsreihe ----------
@@ -855,14 +882,16 @@
     const mod = MODULES.find(m => m.key === ref.type) || { name: 'Dialog' };
     const daily = RUN.kind === 'daily';
     const stName = (C.stations.find(x => x.id === (RUN.station || itemStation(item))) || {}).name || '';
-    const headline = daily ? 'Tagesprogramm' : RUN.kind === 'etappe' ? 'Étape ' + RUN.n + ', ' + stName : mod.name;
-    const subline = daily || RUN.kind === 'etappe' ? mod.name : stName || 'Frei üben';
+    const headline = daily ? 'Programme du jour' : RUN.kind === 'etappe' ? 'Étape ' + RUN.n + ', ' + stName : mod.name;
+    const subline = daily || RUN.kind === 'etappe' ? mod.name : stName || 'Exercices libres';
 
     app.innerHTML = '';
     const top = el('div', 'top');
     const back = el('button', 'back', ICON.back);
     back.setAttribute('aria-label', 'Zurück');
-    back.onclick = () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); if (RUN.from === 'station' && RUN.station) renderStation(RUN.station); else if (RUN.kind === 'module') renderModules(RUN.station || null, RUN.from); else renderHome(); };
+    const goBack = () => { if ('speechSynthesis' in window) speechSynthesis.cancel(); if (RUN.from === 'station' && RUN.station) renderStation(RUN.station); else if (RUN.kind === 'module') renderModules(); else renderHome(); };
+    back.onclick = goBack;
+    if (idx === 0) screen(goBack); else BACK = goBack;
     top.appendChild(back);
     top.appendChild(el('div', '', '<div>' + esc(headline) + '</div><div class="sub">' + esc(subline) + '</div>'));
     const counter = el('div', 'chip');
@@ -872,7 +901,7 @@
     const bar = el('div', 'bar', '<i></i>');
     app.appendChild(bar);
     const restMin = Math.max(1, Math.round((queue.length - idx) * 0.5));
-    app.appendChild(el('div', 'barline', '<span>Aufgabe ' + (idx + 1) + ' von ' + queue.length + '</span><span>noch etwa ' + restMin + (restMin === 1 ? ' Minute' : ' Minuten') + '</span>'));
+    app.appendChild(el('div', 'barline', '<span>Exercice ' + (idx + 1) + ' sur ' + queue.length + '</span><span>noch etwa ' + restMin + (restMin === 1 ? ' Minute' : ' Minuten') + '</span>'));
     requestAnimationFrame(() => { bar.firstChild.style.width = (idx / queue.length * 100) + '%'; });
 
     const body = el('div');
@@ -893,7 +922,7 @@
       if (pts > 0) awardPoints(counter, from, S.points, pts);
       actions.className = 'actions';
       actions.innerHTML = '';
-      const next = el('button', 'btn dark', idx + 1 < queue.length ? 'Weiter' : 'Fertig');
+      const next = el('button', 'btn dark', idx + 1 < queue.length ? 'Continuer' : 'Terminer');
       next.onclick = () => runQueue(queue, results, RUN);
       actions.appendChild(next);
       next.focus();
@@ -955,7 +984,7 @@
     card.appendChild(big);
     const ctxEl = ctx ? el('div', 'ctx', esc(ctx)) : null;
     if (ctxEl) card.appendChild(ctxEl);
-    const listenBtn = el('button', 'btn quiet', ICON.sound + ' Anhören');
+    const listenBtn = el('button', 'btn quiet', ICON.sound + ' Écouter');
     listenBtn.style.marginTop = '14px';
     listenBtn.onclick = () => speak(v.fr);
     if (!toFr) card.appendChild(listenBtn);
@@ -980,8 +1009,8 @@
     let articleHintGiven = false;
     let settled = false;
 
-    const check = el('button', 'btn primary', 'Prüfen');
-    const help = el('button', 'btn', 'Hilfe');
+    const check = el('button', 'btn primary', 'Vérifier');
+    const help = el('button', 'btn', 'Aide');
     const row = el('div', 'inrow');
     row.appendChild(help); row.appendChild(check);
     card.insertBefore(row, fb);
@@ -991,7 +1020,7 @@
       input.disabled = true;
       input.className = ok ? 'ok' : 'err';
       showSolution();
-      fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Knapp daneben.', v);
+      fb.innerHTML = explainBox(ok, ok ? 'Exact.' : 'Presque.', v);
       bumpVocab(v.id, delta);
       row.remove();
       finish(ok, ok ? P()[0] : 0, v.fr);
@@ -1005,7 +1034,7 @@
       const targetHasArticle = hasArticle(target, lang);
       if (targetHasArticle && !articleHintGiven && !hasArticle(a, lang) && a === stripArticle(target, lang)) {
         articleHintGiven = true;
-        fb.innerHTML = '<div class="feedback hint">Fast. Der Artikel fehlt noch.</div>';
+        fb.innerHTML = '<div class="feedback hint">Presque. Der Artikel fehlt noch.</div>';
         input.focus();
         return;
       }
@@ -1034,7 +1063,7 @@
           Array.from(opts.children).forEach(c => { c.disabled = true; if (norm(c.textContent) === norm(target)) c.classList.add('ok'); });
           if (!ok) b.classList.add('err');
           showSolution();
-          fb.innerHTML = explainBox(ok, ok ? 'Richtig, mit Hilfe.' : 'Knapp daneben.', v);
+          fb.innerHTML = explainBox(ok, ok ? 'Exact, avec de l’aide.' : 'Presque.', v);
           bumpVocab(v.id, ok ? 0 : -1);
           row.remove();
           finish(false, ok ? P()[1] : 0, v.fr);
@@ -1068,7 +1097,7 @@
         const full = a.prompt.replace('___', a.options[a.answer]);
         sent.innerHTML = esc(parts[0]) + '<u>' + esc(a.options[a.answer]) + '</u>' + esc(parts[1] || '');
         fb.innerHTML = explainBox(ok, (ok ? 'Richtig. ' : 'Knapp daneben. ') + '<b>' + esc(full) + '</b>' + (a.de ? '<div class="de" style="margin-top:2px">' + esc(a.de) + '</div>' : ''), a);
-        const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
+        const listen = el('button', 'btn quiet', ICON.sound + ' Écouter'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(full);
         fb.appendChild(listen);
         markDone('articles', a.id, ok);
@@ -1119,7 +1148,7 @@
         pairs++;
         if (pairs === words.length) {
           const pts = Math.max(0, words.length * P()[1] - mistakes);
-          fb.innerHTML = '<div class="feedback ' + (mistakes ? 'hint' : 'ok') + '">' + (mistakes ? mistakes + (mistakes === 1 ? ' Fehlversuch' : ' Fehlversuche') + '.' : 'Alle Paare ohne Fehler.') + '</div>';
+          fb.innerHTML = '<div class="feedback ' + (mistakes ? 'hint' : 'ok') + '">' + (mistakes ? mistakes + (mistakes === 1 ? ' Fehlversuch' : ' Fehlversuche') + '.' : 'Parfait, sans erreur.') + '</div>';
           finish(mistakes === 0, pts);
         }
       } else {
@@ -1151,8 +1180,8 @@
       const npc = el('div', 'bubble npc');
       npc.innerHTML = '<p class="fr">' + esc(t.npc) + '</p><div class="de tr" style="display:none">' + esc(t.npcDe) + '</div>';
       const row = el('div', 'listen'); row.style.marginTop = '8px';
-      const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.onclick = () => speak(t.npc);
-      const trb = el('button', 'btn quiet', 'Übersetzung');
+      const listen = el('button', 'btn quiet', ICON.sound + ' Écouter'); listen.onclick = () => speak(t.npc);
+      const trb = el('button', 'btn quiet', 'Traduction');
       let helpedTurn = false;
       trb.onclick = () => { helpedTurn = true; conv.querySelectorAll('.tr').forEach(x => x.style.display = ''); trb.remove(); };
       row.appendChild(listen); row.appendChild(trb);
@@ -1172,13 +1201,13 @@
           if (!ok) b.classList.add('err');
           sfx(ok ? 'ok' : 'err');
           const best = t.options.find(x => x.ok);
-          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Passt.' : 'Besser: ') + (ok ? '' : '<b>' + esc(best.fr) + '</b>') + (o.note ? '<div class="tip">' + esc(o.note) + '</div>' : '') + '</div>';
+          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Parfait.' : 'Mieux : ') + (ok ? '' : '<b>' + esc(best.fr) + '</b>') + (o.note ? '<div class="tip">' + esc(o.note) + '</div>' : '') + '</div>';
           if (S.autoRead) setTimeout(() => speak(best.fr), 500);
           // die gewählte Antwort als eigene Sprechblase
           const me = el('div', 'bubble me'); me.innerHTML = '<p class="fr">' + esc(best.fr) + '</p>';
           turn++;
           actions.innerHTML = '';
-          const next = el('button', 'btn dark', turn < d.turns.length ? 'Weiter im Gespräch' : 'Gespräch beenden');
+          const next = el('button', 'btn dark', turn < d.turns.length ? 'Continuer' : 'Terminer');
           next.onclick = () => {
             opts.remove(); fb.remove(); conv.appendChild(me);
             actions.innerHTML = '';
@@ -1210,8 +1239,8 @@
         words.children[e.wrong].classList.add('err');
         const fixed = e.words.map((x, j) => j === e.wrong ? '<u>' + esc(e.correct) + '</u>' : esc(x)).join(' ');
         const corrected = e.words.map((x, j) => j === e.wrong ? e.correct : x).join(' ');
-        fb.innerHTML = explainBox(ok, (ok ? 'Genau. ' : 'Nicht das. Der Fehler steckt hier: ') + '<b>' + fixed + '</b>', e);
-        const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
+        fb.innerHTML = explainBox(ok, (ok ? 'Exact. ' : 'Pas celui-là. Der Fehler steckt hier: ') + '<b>' + fixed + '</b>', e);
+        const listen = el('button', 'btn quiet', ICON.sound + ' Écouter'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(corrected);
         fb.appendChild(listen);
         markDone('errors', e.id, ok);
@@ -1238,20 +1267,20 @@
       // Übersetzung erst auf Wunsch, das kostet einen Teil der Punkte
       de.style.display = 'none';
       card.appendChild(fr); card.appendChild(de);
-      const tr = el('button', 'btn quiet', 'Übersetzung'); tr.style.marginTop = '10px';
+      const tr = el('button', 'btn quiet', 'Traduction'); tr.style.marginTop = '10px';
       tr.onclick = () => { helped = true; de.style.display = ''; tr.remove(); };
       card.appendChild(tr);
     }
 
     const listen = el('div', 'listen');
-    const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Lösung anhören' : ' Anhören'));
-    const slow = el('button', 'btn', 'Langsam');
+    const play = el('button', 'btn', ICON.sound + (mode === 3 ? ' Écouter la solution' : ' Écouter'));
+    const slow = el('button', 'btn', 'Lentement');
     play.onclick = () => { speak(s.fr); if (mode === 3) fr.classList.remove('hidden'); };
     slow.onclick = () => { speak(s.fr, 0.7); if (mode === 3) fr.classList.remove('hidden'); };
     listen.appendChild(play); listen.appendChild(slow);
     card.appendChild(listen);
     if (mode === 2) {
-      const show = el('button', 'btn quiet', 'Text anzeigen'); show.style.marginTop = '10px';
+      const show = el('button', 'btn quiet', 'Afficher le texte'); show.style.marginTop = '10px';
       show.onclick = () => { fr.classList.remove('hidden'); show.remove(); };
       card.appendChild(show);
     }
@@ -1261,8 +1290,8 @@
     if (mode !== 3) speak(s.fr);
 
     actions.className = 'actions row';
-    const again = el('button', 'btn', 'Nochmal');
-    const ok = el('button', 'btn ok', 'Sitzt');
+    const again = el('button', 'btn', 'Encore');
+    const ok = el('button', 'btn ok', 'C’est bon');
     again.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; markDone('speak', s.id, false); finish(false, 0); };
     ok.onclick = () => { fr.classList.remove('hidden'); de.style.display = ''; markDone('speak', s.id, !helped); finish(!helped, helped ? P()[1] : P()[0]); };
     actions.appendChild(again); actions.appendChild(ok);
@@ -1274,15 +1303,15 @@
     card.appendChild(el('div', 'title', esc(t.title)));
     const textEl = el('p', 'text', esc(t.text));
     card.appendChild(textEl);
-    const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '16px';
+    const listen = el('button', 'btn quiet', ICON.sound + ' Écouter'); listen.style.marginTop = '16px';
     listen.onclick = () => speak(t.text);
     card.appendChild(listen);
-    const toggle = el('button', 'btn quiet', 'Text anzeigen'); toggle.style.marginTop = '8px'; toggle.style.display = 'none';
-    toggle.onclick = () => { const c = textEl.classList.toggle('collapsed'); toggle.textContent = c ? 'Text anzeigen' : 'Text einklappen'; };
+    const toggle = el('button', 'btn quiet', 'Afficher le texte'); toggle.style.marginTop = '8px'; toggle.style.display = 'none';
+    toggle.onclick = () => { const c = textEl.classList.toggle('collapsed'); toggle.textContent = c ? 'Afficher le texte' : 'Réduire le texte'; };
     card.appendChild(toggle);
     body.appendChild(card);
     // Nach der ersten Antwort klappt der Text zusammen, damit der Weiter-Knopf ohne Scrollen erreichbar ist
-    function collapseText() { textEl.classList.add('collapsed'); listen.style.display = 'none'; toggle.style.display = ''; toggle.textContent = 'Text anzeigen'; }
+    function collapseText() { textEl.classList.add('collapsed'); listen.style.display = 'none'; toggle.style.display = ''; toggle.textContent = 'Afficher le texte'; }
     function expandText() { textEl.classList.remove('collapsed'); listen.style.display = ''; toggle.style.display = 'none'; }
 
     const qcard = el('div', 'card');
@@ -1292,7 +1321,7 @@
     function askQuestion() {
       const q = t.questions[qi];
       qcard.innerHTML = '';
-      qcard.appendChild(el('div', 'prompt', 'Frage ' + (qi + 1) + ' von ' + t.questions.length));
+      qcard.appendChild(el('div', 'prompt', 'Question ' + (qi + 1) + ' sur ' + t.questions.length));
       qcard.appendChild(el('div', '', '<strong>' + esc(q.q) + '</strong>'));
       const opts = el('div', 'opts');
       const fb = el('div');
@@ -1303,13 +1332,13 @@
           if (ok) right++;
           Array.from(opts.children).forEach(c => { c.disabled = true; if (c.dataset.i == q.answer) c.classList.add('ok'); else if (c !== b) c.style.display = 'none'; });
           if (!ok) b.classList.add('err');
-          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Richtig.' : 'Knapp daneben.') + '</div>';
+          fb.innerHTML = '<div class="feedback ' + (ok ? 'ok' : 'err') + '">' + (ok ? 'Exact.' : 'Presque.') + '</div>';
           collapseText();
           sfx(ok ? 'ok' : 'err');
           qi++;
           actions.innerHTML = '';
           if (qi < t.questions.length) {
-            const next = el('button', 'btn primary', 'Nächste Frage');
+            const next = el('button', 'btn dark', 'Question suivante');
             next.onclick = () => { actions.innerHTML = ''; expandText(); askQuestion(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
             actions.appendChild(next);
           } else {
@@ -1346,8 +1375,8 @@
         if (!ok) b.classList.add('err');
         sent.innerHTML = esc(parts[0]) + '<u>' + esc(z.options[z.answer]) + '</u>' + esc(parts[1] || '');
         const full = z.sentence.replace('___', z.options[z.answer]);
-        fb.innerHTML = explainBox(ok, ok ? 'Richtig.' : 'Knapp daneben.', z);
-        const listen = el('button', 'btn quiet', ICON.sound + ' Anhören'); listen.style.marginTop = '10px';
+        fb.innerHTML = explainBox(ok, ok ? 'Exact.' : 'Presque.', z);
+        const listen = el('button', 'btn quiet', ICON.sound + ' Écouter'); listen.style.marginTop = '10px';
         listen.onclick = () => speak(full);
         fb.appendChild(listen);
         markDone('tenses', z.id, ok);
@@ -1363,49 +1392,61 @@
 
   // ---------- Ergebnis ----------
   function renderResult(results, ctx) {
+    screen(null);
     app.innerHTML = '';
     const hit = results.filter(r => r.correct).length;
     const helped = results.filter(r => !r.correct && r.pts > 0).length;
     const miss = results.length - hit - helped;
     const pts = results.reduce((a, r) => a + (r.pts || 0), 0);
-    const daily = ctx && ctx.kind === 'daily';
-    const etappe = ctx && ctx.kind === 'etappe';
+    const kind = ctx ? ctx.kind : 'module';
+    const r = el('div', 'result');
+    const actions = el('div', 'actions');
 
-    // Etappe abschließen, ggf. Station und damit die nächste öffnen
-    let unlockedStation = null, stationDone = false;
-    if (etappe) {
+    if (kind === 'etappe') {
       const before = progOf(ctx.station);
+      let stationDone = false, unlockedStation = null;
       if (ctx.n > before) { S.prog[ctx.station] = ctx.n; save(); }
       if (ctx.n === 5 && before < 5) { stationDone = true; unlockedStation = C.stations[stIdx(ctx.station) + 1] || null; if (unlockedStation) { S.anim = unlockedStation.id; save(); } }
+      const st = C.stations.find(x => x.id === ctx.station), n = progOf(st.id);
+      r.innerHTML = resultHead('Étape ' + ctx.n + ' terminée', pts, hit, helped, miss) +
+        '<div class="goal"><div class="pills">' + [1, 2, 3, 4, 5].map(i => '<i class="' + (i <= n ? 'done' : '') + '"></i>').join('') + '</div><div class="g">' + esc(st.name) + ', ' + n + ' sur 5 étapes</div></div>';
+      app.appendChild(r);
+      if (stationDone) {
+        setTimeout(() => sfx('unlock'), 300);
+        const u = el('div', 'unlock');
+        u.innerHTML = '<div class="l" style="display:flex;align-items:center;gap:10px"><span style="color:var(--accent-on-plate);display:flex">' + ICON.hex + '</span>' + esc(st.name) + ' terminé</div>' +
+          (unlockedStation ? '<div class="n">' + esc(unlockedStation.name) + '</div><div class="s">' + esc(unlockedStation.theme) + '</div>' : '<div class="n">Voyage terminé</div><div class="s">Alle sieben Stationen geschafft.</div>');
+        r.appendChild(u);
+      }
+      if (n < 5 && !stationDone) { const nx = el('button', 'btn', 'Commencer l’étape ' + (n + 1)); nx.onclick = () => startEtappe(st.id, n + 1, ctx.from); actions.appendChild(nx); }
+      const home = el('button', 'btn dark', ctx.from === 'station' ? 'Vers la station' : 'Vers la carte');
+      home.onclick = () => ctx.from === 'station' ? renderStation(st.id) : renderHome();
+      actions.appendChild(home);
+    } else if (kind === 'module') {
+      const mod = MODULES.find(m => m.key === ctx.module) || MODULES[0];
+      const after = moduleProgress(mod.key).level10, before = ctx.levelBefore || 0;
+      r.innerHTML = resultHead(mod.name, pts, hit, helped, miss) +
+        '<div class="goal"><div class="lvl" style="text-align:center">' + ticksHtml(after) + '</div><div class="g">Niveau ' + Math.floor(after) + ' sur 10' + (Math.floor(after) > Math.floor(before) ? ', vorher ' + Math.floor(before) : '') + '</div></div>';
+      app.appendChild(r);
+      if (Math.floor(after) > Math.floor(before)) setTimeout(() => sfx('unlock'), 300);
+      const again = el('button', 'btn', 'Encore');
+      again.onclick = () => runQueue(buildQueue(mod.key), [], { kind: 'module', module: mod.key, levelBefore: after });
+      const back = el('button', 'btn dark', 'Vue d’ensemble');
+      back.onclick = renderModules;
+      actions.appendChild(again); actions.appendChild(back);
+    } else {
+      r.innerHTML = resultHead('Programme du jour terminé', pts, hit, helped, miss);
+      app.appendChild(r);
+      const home = el('button', 'btn dark', 'Vers la carte');
+      home.onclick = renderHome;
+      actions.appendChild(home);
     }
-    const st = etappe ? C.stations.find(x => x.id === ctx.station) : currentStation();
-    const n = progOf(st.id);
-
-    const r = el('div', 'result');
-    r.innerHTML = '<div class="of">' + (daily ? 'Tagesprogramm erledigt' : etappe ? 'Étape ' + ctx.n + ' geschafft' : 'Runde beendet') + '</div>' +
-      '<div class="big gold">+' + pts + '</div><div class="of">Punkte</div>' +
-      '<div class="tally">' + hit + ' sofort richtig, ' + helped + ' mit Hilfe, ' + miss + ' daneben</div>' +
-      '<div class="goal"><div class="pills">' + [1, 2, 3, 4, 5].map(i => '<i class="' + (i <= n ? 'done' : '') + '"></i>').join('') + '</div>' +
-      '<div class="g">' + esc(st.name) + ', ' + n + ' von 5 Etappen</div></div>';
-    app.appendChild(r);
-    const actions = el('div', 'actions');
-    if (stationDone) {
-      setTimeout(() => sfx('unlock'), 300);
-      const u = el('div', 'unlock');
-      u.innerHTML = '<div class="l" style="display:flex;align-items:center;gap:10px"><span style="color:var(--accent);display:flex">' + ICON.hex + '</span>' + esc(st.name) + ' abgeschlossen</div>' +
-        (unlockedStation ? '<div class="n">' + esc(unlockedStation.name) + '</div><div class="s">' + esc(unlockedStation.theme) + '</div>' : '<div class="n">Reise beendet</div><div class="s">Alle sieben Stationen geschafft.</div>');
-      r.appendChild(u);
-    }
-    if (etappe && n < 5 && !stationDone) {
-      const nx = el('button', 'btn', 'Étape ' + (n + 1) + ' starten');
-      nx.onclick = () => startEtappe(st.id, n + 1, ctx.from);
-      actions.appendChild(nx);
-    }
-    const home = el('button', 'btn dark', ctx && ctx.from === 'station' ? 'Zur Station' : 'Zur Karte');
-    if (ctx && ctx.from === 'station' && ctx.station) { home.onclick = () => renderStation(ctx.station); actions.appendChild(home); app.appendChild(actions); return; }
-    home.onclick = renderHome;
-    actions.appendChild(home);
     app.appendChild(actions);
+  }
+  function resultHead(head, pts, hit, helped, miss) {
+    return '<div class="of">' + esc(head) + '</div>' +
+      '<div class="big gold">+' + pts + '</div><div class="of">points</div>' +
+      '<div class="tally">' + hit + ' sofort richtig, ' + helped + ' mit Hilfe, ' + miss + ' daneben</div>';
   }
 
   // ---------- Spielstand übertragen ----------
@@ -1422,12 +1463,13 @@
     return c;
   }
   function renderTransfer() {
+    screen(renderSettings);
     app.innerHTML = '';
     const top = el('div', 'top');
     const back = el('button', 'back', ICON.back);
-    back.onclick = renderHome;
+    back.onclick = renderSettings;
     top.appendChild(back);
-    top.appendChild(el('div', '', '<div>Spielstand übertragen</div><div class="sub">' + S.points + ' Punkte</div>'));
+    top.appendChild(el('div', '', '<div>Transfert</div><div class="sub">Spielstand, ' + S.points + ' points</div>'));
     app.appendChild(top);
 
     const out = el('div', 'card');
